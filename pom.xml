@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.codeproof</groupId>
+  <artifactId>codeproof</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Code Proof :: A Code Review Solution - codeproof</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<spring-version-version>3.2.2.RELEASE</spring-version-version>
+	<mongo-java-driver-version>2.11.0</mongo-java-driver-version>
+	<spring-data-mongodb-version>1.2.0.RELEASE</spring-data-mongodb-version>
+	<cglib-version>2.2.2</cglib-version>
+	<junit-version>4.11</junit-version>
+	<mongo-java-server-version>1.1.1</mongo-java-server-version>	
+  </properties>
+  
+  <modules>
+  <module>codeproof-model</module>
+  <module>codeproof-fakefactory</module>
+  <module>codeproof-dao</module>  
+  </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
