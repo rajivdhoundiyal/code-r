@@ -17,9 +17,10 @@ public class UserDataServiceTest extends AbstractDataTest {
 
 	@Test
 	public void testFind() {
+		System.out.println("Inside find user Id is ");
 		User user = FakeFactoryUser.createUser();
 		userDataService.save(user);
-		System.out.println(user.getId());
+		System.out.println("user Id is : " + user.getId());
 		User dbUser = userDataService.find(user.getId());
 		assertNotNull(dbUser);
 		assertNotNull(dbUser.getId());

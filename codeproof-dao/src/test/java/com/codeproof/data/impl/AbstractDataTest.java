@@ -6,18 +6,16 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
-
 import de.flapdoodle.embed.mongo.MongodExecutable;
-import de.flapdoodle.embed.mongo.MongodProcess;
 import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.config.IMongodConfig;
 import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
@@ -29,17 +27,15 @@ import de.flapdoodle.embed.process.runtime.Network;
 @ContextConfiguration(locations = { "/META-INF/applicationContext.xml" })
 public class AbstractDataTest<DataService> {
 
-	private DBCollection collection;
-	private MongoClient client;
-	private MongodStarter runtime;
-	private IMongodConfig mongodConfig;
-	private MongodExecutable mongodExecutable;
+	private static MongodStarter runtime;
+	private static IMongodConfig mongodConfig;
+	private static MongodExecutable mongodExecutable;
 
 	@Autowired
 	MongoTemplate mongoTemplate;
 
-	@Before
-	public void setUp() throws InterruptedException, UnknownHostException,
+	@BeforeClass
+	public static void onInitialization() throws InterruptedException, UnknownHostException,
 			IOException {
 
 		int port = 27017;
@@ -51,24 +47,21 @@ public class AbstractDataTest<DataService> {
 
 		mongodExecutable = runtime.prepare(mongodConfig);
 
-		MongodProcess mongod = mongodExecutable.start();
-
-		/*
-		 * server = new MongoServer(new MemoryBackend());
-		 * 
-		 * // bind on a random local port InetSocketAddress address = new
-		 * InetSocketAddress(27017); server.bind(address);
-		 */
-
-		// client = new MongoClient(new ServerAddress(address));
-		// collection = client.getDB("testdb").getCollection("testcollection");
-
-		assertNotNull(mongoTemplate);
+		mongodExecutable.start();
 	}
 
+	@Before
+	public void onSetUp() {
+		assertNotNull(mongoTemplate);
+	}
+	
 	@After
-	public void tearDown() {
-		// client.close();
+	public void ontearDown() {
+		assertNotNull(mongoTemplate);
+	}
+	
+	@AfterClass
+	public static void onFinalTearDown() {
 		mongodExecutable.stop();
 	}
 }
