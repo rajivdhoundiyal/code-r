@@ -3,25 +3,21 @@ package com.codeproof.data.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import javax.annotation.Resource;
+
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.codeproof.data.spec.UserDataService;
 import com.codeproof.model.FakeFactoryUser;
 import com.codeproof.model.User;
 
-public class UserDataServiceTest extends AbstractDataTest {
-
-	@Autowired
-	UserDataService userDataService;
+public class UserDataServiceTest extends AbstractDataTest<UserDataService> {
 
 	@Test
 	public void testFind() {
-		System.out.println("Inside find user Id is ");
 		User user = FakeFactoryUser.createUser();
-		userDataService.save(user);
-		System.out.println("user Id is : " + user.getId());
-		User dbUser = userDataService.find(user.getId());
+		dataService.save(user);
+		User dbUser = dataService.find(user.getId());
 		assertNotNull(dbUser);
 		assertNotNull(dbUser.getId());
 	}
@@ -29,22 +25,21 @@ public class UserDataServiceTest extends AbstractDataTest {
 	@Test
 	public void testSave() {
 		User user = FakeFactoryUser.createUser();
-		userDataService.save(user);
+		dataService.save(user);
 		assertNotNull(user.getId());
 	}
 
 	@Test
 	public void testUpdate() {
 		User user = FakeFactoryUser.createUser();
-		userDataService.save(user);
-		System.out.println(user.getId());
-		User dbUser = userDataService.find(user.getId());
+		dataService.save(user);
+		User dbUser = dataService.find(user.getId());
 
 		dbUser.setUserName("Temp-2");
 
-		userDataService.update(dbUser);
+		dataService.update(dbUser);
 
-		dbUser = userDataService.find(user.getId());
+		dbUser = dataService.find(user.getId());
 
 		assertEquals("Temp-2", dbUser.getUserName());
 
@@ -52,8 +47,12 @@ public class UserDataServiceTest extends AbstractDataTest {
 
 	@Test
 	public void testGetReferenceClass() {
-		assertEquals(User.class,
-				((UserDataServiceImpl) userDataService).getReferenceClass());
+		assertEquals(User.class, ((UserDataServiceImpl) dataService).getReferenceClass());
+	}
+
+	@Resource
+	protected void setDataService(UserDataService userDataService) {
+		this.dataService = userDataService;
 	}
 
 }

@@ -8,18 +8,16 @@ public abstract class AbstractDataService<T> {
 	@Autowired
 	MongoTemplate mongoTemplate;
 
-	public T find(String id, Class<T> clazz) {
-		return mongoTemplate.findById(id, clazz);
+	public T find(String id) {
+		return mongoTemplate.findById(id, getReferenceClass());
 	}
 
-	public T save(T t) {
+	public void save(T t) {
 		mongoTemplate.save(t);
-		return t;
 	}
 
-	public T update(T t) {
+	public void update(T t) {
 		mongoTemplate.save(t);
-		return t;
 	}
 	
 	protected abstract Class<T> getReferenceClass();

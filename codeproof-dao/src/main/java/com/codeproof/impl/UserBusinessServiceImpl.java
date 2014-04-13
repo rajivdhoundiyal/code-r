@@ -7,7 +7,7 @@ import com.codeproof.data.spec.UserDataService;
 import com.codeproof.model.User;
 import com.codeproof.spec.UserBusinessService;
 
-@Service
+@Service("userBusinessService")
 public class UserBusinessServiceImpl implements UserBusinessService {
 
 	@Autowired
@@ -19,14 +19,13 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 	}
 
 	@Override
-	public User save(User user) {
-		return userDataService.save(user);
+	public void save(User user) {
+		userDataService.save(user);
 	}
 
 	@Override
-	public User update(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public void update(User user) {
+		userDataService.update(user);
 	}
 
 }

@@ -9,7 +9,7 @@
   <groupId>com.codeproof</groupId>
   <artifactId>codeproof-fakefactory</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name> Code Proof :: A Code Review Solution - codeproof-fakefactory</name>
+  <name>Code Proof :: A Code Review Solution :: codeproof-fakefactory</name>
   <url>http://maven.apache.org</url>
   
   <dependencies>

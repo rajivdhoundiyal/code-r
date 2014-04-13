@@ -25,11 +25,13 @@ import de.flapdoodle.embed.process.runtime.Network;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/META-INF/applicationContext.xml" })
-public class AbstractDataTest<DataService> {
+public abstract class AbstractDataTest<DS> {
 
+	private final static int PORT = 27017;
 	private static MongodStarter runtime;
 	private static IMongodConfig mongodConfig;
 	private static MongodExecutable mongodExecutable;
+	protected DS dataService;
 
 	@Autowired
 	MongoTemplate mongoTemplate;
@@ -38,12 +40,10 @@ public class AbstractDataTest<DataService> {
 	public static void onInitialization() throws InterruptedException, UnknownHostException,
 			IOException {
 
-		int port = 27017;
-
 		runtime = MongodStarter.getDefaultInstance();
 		mongodConfig = new MongodConfigBuilder()
-				.version(Version.Main.PRODUCTION)
-				.net(new Net(port, Network.localhostIsIPv6())).build();
+				.version(Version.Main.DEVELOPMENT)
+				.net(new Net(PORT, Network.localhostIsIPv6())).build();
 
 		mongodExecutable = runtime.prepare(mongodConfig);
 
@@ -51,8 +51,9 @@ public class AbstractDataTest<DataService> {
 	}
 
 	@Before
-	public void onSetUp() {
+	public void onSetUp() throws InterruptedException {
 		assertNotNull(mongoTemplate);
+		Thread.sleep(10000);
 	}
 	
 	@After
@@ -64,4 +65,6 @@ public class AbstractDataTest<DataService> {
 	public static void onFinalTearDown() {
 		mongodExecutable.stop();
 	}
+	
+	protected abstract void setDataService(DS dataService);
 }

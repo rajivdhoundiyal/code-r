@@ -7,7 +7,7 @@ public interface UserDataService {
 
 	User find(String id);
 	
-	User save(User user);
+	void save(User user);
 	
-	User update(User user);
+	void update(User user);
 }

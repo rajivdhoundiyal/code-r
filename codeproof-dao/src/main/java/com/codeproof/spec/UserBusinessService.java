@@ -4,9 +4,9 @@ import com.codeproof.model.User;
 
 public interface UserBusinessService {
 
-	User save(User user);
+	void save(User user);
 	
-	User update(User user);
+	void update(User user);
 
 	User find(String userId);
 

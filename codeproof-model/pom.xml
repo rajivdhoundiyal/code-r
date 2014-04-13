@@ -10,47 +10,40 @@
 	<artifactId>codeproof-model</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Code Proof :: A Code Review Solution - codeproof-model</name>
+	<name>Code Proof :: A Code Review Solution :: codeproof-model</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>${spring-version-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${spring-version-version}</version>
 		</dependency>
 
-		<!-- mongodb java driver -->
+		mongodb java driver
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
-			<version>${mongo-java-driver-version}</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- Spring data mongodb -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>${spring-data-mongodb-version}</version>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
-			<version>${cglib-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit-version}</version>
-			<scope>test</scope>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 </project>
