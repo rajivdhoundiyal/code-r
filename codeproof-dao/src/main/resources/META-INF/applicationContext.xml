@@ -29,5 +29,7 @@
 
 	<context:property-placeholder
 		ignore-resource-not-found="true" location="classpath*:db.properties" />
+	
 
+	<bean id="userDetailService" class="com.codeproof.impl.UserBusinessServiceImpl" />
 </beans>

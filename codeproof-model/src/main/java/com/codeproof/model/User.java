@@ -1,10 +1,12 @@
 package com.codeproof.model;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class User {
+public class User implements Serializable {
 	
 	@Id
 	private String id;

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html ng-app="login">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="resources/css/screen.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/easyui.css" />
+</head>
+<!-- <script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"
+	type="text/javascript"></script> -->
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.js"
+	type="text/javascript"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-route.js"
+	type="text/javascript"></script>
+<script
+	src="static/resources/js/angular-translate.min.js"
+	type="text/javascript"></script>
+<script
+	src="static/resources/js/angular-translate-loader-url.min.js"
+	type="text/javascript"></script>
+<script
+	src="static/resources/js/angular-translate-loader-static-files.min.js"
+	type="text/javascript"></script>
+<script src="static/resources/js/jquery-1.7.1.min.js"></script>
+<script src="static/resources/js/jquery.easyui.min.js"></script>
+<script src="static/resources/js/app.js"></script>
+<script src="static/resources/js/translate.js"></script>
+<body>
+
+<div ng-view=""></div>
+	<script type="text/ng-template" id="login.html">
+<div class="top_panel" ng-controller="loginController">
+<input type="text" name="logUsername" class="easyui-validatebox" data-options="required:true,validType:'length[3,10]'" placeholder="Username" ng-model="user.userName" />
+<input type="password" name="logPassword" class="easyui-validatebox" data-options="required:true,validType:'length[3,10]'" placeholder="Password" ng-model="user.password"/>
+<input type="button" name="submit" class="login" value="Log In" placeholder="Log In" ng-click="validate()"/>
+</div>
+<div class="middle_panel">
+<label>Join Now</label>
+<div>
+<input type="text" name="username" class="bigStyle" placeholder="Username"/>
+</div>
+<div>
+<input type="text" name="email" class="bigStyle" placeholder="Email" />
+</div>
+<div>
+<input type="text" name="password" class="bigStyle" placeholder="Password" />
+</div>
+<div>
+<input type="button" name="submit" value="Sign Up" class="longType" placeholder="Sign Up" />
+</div>
+</div>
+	</script>
+
+	<script type="text/ng-template" id="success.html">
+<div class="top_panel" ng-contoller="successController">
+{{ 'WELCOME_TEXT' | translate }} {{user.userName}}!!!
+<input type="text" name="search" class="login" placeholder="Search..." ng-click="logout()"/>
+<input type="button" name="submit" class="login" value="Log Out" placeholder="Log Out" ng-click="logout()"/>
+<a href="admin">Admin Configuration</a>
+</div>
+	</script>
+	<script type="text/ng-template" id="admin.html">
+<div class="top_panel" ng-contoller="adminController">
+Welcome {{user.userName}}!!!
+<input type="text" name="search" class="login" placeholder="Search..." ng-click="logout()"/>
+<input type="button" name="submit" class="login" value="Log Out" placeholder="Log Out" ng-click="logout()"/>
+</div>
+<div class="easyui-panel" title="Nested Panel" style="width:700px;height:200px;padding:10px;">
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'west',split:true" style="width:100px;padding:10px">
+                Left Content
+            </div>
+            <div data-options="region:'east'" style="width:100px;padding:10px">
+                Right Content
+            </div>
+            <div data-options="region:'center'" style="padding:10px">
+                Right Content
+            </div>
+        </div>
+    </div>
+	</script>
+</body>
+</html>

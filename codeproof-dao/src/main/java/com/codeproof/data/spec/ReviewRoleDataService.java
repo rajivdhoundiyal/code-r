@@ -10,6 +10,6 @@ public interface ReviewRoleDataService {
 
 	void update(ReviewRole reviewRole);
 	
-	ReviewRole findByRoleType(String reviewRoleType);
+	ReviewRole findByRoleType(String reviewRoleTypeir);
 	
 }

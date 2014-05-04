@@ -1,5 +1,6 @@
 package com.codeproof.spec;
 
+import com.codeproof.exception.UserNotFoundException;
 import com.codeproof.model.User;
 
 public interface UserBusinessService {
@@ -8,6 +9,6 @@ public interface UserBusinessService {
 	
 	void update(User user);
 
-	User find(String userId);
-
+	User find(String userId) throws UserNotFoundException;
+	
 }

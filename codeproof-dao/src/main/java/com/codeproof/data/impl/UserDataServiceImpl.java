@@ -1,5 +1,7 @@
 package com.codeproof.data.impl;
 
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.codeproof.data.spec.UserDataService;
@@ -11,6 +13,14 @@ public class UserDataServiceImpl extends AbstractDataService<User> implements Us
 	@Override
 	protected Class<User> getReferenceClass() {
 		return User.class;
+	}
+
+	@Override
+	public User loadUserByUsername(String userName) {
+		User user = mongoTemplate.findOne(
+				 new Query(Criteria.where("username").is(userName)),
+				 User.class);
+		return user;
 	}
 	
 }

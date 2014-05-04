@@ -10,4 +10,6 @@ public interface UserDataService {
 	void save(User user);
 	
 	void update(User user);
+	
+	User loadUserByUsername(String userName);
 }

@@ -20,11 +20,11 @@ import com.codeproof.model.FakeFactoryFile;
 import com.codeproof.model.FakeFactoryReview;
 import com.codeproof.model.FakeFactoryReviewRole;
 import com.codeproof.model.FakeFactoryUser;
-import com.codeproof.model.FakeStringConstants;
 import com.codeproof.model.File;
 import com.codeproof.model.Review;
 import com.codeproof.model.ReviewRole;
 import com.codeproof.model.User;
+import com.codeproof.util.StringConstants;
 
 
 public class ReviewDataServiceTest extends AbstractDataTest<ReviewDataService> {
@@ -71,7 +71,7 @@ public class ReviewDataServiceTest extends AbstractDataTest<ReviewDataService> {
 	public void testFindByRoleType() {
 		dataService.save(review);
 		
-		List<Review> dbReviews = dataService.findByReviewRole(FakeStringConstants.REVIEWEE);
+		List<Review> dbReviews = dataService.findByReviewRole(StringConstants.REVIEWEE);
 
 		assertNotNull(dbReviews);
 		
@@ -98,9 +98,9 @@ public class ReviewDataServiceTest extends AbstractDataTest<ReviewDataService> {
 		File file2 = FakeFactoryFile.createFile("V001", "Temp Content 2", "temp1.java", "e:/temp.java", "java");
 		
 		Map<String, File> files = new HashMap<String, File>();
-		String file = file1.getFilePath().replace(".", "");
+		String file = file1.getFullPath().replace(".", "");
 		files.put(file, file1);
-		file = file2.getFilePath().replace(".", "");
+		file = file2.getFullPath().replace(".", "");
 		files.put(file, file2);
 		
 		review.setFiles(files);
@@ -114,8 +114,8 @@ public class ReviewDataServiceTest extends AbstractDataTest<ReviewDataService> {
 		userDataService.save(user3);
 		
 		ReviewRole reviewRole1 = FakeFactoryReviewRole.createReviewRoleReviwer();
-		ReviewRole reviewRole2 =  FakeFactoryReviewRole.createReviewRoleReviwee();
-		ReviewRole reviewRole3 = FakeFactoryReviewRole.createReviewRoleSpectator();
+		ReviewRole reviewRole2 =  FakeFactoryReviewRole.createReviewRoleReviwer();
+		ReviewRole reviewRole3 = FakeFactoryReviewRole.createReviewRoleReviwer();
 		
 		reviewRoleDataService.save(reviewRole1);
 		reviewRoleDataService.save(reviewRole2);

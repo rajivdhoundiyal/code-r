@@ -1,9 +1,6 @@
 package com.codeproof.mvc;
 
- import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +24,10 @@ public class ReviewController
         return "index";
     }
     
-    @RequestMapping(method=RequestMethod.GET)
+    /*@RequestMapping(method=RequestMethod.GET)
     public List<String> getReview(String userName, String filter) {
     	return new ArrayList<String>();
-    }
+    }*/
 
     /*@RequestMapping(method=RequestMethod.POST)
     public String registerNewMember(@ModelAttribute("newMember") Member newMember, BindingResult result, Model model)

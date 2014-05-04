@@ -21,7 +21,8 @@
 	<version.standard.taglibs>1.1.2</version.standard.taglibs>
     <version.commons.logging>1.1.1</version.commons.logging>
     <version.jboss.as.maven.plugin>7.3.Final</version.jboss.as.maven.plugin>
-	<jackson-version>1.9.3</jackson-version>
+	<jackson-spring-version>1.9.3</jackson-spring-version>
+	<jackson-version>2.1.2</jackson-version>
 	<slf4j-version>1.6.4</slf4j-version>
   </properties>
   
@@ -114,6 +115,16 @@
             <artifactId>spring-webmvc</artifactId>
 			<version>${spring-version-version}</version>
         </dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring-version-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring-version-version}</version>
+		</dependency>
 
         <!-- Other community dependencies -->
         <dependency>
@@ -134,7 +145,7 @@
 		<dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson-spring-version}</version>
             <scope>provided</scope>
         </dependency>
 		<dependency>
@@ -150,9 +161,14 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson-spring-version}</version>
             <scope>provided</scope>
         </dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-version}</version>
+		</dependency>
 		<dependency>
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
