@@ -12,7 +12,7 @@ public class FakeFactoryUser {
 		role.setRoleLevel(RoleLevel.ADMIN);
 		role.setRoleDescription("Admin Role");
 		
-		user.setUserRole(role);
+		//user.setUserRole(role);
 
 		return user;
 	}
@@ -26,7 +26,7 @@ public class FakeFactoryUser {
 		role.setRoleLevel(RoleLevel.ADMIN);
 		role.setRoleDescription("Admin Role");
 		
-		user.setUserRole(role);
+		//user.setUserRole(role);
 
 		return user;
 	}

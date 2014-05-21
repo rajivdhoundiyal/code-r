@@ -1,4 +1,34 @@
 [ {
-	"WELCOME_TEXT" : "Welcome in AU, ",
-	"INTRO_TEXT" : "And it has i18n support!"
+	"TXT_TITLE" : "Code Review : Lets Review!!!",
+	"TXT_WELCOME" : "Welcome in AU, ",
+	"TXT_LOGIN_OFFER_1" : "Collaborative Review With Ease.",
+	"TXT_LOGIN_OFFER_2" : "Join for a ultimate code review experience. Collaborate teams, projects, call your team-mates to review your code and provide feedback.",
+	"TXT_LOGIN_BULLET_1" : "All of that in one place.",
+	"TXT_LOGIN_BULLET_2" : "No setup required.",
+	"TXT_LOGIN_BULLET_3" : "Call experienced reviewers to review your code.",
+	"TXT_LOGIN_BULLET_4" : "Upload files from any CI management.",
+	"TXT_AGREEMENT" : "By clicking Sign Up, you agree to our",
+	"TXT_TERMS_CONDITION" : "Terms and Condition",
+	"TXT_PRIVACY_POLICY" : "Privacy Policy",
+	"TXT_LNG_HINDI" : "हिन्दी",
+	"TXT_LNG_ESPONAL" : "Español",
+	"TXT_LNG_FRENCH" : "Français (France)",
+	
+	"TT_CONFIGURATION" : "Configuration",
+	"TT_REPORT" : "Report",
+	"TT_ANALYSIS" : "Analysis",
+	"TT_HOME" : "Home",
+	"TT_SETTING" : "Setting",
+	
+	"PH_SEARCH"	: "Search...",
+	"PH_LOGIN_USERNAME"	: "Username",
+	"PH_LOGIN_PASSWORD"	: "Password",
+	"PH_USER_USERNAME"	: "Choose a username",
+	"PH_USER_EMAIL"	: "Provide your e-mail",
+	"PH_USER_PASSWORD"	: "Enter a password",
+	
+	"CA_SIGNUP" : "Sign Up",
+	"CA_LOGIN" : "Log In",
+	
+	"TTL_DASHBORD_DETAIL" : "Reviews associated with you"
 } ]

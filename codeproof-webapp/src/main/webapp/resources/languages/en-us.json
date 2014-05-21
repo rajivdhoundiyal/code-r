@@ -1,4 +1,55 @@
-[{
-	"WELCOME_TEXT": "Welcome in US, ",
-	"INTRO_TEXT": "And it has i18n support!"
-}]
+[ {
+	"TXT_TITLE" : "Code Review : Lets Review!!!",
+	"TXT_WELCOME" : "Welcome in US, ",
+	"TXT_LOGIN_OFFER_1" : "Collaborative Review With Ease.",
+	"TXT_LOGIN_OFFER_2" : "Join for a ultimate code review experience. Collaborate teams, projects, call your team-mates to review your code and provide feedback.",
+	"TXT_LOGIN_BULLET_1" : "All of that in one place.",
+	"TXT_LOGIN_BULLET_2" : "No setup required.",
+	"TXT_LOGIN_BULLET_3" : "Call experienced reviewers to review your code.",
+	"TXT_LOGIN_BULLET_4" : "Upload files from any CI management.",
+	"TXT_AGREEMENT" : "By clicking Sign Up, you agree to our",
+	"TXT_TERMS_CONDITION" : "Terms and Condition",
+	"TXT_PRIVACY_POLICY" : "Privacy Policy",
+	"TXT_LNG_HINDI" : "हिन्दी",
+	"TXT_LNG_ESPONAL" : "Español",
+	"TXT_LNG_FRENCH" : "Français (France)",
+	"TXT_REVIEW_NAME"	: "Review Name",
+	"TXT_REVIEW_DESCRIPTION"	: "Review Description",
+	"TXT_SELECT_REVIEWERS"	: "Select Reviewers",
+	
+	"TT_CONFIGURATION" : "Configuration",
+	"TT_REPORT" : "Report",
+	"TT_ANALYSIS" : "Analysis",
+	"TT_HOME" : "Home",
+	"TT_SETTING" : "Setting",
+	"TT_LOGOUT"	: "Logout",
+	"TT_SEARCH"	: "Search",
+	"TT_ADD"	: "Add",
+	"TT_REVIEW_NAME"	: "Review Name",
+	"TT_REVIEW_DESCRIPTION"	: "Review Description",
+	"TT_SELECT_REVIEWERS"	: "Select Reviewers",
+	"TT_ADD_ROLE"	: "Add Role",
+	
+	"TH_REVIEW_CODE" : "Review Code",
+	"TH_REVIEW_DESCRIPTION" : "Review Description",
+	
+	"PH_SEARCH"	: "Search...",
+	"PH_LOGIN_USERNAME"	: "Username",
+	"PH_LOGIN_PASSWORD"	: "Password",
+	"PH_USER_USERNAME"	: "Choose a username",
+	"PH_USER_EMAIL"	: "Provide your e-mail",
+	"PH_USER_PASSWORD"	: "Enter a password",
+	"PH_REVIEW_NAME"	: "Provide review name",
+	"PH_REVIEW_DESCRIPTION"	: "Add description of this review, for e.g. the funtionality or change this review contains.",
+	"PH_SELECT_REVIEWERS"	: "Add reviewers",
+	"PH_ADD_ROLE"	: "Add review role",
+	
+	"CA_SIGNUP" : "Sign Up",
+	"CA_LOGIN" : "Log In",
+	"CA_ADD" : "Add",
+	
+	"TTL_DASHBORD_DETAIL" : "Reviews associated with you",
+	"TTL_REVIEW_CREATION" : "Provide Review Details",
+	
+	"MSG_CREDITS_1" : "Icons provided by : "
+} ]

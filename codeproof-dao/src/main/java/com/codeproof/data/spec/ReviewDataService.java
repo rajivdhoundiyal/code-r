@@ -13,4 +13,6 @@ public interface ReviewDataService {
 	void update(Review review);
 
 	List<Review> findByReviewRole(String reviewRoleType);
+	
+	List<Review> findByReviewer(String userName);
 }

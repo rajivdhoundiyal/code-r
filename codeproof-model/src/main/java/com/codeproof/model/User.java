@@ -1,8 +1,14 @@
 package com.codeproof.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -11,11 +17,17 @@ public class User implements Serializable {
 	@Id
 	private String id;
 
+	@Indexed(unique=true, direction=IndexDirection.DESCENDING, dropDups=true)
 	private String userName;
 	
 	private String password;
+	private String firstName;
+	private String lastName;
+	private String status;
+	private Boolean enabled;
 	
-	private Role userRole;
+	@DBRef
+	private List<Role> roles = new ArrayList<Role>();
 
 	public String getId() {
 		return id;
@@ -40,56 +52,81 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public Role getUserRole() {
-		return userRole;
+	
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setUserRole(Role userRole) {
-		this.userRole = userRole;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	@Override
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void addRole(Role role) {
+		this.roles.add(role);
+	}
+	
+	public void removeRole(Role role) {
+		//use iterator to avoid java.util.ConcurrentModificationException with foreach
+		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); )
+		{
+		   if (iter.next().equals(role))
+		      iter.remove();
+		}
+	}
+	
+	public String getRolesCSV() {
+		StringBuilder sb = new StringBuilder();
+		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); )
+		{
+		   sb.append(iter.next().getRoleId());
+		   if (iter.hasNext()) {
+			   sb.append(',');
+		   }
+		}
+		return sb.toString();
+	}	
+	
+	/*public boolean equals(Object obj) {
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        User rhs = (User) obj;
+        return new EqualsBuilder().append(id, rhs.id).isEquals();
+    }
+
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
-			return false;
-		if (userRole == null) {
-			if (other.userRole != null)
-				return false;
-		} else if (!userRole.equals(other.userRole))
-			return false;
-		return true;
-	}
+        return new HashCodeBuilder().append(id).append(userName).toHashCode();
+    }*/
 	
 }

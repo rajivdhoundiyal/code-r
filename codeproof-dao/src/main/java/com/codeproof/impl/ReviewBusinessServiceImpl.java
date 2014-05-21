@@ -16,23 +16,28 @@ public class ReviewBusinessServiceImpl extends AbstractBusinessService implement
 	ReviewDataService reviewDataService;
 	
 	@Override
-	public Review find(String id) {
+	public Review find(final String id) {
 		return reviewDataService.find(id);
 	}
 
 	@Override
-	public void save(Review review) {
+	public void save(final Review review) {
 		reviewDataService.save(review);
 	}
 
 	@Override
-	public void update(Review review) {
+	public void update(final Review review) {
 		reviewDataService.update(review);
 	}
 
 	@Override
-	public List<Review> findByReviewRole(String reviewRoleType) {
+	public List<Review> findByReviewRole(final String reviewRoleType) {
 		return reviewDataService.findByReviewRole(reviewRoleType);
+	}
+
+	@Override
+	public List<Review> findByReviewer(final String userName) {
+		return reviewDataService.findByReviewer(userName);
 	}
 
 }

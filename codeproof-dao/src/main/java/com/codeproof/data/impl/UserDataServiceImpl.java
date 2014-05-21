@@ -16,9 +16,9 @@ public class UserDataServiceImpl extends AbstractDataService<User> implements Us
 	}
 
 	@Override
-	public User loadUserByUsername(String userName) {
+	public User findByUserName(String userName) {
 		User user = mongoTemplate.findOne(
-				 new Query(Criteria.where("username").is(userName)),
+				 new Query(Criteria.where("userName").is(userName)),
 				 User.class);
 		return user;
 	}

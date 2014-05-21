@@ -26,7 +26,6 @@
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 	</bean>
 
-
 	<context:property-placeholder
 		ignore-resource-not-found="true" location="classpath*:db.properties" />
 	

@@ -1,0 +1,61 @@
+<div class="top_panel" ng-controller="welcomeController"></div>
+<div class="middle_panel">
+	<div class="container">
+		<div class="vertical_container">
+			<label class="textWhiteLarge">{{ 'TXT_LOGIN_OFFER_1' |
+				translate}}</label> <label class="textWhiteMedium"> <br /> {{
+				'TXT_LOGIN_OFFER_2' | translate}}<br />
+				<ul>
+					<li>{{ 'TXT_LOGIN_BULLET_1' | translate}}</li>
+					<li>{{ 'TXT_LOGIN_BULLET_2' | translate}}</li>
+					<li>{{ 'TXT_LOGIN_BULLET_3' | translate}}</li>
+					<li>{{ 'TXT_LOGIN_BULLET_4' | translate}}</li>
+				</ul>
+			</label>
+		</div>
+		<div class="signup_login_container" ng-controller="loginController">
+			<div class="login_container">
+				<input type="text" name="logUsername"
+					placeholder="{{ 'PH_LOGIN_USERNAME' | translate}}"
+					ng-model="user.userName" /> <input type="password"
+					name="logPassword"
+					placeholder="{{ 'PH_LOGIN_PASSWORD' | translate}}"
+					ng-model="user.password" /> <input type="button" name="submit"
+					class="login" value="{{ 'CA_LOGIN' | translate}}"
+					placeholder="Log In" ng-click="validate()" />
+			</div>
+
+			<div class="signup_container">
+				<input type="text" name="username" class="bigStyle"
+					placeholder="{{ 'PH_USER_USERNAME' | translate}}" />
+			</div>
+			<div>
+				<input type="text" name="email" class="bigStyle"
+					placeholder="{{ 'PH_USER_EMAIL' | translate}}" />
+			</div>
+			<div>
+				<input type="text" name="password" class="bigStyle"
+					placeholder="{{ 'PH_USER_PASSWORD' | translate}}" />
+			</div>
+			<div>
+				<input type="button" name="submit"
+					value="{{ 'CA_SIGNUP' | translate}}" class="signup"
+					placeholder="Sign Up" />
+			</div>
+			<div>
+				<lable class="textWhiteVerySmall">{{ 'TXT_AGREEMENT' |
+				translate }} | <a href=""> {{ 'TXT_TERMS_CONDITION' | translate
+					}} </a> | - | <a href=""> {{ 'TXT_PRIVACY_POLICY' | translate }} </a> |</lable>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="bottom_seperator_bar"></div>
+<div class="bottom_container">
+	<div class="language_container">
+		<label class="textWhiteVerySmall"><a href="" class="textWhiteVerySmall"> {{ 'TXT_LNG_HINDI' |
+			translate}} </a> | <a href="" class="textWhiteVerySmall"> {{ 'TXT_LNG_ESPONAL' |
+			translate}} </a> | <a href="" class="textWhiteVerySmall"> {{ 'TXT_LNG_FRENCH' |
+			translate}} </a></label>
+	</div>
+</div>

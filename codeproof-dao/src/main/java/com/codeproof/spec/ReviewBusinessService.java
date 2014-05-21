@@ -14,4 +14,6 @@ public interface ReviewBusinessService {
 	
 	List<Review> findByReviewRole(String reviewRoleType);
 	
+	List<Review> findByReviewer(String userName);
+	
 }

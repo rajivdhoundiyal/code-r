@@ -1,0 +1,121 @@
+<div class="top_panel" ng-contoller="successController">
+	<div class="oneRowsDivLeft">
+		<a href="#" title="{{'TT_HOME' | translate}}"><img
+			src="static/resources/gfx/home-32.png" class="icon32" /></a> <a href="#"
+			title="{{'TT_SETTING' | translate}}" class="seperator"><img
+			src="static/resources/gfx/settings-2-32.png" class="icon32" /></a> <a
+			href="#" title="{{'TT_CONFIGURATION' | translate}}" class="seperator"><img
+			src="static/resources/gfx/settings-3-32.png" class="icon32" /></a> <a
+			href="#" title="{{'TT_ANALYSIS' | translate}}" class="seperator"><img
+			src="static/resources/gfx/pie-32.png" class="icon32" /></a> <a href="#"
+			title="{{'TT_REPORT' | translate}}" class="seperator"><img
+			src="static/resources/gfx/text-file-4-32.png" class="icon32" /></a>
+	</div>
+	<div class="oneRowsDivRight">{{ 'TXT_WELCOME' | translate }} {{user.userName}}!!! <input
+			type="text" name="search" class="search" title="{{'TT_SEARCH' | translate}}"
+			placeholder="{{ 'PH_SEARCH' | translate }}" ng-click="logout()" /> <a
+			value="Log Out" placeholder="Log Out" ng-click="logout()" class="seperator"><img
+			src="static/resources/gfx/logout-32.png" class="icon32" title="{{'TT_LOGOUT' | translate}}" class="icon32" ></a>
+	</div>
+</div>
+
+<div class="outer_container" ng-contoller="dashboardController">
+
+<script type="text/ng-template" id="myModalContent.html">
+	<div class="title_bar title">
+		<div class="oneRowsDivLeft">
+			<label class="textWhiteMedium">{{ 'TTL_REVIEW_CREATION' |
+				translate }}</label>
+		</div>
+	</div>
+	<div class="popup_container">
+			<div class="table">
+				<div class="row">
+					<div class="cell">
+						<lable class="textOrangeSmall">{{ 'TXT_REVIEW_NAME' |
+						translate }}</lable>
+					</div>
+					<div class="cell">
+						<input type="text" name="search" class="login"
+							title="{{'TT_REVIEW_NAME' | translate}}"
+							placeholder="{{ 'PH_REVIEW_NAME' | translate }}" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="cell">
+						<lable class="textOrangeSmall">{{ 'TXT_REVIEW_DESCRIPTION'
+						| translate }}</lable>
+					</div>
+					<div class="cell">
+						<textarea title="{{ 'TT_REVIEW_DESCRIPTION' | translate }}"
+							placeholder="{{ 'PH_REVIEW_DESCRIPTION' | translate }}"></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<div class="cell">
+						<lable class="textOrangeSmall">{{ 'TXT_SELECT_REVIEWERS' |
+						translate }}</lable>
+					</div>
+					<div class="cell">
+						<input type="text" name="search" class="login"
+							title="{{'TT_SELECT_REVIEWERS' | translate}}"
+							placeholder="{{ 'PH_SELECT_REVIEWERS' | translate }}" />
+					</div>
+					<div class="cell">
+						<input type="text" name="search" class="login"
+							title="{{'TT_SEARCH' | translate}}"
+							placeholder="{{ 'PH_ADD_ROLE' | translate }}" />
+					</div>
+					<div class="cell">
+						<input type="button" name="add" class="login"
+							title="{{'TT_ADD' | translate}}"
+							placeholder="{{ 'CA_ADD' | translate }}" />
+					</div>
+				</div>
+			</div>
+		</div>
+    </script>
+
+
+	<div class="side_left_panel"></div>
+	<div class="middle_work_panel" data-ng-init="init()">
+		<div class="title_bar title">
+			<div class="oneRowsDivLeft">
+				<label class="textWhiteMedium">{{ 'TTL_DASHBORD_DETAIL' |
+					translate }}</label>
+			</div>
+			<div class="oneRowsDivRight">
+				<a href="" class="medium" style="padding: 0px 2px 2px 0px;"><img
+					src="static/resources/gfx/plus-7-24.png" ng-click="open('lg')"></img></a>
+			</div>
+		</div>
+		<table>
+			<thead>
+				<th><a class="textWhiteSmall">{{ 'TH_REVIEW_CODE' | translate}}</a></th>
+				<th><a class="textWhiteSmall">{{ 'TH_REVIEW_DESCRIPTION' | translate}}</a></th>
+				<th></th>
+			</thead>
+			<tbody data-ng-repeat="review in reviews">
+				<tr>
+					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 15%">{{review.reviewCode}}</td>
+					<td ng-class-odd="'odd'" ng-class-even="'even'"><a href="#"
+						class="medium">{{review.reviewDescription}}</a></td>
+					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 6%"><a
+						href="#" class="medium"><img
+							src="static/resources/gfx/edit-6-16-red.png" class="icon16"></img></a>
+						<a href="#" class="medium"><img
+							src="static/resources/gfx/delete-24.png" class="icon16"></img></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="side_right_panel"></div>
+</div>
+<div class="bottom_container_dashboad_credits">
+	<div class="credits">
+		<lable class="textWhiteVerySmall">{{ 'MSG_CREDITS_1' |
+					translate }} <a
+			href="http://www.icons8.com/" class="textWhiteVerySmall"
+			target="_blank">http://www.icons8.com/</a></lable>
+	</div>
+</div>

@@ -19,26 +19,6 @@ public class ReviewController
     public String displaySortedMembers(Model model)
     {
     	System.out.println("Is that so....");
-        //model.addAttribute("newMember", new Member());
-        //model.addAttribute("members", memberDao.findAllOrderedByName());
         return "index";
     }
-    
-    /*@RequestMapping(method=RequestMethod.GET)
-    public List<String> getReview(String userName, String filter) {
-    	return new ArrayList<String>();
-    }*/
-
-    /*@RequestMapping(method=RequestMethod.POST)
-    public String registerNewMember(@ModelAttribute("newMember") Member newMember, BindingResult result, Model model)
-    {
-        if (!result.hasErrors()) {
-            memberDao.register(newMember);
-            return "redirect:/";
-        }
-        else {
-            model.addAttribute("members", memberDao.findAllOrderedByName());
-            return "index";
-        }
-    }*/
 }

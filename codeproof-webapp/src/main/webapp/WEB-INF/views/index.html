@@ -2,18 +2,17 @@
 <html ng-app="login">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="resources/css/screen.css" />
-<link rel="stylesheet" type="text/css" href="resources/css/easyui.css" />
+<title>{{ 'TXT_TITLE' | translate}}</title>
+<link rel="shortcut icon" type="image/png" href="static/resources/gfx/paw-16.png"/>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="static/resources/css/screen.css" />
+<link rel="stylesheet" type="text/css" href="static/resources/css/easyui.css" />
 </head>
-<!-- <script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"
-	type="text/javascript"></script> -->
 	<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.js"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"
 	type="text/javascript"></script>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-route.js"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-route.min.js"
 	type="text/javascript"></script>
 <script
 	src="static/resources/js/angular-translate.min.js"
@@ -26,45 +25,80 @@
 	type="text/javascript"></script>
 <script src="static/resources/js/jquery-1.7.1.min.js"></script>
 <script src="static/resources/js/jquery.easyui.min.js"></script>
+<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.min.js"></script>
 <script src="static/resources/js/app.js"></script>
 <script src="static/resources/js/translate.js"></script>
 <body>
 
 <div ng-view=""></div>
-	<script type="text/ng-template" id="login.html">
-<div class="top_panel" ng-controller="loginController">
-<input type="text" name="logUsername" class="easyui-validatebox" data-options="required:true,validType:'length[3,10]'" placeholder="Username" ng-model="user.userName" />
-<input type="password" name="logPassword" class="easyui-validatebox" data-options="required:true,validType:'length[3,10]'" placeholder="Password" ng-model="user.password"/>
-<input type="button" name="submit" class="login" value="Log In" placeholder="Log In" ng-click="validate()"/>
-</div>
-<div class="middle_panel">
-<label>Join Now</label>
-<div>
-<input type="text" name="username" class="bigStyle" placeholder="Username"/>
-</div>
-<div>
-<input type="text" name="email" class="bigStyle" placeholder="Email" />
-</div>
-<div>
-<input type="text" name="password" class="bigStyle" placeholder="Password" />
-</div>
-<div>
-<input type="button" name="submit" value="Sign Up" class="longType" placeholder="Sign Up" />
-</div>
-</div>
-	</script>
 
-	<script type="text/ng-template" id="success.html">
-<div class="top_panel" ng-contoller="successController">
-{{ 'WELCOME_TEXT' | translate }} {{user.userName}}!!!
-<input type="text" name="search" class="login" placeholder="Search..." ng-click="logout()"/>
-<input type="button" name="submit" class="login" value="Log Out" placeholder="Log Out" ng-click="logout()"/>
-<a href="admin">Admin Configuration</a>
+<script type="text/ng-template" id="index.html">
+<div class="top_panel" ng-controller="welcomeController"></div>
+<div class="middle_panel">
+	<div class="container">
+		<div class="vertical_container">
+			<label class="textWhiteLarge">{{ 'TXT_LOGIN_OFFER_1' |
+				translate}}</label> <label class="textWhiteMedium"> <br /> {{
+				'TXT_LOGIN_OFFER_2' | translate}}<br />
+				<ul>
+					<li>{{ 'TXT_LOGIN_BULLET_1' | translate}}</li>
+					<li>{{ 'TXT_LOGIN_BULLET_2' | translate}}</li>
+					<li>{{ 'TXT_LOGIN_BULLET_3' | translate}}</li>
+					<li>{{ 'TXT_LOGIN_BULLET_4' | translate}}</li>
+				</ul>
+			</label>
+		</div>
+		<div class="signup_login_container" ng-controller="loginController">
+			<div class="login_container">
+				<input type="text" name="logUsername" class="login_text" 
+					placeholder="{{ 'PH_LOGIN_USERNAME' | translate}}"
+					ng-model="user.userName" /> <input type="password"
+					name="logPassword" class="login_text" 
+					placeholder="{{ 'PH_LOGIN_PASSWORD' | translate}}"
+					ng-model="user.password" /> <input type="button" name="submit"
+					class="login" value="{{ 'CA_LOGIN' | translate}}"
+					placeholder="Log In" ng-click="validate()" />
+			</div>
+
+			<div class="signup_container">
+				<input type="text" name="username" class="bigStyle"
+					placeholder="{{ 'PH_USER_USERNAME' | translate}}" />
+			</div>
+			<div>
+				<input type="text" name="email" class="bigStyle"
+					placeholder="{{ 'PH_USER_EMAIL' | translate}}" />
+			</div>
+			<div>
+				<input type="text" name="password" class="bigStyle"
+					placeholder="{{ 'PH_USER_PASSWORD' | translate}}" />
+			</div>
+			<div>
+				<input type="button" name="submit"
+					value="{{ 'CA_SIGNUP' | translate}}" class="signup"
+					placeholder="Sign Up" />
+			</div>
+			<div>
+				<lable class="textWhiteVerySmall">{{ 'TXT_AGREEMENT' |
+				translate }} | <a href="#" class="mini"> {{ 'TXT_TERMS_CONDITION' | translate
+					}} </a> | - | <a href="#" class="mini"> {{ 'TXT_PRIVACY_POLICY' | translate }} </a> |</lable>
+			</div>
+		</div>
+	</div>
 </div>
-	</script>
+<div class="bottom_seperator_bar"></div>
+<div class="bottom_container">
+	<div class="language_container">
+		<label class="textWhiteVerySmall"><a href="" class="textWhiteVerySmall"> {{ 'TXT_LNG_HINDI' |
+			translate}} </a> | <a href="" class="textWhiteVerySmall"> {{ 'TXT_LNG_ESPONAL' |
+			translate}} </a> | <a href="" class="textWhiteVerySmall"> {{ 'TXT_LNG_FRENCH' |
+			translate}} </a></label>
+	</div>
+</div>
+</script>
+
 	<script type="text/ng-template" id="admin.html">
 <div class="top_panel" ng-contoller="adminController">
-Welcome {{user.userName}}!!!
+{{ 'WELCOME_TEXT' | translate }} {{user.userName}}!!!
 <input type="text" name="search" class="login" placeholder="Search..." ng-click="logout()"/>
 <input type="button" name="submit" class="login" value="Log Out" placeholder="Log Out" ng-click="logout()"/>
 </div>

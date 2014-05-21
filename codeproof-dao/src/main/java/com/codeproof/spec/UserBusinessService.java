@@ -11,4 +11,6 @@ public interface UserBusinessService {
 
 	User find(String userId) throws UserNotFoundException;
 	
+	User findByUserName(String userName);
+	
 }

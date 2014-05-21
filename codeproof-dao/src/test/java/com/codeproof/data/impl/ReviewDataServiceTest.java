@@ -3,6 +3,7 @@ package com.codeproof.data.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +79,18 @@ public class ReviewDataServiceTest extends AbstractDataTest<ReviewDataService> {
 		assertEquals(1, dbReviews.size());
 
 	}
+	
+	@Test
+	public void testFindByReviewer() {
+		dataService.save(review);
+		System.out.println("user " + review.getReviewers().keySet());
+		List<Review> dbReviews = dataService.findByReviewer("User3");
+
+		assertNotNull(dbReviews);
+		
+		assertEquals(1, dbReviews.size());
+
+	}
 
 	@Test
 	public void testGetReferenceClass() {
@@ -110,6 +123,7 @@ public class ReviewDataServiceTest extends AbstractDataTest<ReviewDataService> {
 		User user3 = FakeFactoryUser.createUser("User3", "User3");
 		
 		userDataService.save(user1);
+		System.out.println("user " + user1.getId());
 		userDataService.save(user2);
 		userDataService.save(user3);
 		
@@ -126,7 +140,16 @@ public class ReviewDataServiceTest extends AbstractDataTest<ReviewDataService> {
 		reviewers.put(user2.getId(), reviewRole2.getReviewRoleId());
 		reviewers.put(user3.getId(), reviewRole3.getReviewRoleId());
 		
+		List<String> reviewer = new ArrayList<String>();
+		reviewer.add(user1.getUserName());
+		reviewer.add(user2.getUserName());
+		reviewer.add(user3.getUserName());
+		
 		review.setReviewers(reviewers);
+		review.setReviewer(reviewer);
+		
+		review.setReviewCode("#0010");
+		review.setReviewDescription("First review.");
 
 	}
 

@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +15,7 @@ import com.codeproof.model.User;
 import com.codeproof.spec.UserBusinessService;
 
 @Service("userBusinessService")
-public class UserBusinessServiceImpl implements UserBusinessService, UserDetailsService {
+public class UserBusinessServiceImpl implements UserBusinessService {
 
 	@Autowired
 	UserDataService userDataService;
@@ -49,11 +47,10 @@ public class UserBusinessServiceImpl implements UserBusinessService, UserDetails
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		User user = userDataService.loadUserByUsername(userName);
+	public User findByUserName(String userName) {
+		User user = userDataService.findByUserName(userName);
 		
-		org.springframework.security.core.userdetails.User userDetail = new org.springframework.security.core.userdetails.User(user.getUserName(),user.getPassword(),true,true,true,true,getAuthorities(Integer.valueOf(user.getUserRole().getRoleId())));
-		return userDetail;
+		return user;
 	}
 
 }

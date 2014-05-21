@@ -11,5 +11,5 @@ public interface UserDataService {
 	
 	void update(User user);
 	
-	User loadUserByUsername(String userName);
+	User findByUserName(String userName);
 }
