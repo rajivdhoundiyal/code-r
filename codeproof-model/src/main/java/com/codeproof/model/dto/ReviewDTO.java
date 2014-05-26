@@ -1,46 +1,17 @@
-package com.codeproof.model;
+package com.codeproof.model.dto;
 
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
-public class Review {
+public class ReviewDTO {
 	
-	public static final String REVIEWERS = "reviewers";
-	public static final String REVIEWER = "reviewer";
-	
-	public enum ReviewStatus {
-		COMPLETED("Completed"),
-		IN_PROGRESS("In-Progress"),
-		NOT_PICKED("Not Picked");
-		
-		private String status;
-		
-		private ReviewStatus(String status) {
-			this.status = status;
-		}
-		
-		public String getStatus() {
-			return status;
-		}
-		
-		@Override
-		public String toString() {
-			return status;
-		}
-	}
-	
-	@Id
 	private String reviewId;
 	private Map<String, String> reviewers;
 	private List<String> reviewer;
 	private String reviewCode;
 	private String reviewName;
 	private String reviewDescription;
-	private Map<String, File> files;
+	private Map<String, FileDTO> files;
 	private String reviewStatus;
 	
 	public String getReviewId() {
@@ -61,10 +32,10 @@ public class Review {
 	public void setReviewCode(String reviewCode) {
 		this.reviewCode = reviewCode;
 	}
-	public Map<String, File> getFiles() {
+	public Map<String, FileDTO> getFiles() {
 		return files;
 	}
-	public void setFiles(Map<String, File> files) {
+	public void setFiles(Map<String, FileDTO> files) {
 		this.files = files;
 	}
 	public String getReviewDescription() {

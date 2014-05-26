@@ -2,18 +2,18 @@ package com.codeproof.spec;
 
 import java.util.List;
 
-import com.codeproof.model.Review;
+import com.codeproof.model.dto.ReviewDTO;
 
 public interface ReviewBusinessService {
 	
-	Review find(String id);
+	ReviewDTO find(String id);
 
-	void save(Review review);
+	void save(ReviewDTO reviewDTO);
 
-	void update(Review review);
+	void update(ReviewDTO reviewDTO);
 	
-	List<Review> findByReviewRole(String reviewRoleType);
+	List<ReviewDTO> findByReviewRole(String reviewRoleType);
 	
-	List<Review> findByReviewer(String userName);
+	List<ReviewDTO> findByReviewer(String userName);
 	
 }

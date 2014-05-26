@@ -7,37 +7,38 @@ import org.springframework.stereotype.Service;
 
 import com.codeproof.data.spec.ReviewDataService;
 import com.codeproof.model.Review;
+import com.codeproof.model.dto.ReviewDTO;
 import com.codeproof.spec.ReviewBusinessService;
 
 @Service("reviewBusinessService")
-public class ReviewBusinessServiceImpl extends AbstractBusinessService implements ReviewBusinessService {
+public class ReviewBusinessServiceImpl extends AbstractBusinessService<ReviewDTO, Review> implements ReviewBusinessService {
 
 	@Autowired
 	ReviewDataService reviewDataService;
 	
 	@Override
-	public Review find(final String id) {
-		return reviewDataService.find(id);
+	public ReviewDTO find(final String id) {
+		return dozerConverter.convertFrom(reviewDataService.find(id), ReviewDTO.class);
 	}
 
 	@Override
-	public void save(final Review review) {
-		reviewDataService.save(review);
+	public void save(final ReviewDTO reviewDTO) {
+		reviewDataService.save(dozerConverter.convertTo(reviewDTO, Review.class));
 	}
 
 	@Override
-	public void update(final Review review) {
-		reviewDataService.update(review);
+	public void update(final ReviewDTO reviewDTO) {
+		reviewDataService.update(dozerConverter.convertTo(reviewDTO, Review.class));
 	}
 
 	@Override
-	public List<Review> findByReviewRole(final String reviewRoleType) {
-		return reviewDataService.findByReviewRole(reviewRoleType);
+	public List<ReviewDTO> findByReviewRole(final String reviewRoleType) {
+		return dozerConverter.convertFrom(reviewDataService.findByReviewRole(reviewRoleType), ReviewDTO.class);
 	}
 
 	@Override
-	public List<Review> findByReviewer(final String userName) {
-		return reviewDataService.findByReviewer(userName);
+	public List<ReviewDTO> findByReviewer(final String userName) {
+		return dozerConverter.convertFrom(reviewDataService.findByReviewer(userName), ReviewDTO.class);
 	}
 
 }

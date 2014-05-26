@@ -21,92 +21,95 @@
 
 <div class="outer_container" ng-contoller="dashboardController">
 
-<script type="text/ng-template" id="myModalContent.html">
-	<div class="title_bar title">
+<script type="text/ng-template" id="createReviewView.html">
+	<div class="title_bar">
 		<div class="oneRowsDivLeft">
-			<label class="textWhiteMedium">{{ 'TTL_REVIEW_CREATION' |
-				translate }}</label>
+			<label class="textWhiteMedium bold">{{ 'TTL_REVIEW_CREATION'
+				| translate }}</label>
 		</div>
 	</div>
+<form >
 	<div class="popup_container">
-			<div class="table">
-				<div class="row">
-					<div class="cell">
-						<lable class="textOrangeSmall">{{ 'TXT_REVIEW_NAME' |
-						translate }}</lable>
-					</div>
-					<div class="cell">
-						<input type="text" name="search" class="login"
-							title="{{'TT_REVIEW_NAME' | translate}}"
-							placeholder="{{ 'PH_REVIEW_NAME' | translate }}" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="cell">
-						<lable class="textOrangeSmall">{{ 'TXT_REVIEW_DESCRIPTION'
-						| translate }}</lable>
-					</div>
-					<div class="cell">
-						<textarea title="{{ 'TT_REVIEW_DESCRIPTION' | translate }}"
-							placeholder="{{ 'PH_REVIEW_DESCRIPTION' | translate }}"></textarea>
-					</div>
-				</div>
-				<div class="row">
-					<div class="cell">
-						<lable class="textOrangeSmall">{{ 'TXT_SELECT_REVIEWERS' |
-						translate }}</lable>
-					</div>
-					<div class="cell">
-						<input type="text" name="search" class="login"
-							title="{{'TT_SELECT_REVIEWERS' | translate}}"
-							placeholder="{{ 'PH_SELECT_REVIEWERS' | translate }}" />
-					</div>
-					<div class="cell">
-						<input type="text" name="search" class="login"
-							title="{{'TT_SEARCH' | translate}}"
-							placeholder="{{ 'PH_ADD_ROLE' | translate }}" />
-					</div>
-					<div class="cell">
-						<input type="button" name="add" class="login"
-							title="{{'TT_ADD' | translate}}"
-							placeholder="{{ 'CA_ADD' | translate }}" />
-					</div>
-				</div>
-			</div>
+		<table class="table_form">
+			<tr>
+				<td><lable class="textOrangeSmall">{{ 'TXT_REVIEW_NAME'
+					| translate }}</lable></td>
+				<td colspan="3"><input type="text" name="search"
+					class="long_type" title="{{'TT_REVIEW_NAME' | translate}}"
+					placeholder="{{ 'PH_REVIEW_NAME' | translate }}" value="{{review.reviewName}}" ng-model="review.reviewName"/></td>
+			</tr>
+			<tr>
+				<td><lable class="textOrangeSmall">{{
+					'TXT_REVIEW_DESCRIPTION' | translate }}</lable></td>
+				<td colspan="3" class="big_cell"><textarea class="login"
+						title="{{ 'TT_REVIEW_DESCRIPTION' | translate }}"
+						placeholder="{{ 'PH_REVIEW_DESCRIPTION' | translate }}" ng-model="review.reviewDescription">{{review.reviewDescription}}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td><lable class="textOrangeSmall">{{
+					'TXT_SELECT_REVIEWERS' | translate }}</lable></td>
+				<td><input type="text" name="search" class="long_type"
+					title="{{'TT_SELECT_REVIEWERS' | translate}}"
+					placeholder="{{ 'PH_SELECT_REVIEWERS' | translate }}" /></td>
+				<td><input type="text" name="search" class="long_type"
+					title="{{'TT_SEARCH' | translate}}"
+					placeholder="{{ 'PH_ADD_ROLE' | translate }}" /></td>
+			</tr>
+		</table>
+	</div>
+	<div class="bottom_control_panel">
+		<div class="inner_container">
+			<input type="submit" name="add" class="button_type"
+				title="{{ 'TT_ADD' | translate}}" value="{{ 'CA_ADD' | translate }}" ng-click="add()" />
+			<input type="button" name="cancel" class="button_type"
+				title="{{ 'TT_CANCEL' | translate}}"
+				value="{{ 'CA_CANCEL' | translate }}" ng-click="cancel()" />
 		</div>
-    </script>
-
+	</div>
+</form>
+</script>
 
 	<div class="side_left_panel"></div>
 	<div class="middle_work_panel" data-ng-init="init()">
-		<div class="title_bar title">
+		<div class="title_bar">
 			<div class="oneRowsDivLeft">
-				<label class="textWhiteMedium">{{ 'TTL_DASHBORD_DETAIL' |
+				<label class="textWhiteMedium bold">{{ 'TTL_DASHBORD_DETAIL' |
 					translate }}</label>
 			</div>
 			<div class="oneRowsDivRight">
-				<a href="" class="medium" style="padding: 0px 2px 2px 0px;"><img
-					src="static/resources/gfx/plus-7-24.png" ng-click="open('lg')"></img></a>
+				<a href="" class="medium"><img
+					src="static/resources/gfx/add-row-24.png" ng-click="open()"></img></a>
 			</div>
 		</div>
 		<table>
 			<thead>
-				<th><a class="textWhiteSmall">{{ 'TH_REVIEW_CODE' | translate}}</a></th>
-				<th><a class="textWhiteSmall">{{ 'TH_REVIEW_DESCRIPTION' | translate}}</a></th>
+				<th ng-click="changeSorting('reviewCode')" ng-class="selectedColumn('reviewCode')"><a class="textWhiteSmall" >{{ 'TH_REVIEW_CODE' | translate}}</a></th>
+				<th ng-click="changeSorting('reviewDescription')" ng-class="selectedColumn('reviewDescription')"><a class="textWhiteSmall" >{{ 'TH_REVIEW_NAME' | translate}}</a></th>
+				<th ng-click="changeSorting('reviewStatus')" ng-class="selectedColumn('reviewStatus')"><a class="textWhiteSmall" >{{ 'TH_REVIEW_STATUS' | translate}}</a></th>
 				<th></th>
 			</thead>
-			<tbody data-ng-repeat="review in reviews">
+			<tbody data-ng-repeat="review in reviews | orderBy:sort.column:sort.descending | filter:((selectedOption.id === '-1') ? undefined : selectedOption.name)">
 				<tr>
 					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 15%">{{review.reviewCode}}</td>
-					<td ng-class-odd="'odd'" ng-class-even="'even'"><a href="#"
-						class="medium">{{review.reviewDescription}}</a></td>
+					<td ng-class-odd="'odd'" ng-class-even="'even'"><a href=""
+						class="medium">{{review.reviewName}}</a></td>
+					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 18%"><a href=""
+						class="medium">{{review.reviewStatus}}</a></td>
 					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 6%"><a
-						href="#" class="medium"><img
-							src="static/resources/gfx/edit-6-16-red.png" class="icon16"></img></a>
-						<a href="#" class="medium"><img
-							src="static/resources/gfx/delete-24.png" class="icon16"></img></a></td>
+						href="" class="medium"><img
+							src="static/resources/gfx/edit-6-16-red.png" class="icon16" ng-click="open(review)"></img></a>
+						<a href="" class="medium"><img
+							src="static/resources/gfx/delete-16.png" class="icon16"></img></a></td>
 				</tr>
 			</tbody>
+			<tfoot>
+			<tr>
+			<td colspan="4" data-ng-model="reviews"><a class="textWhiteSmall">{{ 'TXT_REVIEW_FILTER' | translate}}</a> 
+			<select class="small_select" data-ng-options="o.name for o in reviewStatus" data-ng-model="selectedOption"></select> 
+			<label class="textWhiteSmall"> | </label> <a class="textWhiteSmall">{{ 'TXT_TOTAL_NUM_REVIEW' | translate}} : {{reviews.length}}</a></td>
+			</tr>
+			</tfoot>
 		</table>
 	</div>
 	<div class="side_right_panel"></div>

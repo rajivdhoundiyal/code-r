@@ -40,7 +40,7 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
@@ -56,15 +56,30 @@
 		</dependency>
 
 		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.codeproof</groupId>
 			<artifactId>codeproof-model</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.codeproof</groupId>
 			<artifactId>codeproof-fakefactory</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 

@@ -31,4 +31,12 @@
 	
 
 	<bean id="userDetailService" class="com.codeproof.impl.UserBusinessServiceImpl" />
+	
+	<bean id="mapper" class="org.dozer.DozerBeanMapper">
+    <property name="mappingFiles">
+        <list>
+            <value>com/codeproof/model/dto/mapping/ReviewMapping.xml</value>			   
+        </list>
+    </property>
+</bean>
 </beans>
