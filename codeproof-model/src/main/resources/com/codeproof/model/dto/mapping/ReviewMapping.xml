@@ -7,9 +7,4 @@
 		<class-b>com.codeproof.model.dto.ReviewDTO</class-b>
 	</mapping>
 
-	<!-- <mapping>
-		<class-a>net.comdynamics.myapp.Product</class-a>
-		<class-b>net.comdynamics.myapp.ProductOffering</class-b>
-	</mapping> -->
-
 </mappings>

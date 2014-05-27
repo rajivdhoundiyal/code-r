@@ -27,7 +27,7 @@ import de.flapdoodle.embed.process.runtime.Network;
 @ContextConfiguration(locations = { "/META-INF/applicationContext.xml" })
 public abstract class AbstractDataTest<DS> {
 
-	private final static int PORT = 27017;
+	private final static int PORT = 27018;
 	private static MongodStarter runtime;
 	private static IMongodConfig mongodConfig;
 	private static MongodExecutable mongodExecutable;

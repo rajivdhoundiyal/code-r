@@ -188,7 +188,7 @@ var CreateReviewController = function($scope, $modalInstance, $http, data,
 
 	$scope.review = angular.copy(data);
 
-	$scope.add = function(review) {
+	$scope.add = function() {
 		angular.copy($scope.review, data);
 		ReviewService.saveReview($scope.review).$promise.then(function() {
 			$modalInstance.close();
@@ -202,6 +202,16 @@ var CreateReviewController = function($scope, $modalInstance, $http, data,
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
 	};
+	
+	$scope.reviewCreation = function (isValid) {
+		if(isValid) {
+			$scope.add();
+		} else {
+			console.log("Validation failed while adding review....");
+		}
+		
+	}
+	
 };
 
 app.controller("dashboardController", function($scope, $route, $http,

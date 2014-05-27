@@ -28,20 +28,23 @@
 				| translate }}</label>
 		</div>
 	</div>
-<form >
+<form name="reviewCreationForm" ng-submit="reviewCreation(reviewCreationForm.$valid)" novalidate>
 	<div class="popup_container">
 		<table class="table_form">
 			<tr>
 				<td><lable class="textOrangeSmall">{{ 'TXT_REVIEW_NAME'
 					| translate }}</lable></td>
-				<td colspan="3"><input type="text" name="search"
+				<td colspan="3">
+				<label ng-show="submitted && reviewCreationForm.reviewName.$error.required" class="textOrangeSmall">Review must have a review name.</label>
+				<input type="text" name="reviewName"
 					class="long_type" title="{{'TT_REVIEW_NAME' | translate}}"
-					placeholder="{{ 'PH_REVIEW_NAME' | translate }}" value="{{review.reviewName}}" ng-model="review.reviewName"/></td>
+					placeholder="{{ 'PH_REVIEW_NAME' | translate }}" value="{{review.reviewName}}" ng-model="review.reviewName" ng-minlength="8" required="" /></td>
 			</tr>
 			<tr>
 				<td><lable class="textOrangeSmall">{{
 					'TXT_REVIEW_DESCRIPTION' | translate }}</lable></td>
-				<td colspan="3" class="big_cell"><textarea class="login"
+				<td colspan="3" class="big_cell">
+				<textarea class="login" name="reviewDescription"
 						title="{{ 'TT_REVIEW_DESCRIPTION' | translate }}"
 						placeholder="{{ 'PH_REVIEW_DESCRIPTION' | translate }}" ng-model="review.reviewDescription">{{review.reviewDescription}}</textarea>
 				</td>
@@ -49,19 +52,25 @@
 			<tr>
 				<td><lable class="textOrangeSmall">{{
 					'TXT_SELECT_REVIEWERS' | translate }}</lable></td>
-				<td><input type="text" name="search" class="long_type"
+				<div ng-repeat="rev in review.reviewers">
+				<td>
+				<label ng-show="submitted && reviewCreationForm.reviewers.$error.minlength" class="textWhiteSmall">Review must have a review name.</label>
+				<input type="text" name="reviewers" class="long_type"
 					title="{{'TT_SELECT_REVIEWERS' | translate}}"
-					placeholder="{{ 'PH_SELECT_REVIEWERS' | translate }}" /></td>
+					placeholder="{{ 'PH_SELECT_REVIEWERS' | translate }}" value="{{rev[0]}}"/></td>
 				<td><input type="text" name="search" class="long_type"
 					title="{{'TT_SEARCH' | translate}}"
-					placeholder="{{ 'PH_ADD_ROLE' | translate }}" /></td>
+					placeholder="{{ 'PH_ADD_ROLE' | translate }}" value="rev[1]" /></td>
+				<td><label class="textOrangeSmall">+</label></td>
+				</div>
+				</table>
 			</tr>
 		</table>
 	</div>
 	<div class="bottom_control_panel">
 		<div class="inner_container">
 			<input type="submit" name="add" class="button_type"
-				title="{{ 'TT_ADD' | translate}}" value="{{ 'CA_ADD' | translate }}" ng-click="add()" />
+				title="{{ 'TT_ADD' | translate}}" value="{{ 'CA_ADD' | translate }}" ng-click="submitted=true"/>
 			<input type="button" name="cancel" class="button_type"
 				title="{{ 'TT_CANCEL' | translate}}"
 				value="{{ 'CA_CANCEL' | translate }}" ng-click="cancel()" />
