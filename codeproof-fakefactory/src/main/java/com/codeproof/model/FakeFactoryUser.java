@@ -8,8 +8,8 @@ public class FakeFactoryUser {
 
 		user.setUserName("Temp");
 		user.setPassword("Password");
-		Role role = new Role();
-		role.setRoleLevel(RoleLevel.ADMIN);
+		UserRole role = new UserRole();
+		role.setRoleLevel(UserRoleLevel.ADMIN);
 		role.setRoleDescription("Admin Role");
 		
 		//user.setUserRole(role);
@@ -22,8 +22,8 @@ public class FakeFactoryUser {
 
 		user.setUserName(userName);
 		user.setPassword(password);
-		Role role = new Role();
-		role.setRoleLevel(RoleLevel.ADMIN);
+		UserRole role = new UserRole();
+		role.setRoleLevel(UserRoleLevel.ADMIN);
 		role.setRoleDescription("Admin Role");
 		
 		//user.setUserRole(role);

@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
+//@Entity
+//@Table(name="review")
 public class Review {
 	
 	public static final String REVIEWERS = "reviewers";
@@ -34,13 +36,27 @@ public class Review {
 	}
 	
 	@Id
+	//@javax.persistence.Id
+	//@Column(name="review_id")
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private String reviewId;
-	private Map<String, String> reviewers;
-	private List<String> reviewer;
+	
+	//@ManyToMany(targetEntity=ReviewRoleType.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	//@JoinColumn(name = "review_id", referencedColumnName="review_role_id")
+	private List<ReviewRole> reviewers;
+	
+	//@Column(name="review_code")
 	private String reviewCode;
+	
+	//@Column(name="review_name")
 	private String reviewName;
+	
+	//@Column(name="review_description")
 	private String reviewDescription;
-	private Map<String, File> files;
+	
+	private List<FileDetails> reviewFilesDetails;
+	
+	//@Column(name="review_status")
 	private String reviewStatus;
 	
 	public String getReviewId() {
@@ -49,10 +65,10 @@ public class Review {
 	public void setReviewId(String reviewId) {
 		this.reviewId = reviewId;
 	}
-	public Map<String, String> getReviewers() {
+	public List<ReviewRole> getReviewers() {
 		return reviewers;
 	}
-	public void setReviewers(Map<String, String> reviewers) {
+	public void setReviewers(List<ReviewRole> reviewers) {
 		this.reviewers = reviewers;
 	}
 	public String getReviewCode() {
@@ -61,23 +77,11 @@ public class Review {
 	public void setReviewCode(String reviewCode) {
 		this.reviewCode = reviewCode;
 	}
-	public Map<String, File> getFiles() {
-		return files;
-	}
-	public void setFiles(Map<String, File> files) {
-		this.files = files;
-	}
 	public String getReviewDescription() {
 		return reviewDescription;
 	}
 	public void setReviewDescription(String reviewDescription) {
 		this.reviewDescription = reviewDescription;
-	}
-	public List<String> getReviewer() {
-		return reviewer;
-	}
-	public void setReviewer(List<String> reviewer) {
-		this.reviewer = reviewer;
 	}
 	public String getReviewStatus() {
 		return reviewStatus;
@@ -90,5 +94,11 @@ public class Review {
 	}
 	public void setReviewName(String reviewName) {
 		this.reviewName = reviewName;
+	}
+	public List<FileDetails> getReviewFilesDetails() {
+		return reviewFilesDetails;
+	}
+	public void setReviewFilesDetails(List<FileDetails> reviewFilesDetails) {
+		this.reviewFilesDetails = reviewFilesDetails;
 	}
 }

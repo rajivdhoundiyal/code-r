@@ -1,9 +1,15 @@
 package com.codeproof.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
@@ -12,29 +18,45 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
+@Entity
+@Table(name="user")
 public class User implements Serializable {
 	
 	@Id
-	private String id;
+	@javax.persistence.Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@Column(name = "user_id")
+	private String userId;
 
 	@Indexed(unique=true, direction=IndexDirection.DESCENDING, dropDups=true)
+	@Column(name = "user_name")
 	private String userName;
 	
+	@Column(name="password")
 	private String password;
+	
+	@Column(name="first_name")
 	private String firstName;
+	
+	@Column(name="last_name")
 	private String lastName;
+	
+	@Column(name="status")
 	private String status;
+	
+	@Column(name="enabled")
 	private Boolean enabled;
 	
 	@DBRef
-	private List<Role> roles = new ArrayList<Role>();
+	@Transient
+	private List<UserRole> roles;
 
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getUserName() {
@@ -85,17 +107,17 @@ public class User implements Serializable {
 		this.enabled = enabled;
 	}
 
-	public List<Role> getRoles() {
+	public List<UserRole> getRoles() {
 		return roles;
 	}
 
-	public void addRole(Role role) {
+	public void addRole(UserRole role) {
 		this.roles.add(role);
 	}
 	
-	public void removeRole(Role role) {
+	public void removeRole(UserRole role) {
 		//use iterator to avoid java.util.ConcurrentModificationException with foreach
-		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); )
+		for (Iterator<UserRole> iter = this.roles.iterator(); iter.hasNext(); )
 		{
 		   if (iter.next().equals(role))
 		      iter.remove();
@@ -104,7 +126,7 @@ public class User implements Serializable {
 	
 	public String getRolesCSV() {
 		StringBuilder sb = new StringBuilder();
-		for (Iterator<Role> iter = this.roles.iterator(); iter.hasNext(); )
+		for (Iterator<UserRole> iter = this.roles.iterator(); iter.hasNext(); )
 		{
 		   sb.append(iter.next().getRoleId());
 		   if (iter.hasNext()) {
@@ -113,20 +135,5 @@ public class User implements Serializable {
 		}
 		return sb.toString();
 	}	
-	
-	/*public boolean equals(Object obj) {
-        if (!(obj instanceof User)) {
-            return false;
-        }
-        if (this == obj) {
-            return true;
-        }
-        User rhs = (User) obj;
-        return new EqualsBuilder().append(id, rhs.id).isEquals();
-    }
-
-	public int hashCode() {
-        return new HashCodeBuilder().append(id).append(userName).toHashCode();
-    }*/
 	
 }

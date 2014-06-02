@@ -1,9 +1,12 @@
 package com.codeproof.model;
 
+import com.codeproof.util.StringConstants;
+
 public class FakeFactoryReviewRole {
 
-	public static ReviewRole createReviewRoleReviwer() {
-		ReviewRole reviewRole = new ReviewRole();
+	public static ReviewRoleType createReviewRoleReviwer() {
+		ReviewRoleType reviewRole = new ReviewRoleType();
+		reviewRole.setReviewRoleType(StringConstants.REVIEWEE);
 		return reviewRole;
 	}
 

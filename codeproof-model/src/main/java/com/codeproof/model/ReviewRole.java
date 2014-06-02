@@ -1,34 +1,29 @@
 package com.codeproof.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.codeproof.util.StringConstants;
 
 @Document
 public class ReviewRole {
 
-	public static final String REVIEW_ROLE_LEVEL = "reviewRoleLevel";
+	public static final String REVIEW_ROLE_TYPE = Review.REVIEWERS + StringConstants.DOT + "reviewRoleType" + StringConstants.DOT + "reviewRoleType";
+	public static final String REVIEW_ROLE_NAME = Review.REVIEWERS + StringConstants.DOT + "reviewerName";
 	
-	@Id
-	private String reviewRoleId;
-	private String reviewDesc;
-	private String reviewRoleType;
-	
-	public String getReviewRoleId() {
-		return reviewRoleId;
+	private String reviewerName;
+	private ReviewRoleType reviewRoleType;
+
+	public String getReviewerName() {
+		return reviewerName;
 	}
-	public void setReviewRoleId(String reviewRoleId) {
-		this.reviewRoleId = reviewRoleId;
+	public void setReviewerName(String reviewerName) {
+		this.reviewerName = reviewerName;
 	}
-	public String getReviewDesc() {
-		return reviewDesc;
-	}
-	public void setReviewDesc(String reviewDesc) {
-		this.reviewDesc = reviewDesc;
-	}
-	public String getReviewRoleType() {
+
+	public ReviewRoleType getReviewRoleType() {
 		return reviewRoleType;
 	}
-	public void setReviewRoleType(String reviewRoleType) {
+	public void setReviewRoleType(ReviewRoleType reviewRoleType) {
 		this.reviewRoleType = reviewRoleType;
 	}
 

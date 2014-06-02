@@ -11,35 +11,35 @@ import com.codeproof.data.spec.UserDataService;
 import com.codeproof.model.FakeFactoryUser;
 import com.codeproof.model.User;
 
-public class UserDataServiceTest extends AbstractDataTest<UserDataService> {
+public class UserDataServiceTest extends AbstractDataServiceTest<UserDataService> {
 
 	@Test
 	public void testFind() {
 		User user = FakeFactoryUser.createUser();
 		dataService.save(user);
-		User dbUser = dataService.find(user.getId());
+		User dbUser = dataService.find(user.getUserId());
 		assertNotNull(dbUser);
-		assertNotNull(dbUser.getId());
+		assertNotNull(dbUser.getUserId());
 	}
 
 	@Test
 	public void testSave() {
 		User user = FakeFactoryUser.createUser();
 		dataService.save(user);
-		assertNotNull(user.getId());
+		assertNotNull(user.getUserId());
 	}
 
 	@Test
 	public void testUpdate() {
 		User user = FakeFactoryUser.createUser();
 		dataService.save(user);
-		User dbUser = dataService.find(user.getId());
+		User dbUser = dataService.find(user.getUserId());
 
 		dbUser.setUserName("Temp-2");
 
 		dataService.update(dbUser);
 
-		dbUser = dataService.find(user.getId());
+		dbUser = dataService.find(user.getUserId());
 
 		assertEquals("Temp-2", dbUser.getUserName());
 

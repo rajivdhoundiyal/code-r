@@ -1,13 +1,13 @@
 package com.codeproof.spec;
 
-import com.codeproof.model.ReviewRole;
+import com.codeproof.model.ReviewRoleType;
 
 public interface ReviewRoleBusinessService {
 	
-	ReviewRole find(String id);
+	ReviewRoleType find(String id);
 
-	void save(ReviewRole reviewRole);
+	void save(ReviewRoleType reviewRole);
 
-	void update(ReviewRole reviewRole);
+	void update(ReviewRoleType reviewRole);
 
 }

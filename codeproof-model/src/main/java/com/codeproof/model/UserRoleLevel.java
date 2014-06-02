@@ -1,12 +1,12 @@
 package com.codeproof.model;
 
-public enum RoleLevel {
+public enum UserRoleLevel {
 	
 	ADMIN("Admin");
 	
 	private String roleLevel;
 	
-	RoleLevel(String roleLevel) {
+	UserRoleLevel(String roleLevel) {
 		this.roleLevel = roleLevel;
 	}
 	

@@ -12,7 +12,7 @@ import com.codeproof.data.spec.ReviewRoleDataService;
 import com.codeproof.data.spec.UserDataService;
 import com.codeproof.model.Review;
 import com.codeproof.model.ReviewRole;
-import com.codeproof.model.User;
+import com.codeproof.model.ReviewRoleType;
 
 @Repository("reviewDataService")
 public class ReviewDataServiceImpl extends AbstractDataService<Review> implements ReviewDataService {
@@ -30,14 +30,16 @@ public class ReviewDataServiceImpl extends AbstractDataService<Review> implement
 
 	@Override
 	public List<Review> findByReviewRole(String reviewRoleType) {
-		ReviewRole reviewRole = reviewRoleDataService.findByRoleType(reviewRoleType);
-		Query filterQuery = new Query(Criteria.where(Review.REVIEWERS).regex(reviewRole.getReviewRoleId()));
+		ReviewRoleType reviewRole = reviewRoleDataService.findByRoleType(reviewRoleType);
+		Query filterQuery = Query.query(Criteria.where(ReviewRole.REVIEW_ROLE_TYPE).regex(reviewRole.getReviewRoleType()));
+		/*Query filterQuery = new Query(Criteria.where(Review.REVIEWERS).andOperator(
+				Criteria.where(ReviewRole.REVIEW_ROLE_TYPE).andOperator(Criteria.where(ReviewRoleType.REVIEW_ROLE_LEVEL).regex(reviewRole.getReviewRoleType()))));*/
 		return mongoTemplate.find(filterQuery, getReferenceClass());
 	}
 
 	@Override
 	public List<Review> findByReviewer(String userName) {
-		Query filterQuery = new Query(Criteria.where(Review.REVIEWER).regex(userName));
+	Query filterQuery = Query.query(Criteria.where(ReviewRole.REVIEW_ROLE_NAME).regex(userName));
 		return mongoTemplate.find(filterQuery, getReferenceClass());
 	}
 

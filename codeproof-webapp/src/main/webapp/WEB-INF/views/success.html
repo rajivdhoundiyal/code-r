@@ -52,18 +52,23 @@
 			<tr>
 				<td><lable class="textOrangeSmall">{{
 					'TXT_SELECT_REVIEWERS' | translate }}</lable></td>
-				<div ng-repeat="rev in review.reviewers">
+				<td>
+				<table>
+				<tbody ng-repeat="rev in review.reviewers">
+				<tr>
 				<td>
 				<label ng-show="submitted && reviewCreationForm.reviewers.$error.minlength" class="textWhiteSmall">Review must have a review name.</label>
 				<input type="text" name="reviewers" class="long_type"
 					title="{{'TT_SELECT_REVIEWERS' | translate}}"
-					placeholder="{{ 'PH_SELECT_REVIEWERS' | translate }}" value="{{rev[0]}}"/></td>
+					placeholder="{{ 'PH_SELECT_REVIEWERS' | translate }}" value="{{rev.reviewer.firstName}}"/></td>
 				<td><input type="text" name="search" class="long_type"
 					title="{{'TT_SEARCH' | translate}}"
-					placeholder="{{ 'PH_ADD_ROLE' | translate }}" value="rev[1]" /></td>
+					placeholder="{{ 'PH_ADD_ROLE' | translate }}" value="{{rev.reviewRoleType.reviewRoleType}}" /></td>
 				<td><label class="textOrangeSmall">+</label></td>
-				</div>
+				</tr>
+				</tbody>
 				</table>
+				</td>
 			</tr>
 		</table>
 	</div>

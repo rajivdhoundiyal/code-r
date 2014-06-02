@@ -1,25 +1,40 @@
 package com.codeproof.data.impl;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
-public abstract class AbstractDataService<T> {
+public abstract class AbstractDataService<E> {
 
 	@Autowired
 	MongoTemplate mongoTemplate;
+	
+	/*@Autowired*/
+	SessionFactory sessionFactory;
 
-	public T find(String id) {
+	@Transactional
+	public E find(String id) {
+		//return (E) getSession().get(getReferenceClass(), id);
 		return mongoTemplate.findById(id, getReferenceClass());
 	}
 
-	public void save(T t) {
-		mongoTemplate.save(t);
+	@Transactional
+	public void save(E e) {
+		mongoTemplate.save(e);
+		//getSession().save(e);
 	}
 
-	public void update(T t) {
-		mongoTemplate.save(t);
+	@Transactional
+	public void update(E e) {
+		mongoTemplate.save(e);
+		//getSession().saveOrUpdate(e);
 	}
 	
-	protected abstract Class<T> getReferenceClass();
+	private Session getSession() {
+		return sessionFactory.getCurrentSession();
+	}
+	protected abstract Class<E> getReferenceClass();
 	
 }

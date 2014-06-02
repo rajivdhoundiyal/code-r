@@ -4,11 +4,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Role {
+public class UserRole {
 
 	@Id
 	private String roleId;
-	private RoleLevel roleLevel;
+	private UserRoleLevel roleLevel;
 	private String roleDescription;
 	
 	public String getRoleId() {
@@ -17,10 +17,10 @@ public class Role {
 	public void setRoleId(String roleId) {
 		this.roleId = roleId;
 	}
-	public RoleLevel getRoleLevel() {
+	public UserRoleLevel getRoleLevel() {
 		return roleLevel;
 	}
-	public void setRoleLevel(RoleLevel roleLevel) {
+	public void setRoleLevel(UserRoleLevel roleLevel) {
 		this.roleLevel = roleLevel;
 	}
 	public String getRoleDescription() {
