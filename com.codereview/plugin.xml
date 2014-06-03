@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <!-- extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Code Review"
+            id="com.codereview">
+      </category>
+      <view
+            name="Code Review"
+            icon="icons/paw-16.png"
+            category="com.codereview"
+            class="com.codereview.views.SampleView"
+            id="com.codereview.views.SampleView">
+      </view>
+   </extension -->
+   
+   <extension
+      point="org.eclipse.ui.preferencePages">
+	   <page
+	         name="Code Review"
+	         class="com.codereview.views.CodeReviewPreference"
+	         id="com.codereview.CodeReviewPreference">
+	   </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+         <perspective
+            name="Code Review"
+            icon="icons/paw-16.png"
+	            class="com.codereview.views.CodeReviewPerspective"
+            id="com.codereview.views.CodeReviewPerspective">
+      </perspective>
+   </extension>
+   <extension point="org.eclipse.ui.perspectiveExtensions">
+		<perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+			<perspectiveShortcut id="com.codereview.views.CodeReviewPerspective">
+			</perspectiveShortcut>
+		</perspectiveExtension>
+	</extension>
+   <!-- extension
+         point="org.eclipse.ui.commands">
+         <command id="com.codereview.views.AddReviewFiles" name="Add files to Review" categoryId="menu:team.menu">
+         </command>
+   </extension -->
+    <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:team.main?after=org.eclipse.egit.ui.internal.actions.ShowHistoryActionHandler">
+         <menu id="fileMenu" label="File">
+            <command commandId="de.vogella.rcp.commands.first.commands.Exit" label="Exit" style="push" tooltip="Exit the application">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+</plugin>
