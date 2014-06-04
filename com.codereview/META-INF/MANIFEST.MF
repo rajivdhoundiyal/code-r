@@ -6,7 +6,11 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.codereview.Activator
 Bundle-Vendor: Code Review
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.egit.core;bundle-version="3.0.3",
+ org.eclipse.jdt.core;bundle-version="3.9.1",
+ org.eclipse.jdt.ui;bundle-version="3.9.1",
+ org.eclipse.core.resources;bundle-version="3.8.101"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: ./,
