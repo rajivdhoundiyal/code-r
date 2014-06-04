@@ -28,7 +28,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
          <perspective
-            name="Code Review"
+            name=" Code Review"
             icon="icons/paw-16.png"
 	            class="com.codereview.views.CodeReviewPerspective"
             id="com.codereview.views.CodeReviewPerspective">
@@ -45,12 +45,53 @@
          <command id="com.codereview.views.AddReviewFiles" name="Add files to Review" categoryId="menu:team.menu">
          </command>
    </extension -->
-    <extension point="org.eclipse.ui.menus">
-      <menuContribution locationURI="popup:team.main?after=org.eclipse.egit.ui.internal.actions.ShowHistoryActionHandler">
+    <extension
+          point="org.eclipse.ui.popupMenus">
+          <menuContribution locationURI="menu:team.main?after=org.eclipse.egit.ui.team.Disconnect">
          <menu id="fileMenu" label="File">
             <command commandId="de.vogella.rcp.commands.first.commands.Exit" label="Exit" style="push" tooltip="Exit the application">
             </command>
          </menu>
       </menuContribution>
-   </extension>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+<menuContribution allPopups="true" locationURI="menu:team.main?after=org.eclipse.egit.ui.team.Disconnect">
+<menu label="Checkout State">
+<command commandId="Test.reservedToUnreservedCommand" label="Reserved--&gt;Unreserved" style="push">
+</command>
+<command commandId="Test.unreservedToReservedCommand" label="Unreserved--&gt;Reserved" style="push">
+</command>
+</menu>
+</menuContribution>
+</extension>
+<extension point="org.eclipse.ui.commands">
+<command
+id="Test.checkoutCommand"
+name="Checkout">
+</command>
+<command
+id="Test.reservedToUnreservedCommand"
+name="Reserved--&gt;Unreserved">
+</command>
+<command
+id="Test.unreservedToReservedCommand"
+name="Unreserved--&gt;Reserved">
+</command>
+</extension>
+<extension
+point="org.eclipse.ui.handlers">
+<handler
+class="test.handlers.CheckoutHandler"
+commandId="Test.checkoutHandler">
+</handler>
+<handler
+class="test.handlers.UnreservedHandler"
+commandId="Test.handler3">
+</handler>
+<handler
+class="test.handlers.ReservedHandler"
+commandId="Test.reservedHandler">
+</handler>
+</extension>
+   
 </plugin>

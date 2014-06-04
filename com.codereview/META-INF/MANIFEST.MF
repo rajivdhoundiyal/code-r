@@ -9,3 +9,13 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: ./,
+ lib/jackson-core-asl-1.9.2.jar,
+ lib/jackson-jaxrs-1.9.2.jar,
+ lib/jackson-mapper-asl-1.9.2.jar,
+ lib/jackson-xc-1.9.2.jar,
+ lib/jersey-client-1.18.jar,
+ lib/jersey-core-1.18.jar,
+ lib/jersey-json-1.18.jar,
+ lib/jettison-1.1.jar,
+ lib/codeproof-model-1.0-SNAPSHOT.jar
