@@ -1,25 +1,76 @@
 package com.codereview.handler;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.HandlerEvent;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.egit.core.project.GitProjectData;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.packageview.PackageFragmentRootContainer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.StatusCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.internal.Workbench;
+
+import com.codereview.views.CodeReviewDialog;
 
 public class AddToReviewHandler extends AbstractHandler {
 
 	public Object execute(ExecutionEvent executionEnvironment) throws ExecutionException {
-		System.out.println("Inside review handler`" + getCurrentProject());
 		IProject project = getCurrentProject();
-		GitProjectData gpd = new GitProjectData(project);
+		File file = new File(project.getRawLocationURI());
+		RepositoryBuilder repo = new RepositoryBuilder();
+		// repo.setGitDir(file);
+		Set<String> bigSet = null, filePathSet = null;
+		try {
+			Repository repos = repo.findGitDir(file).setup().build();
+			Git git = new Git(repos);
+			StatusCommand sc = git.status();
+			Status status = sc.call();
+			System.out.println("File Paent: " + file.getParent());
+			sc.addPath(file.getParent());
+			bigSet = new HashSet<String>();
+			filePathSet = new HashSet<String>();
+			System.out.println("Modified" + status.getModified());
+			bigSet.addAll(status.getModified());
+			bigSet.addAll(status.getChanged());
+			bigSet.addAll(status.getAdded());
+			bigSet.addAll(status.getUncommittedChanges());
+			bigSet.addAll(status.getUntracked());
+			for (String value : bigSet) {
+				value = sc.getPaths().get(0) + "/" + value;
+				filePathSet.add(value);
+			}
+			System.out.println(sc.getRepository().toString());
+			System.out.println(sc.getPaths());
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (NoWorkTreeException e) {
+			e.printStackTrace();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
+
+		CodeReviewDialog crd = new CodeReviewDialog(Workbench.getInstance().getDisplay().getActiveShell(),
+				repo.getWorkTree(), filePathSet);
+		crd.create();
+		crd.open();
 		return null;
 	}
 
@@ -41,9 +92,13 @@ public class AddToReviewHandler extends AbstractHandler {
 					IJavaProject jProject = ((IJavaElement) element).getJavaProject();
 					project = jProject.getProject();
 				}
-				System.out.println("Project is: " + project);
 			}
 		}
 		return project;
+	}
+
+	@Override
+	protected void fireHandlerChanged(HandlerEvent handlerEvent) {
+		super.fireHandlerChanged(handlerEvent);
 	}
 }
