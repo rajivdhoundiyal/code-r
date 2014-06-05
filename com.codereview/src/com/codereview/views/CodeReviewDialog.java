@@ -1,13 +1,14 @@
 package com.codereview.views;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Set;
 
-import javax.annotation.PreDestroy;
-
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.ICheckStateProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
@@ -18,6 +19,7 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -28,9 +30,9 @@ public class CodeReviewDialog extends Dialog {
 	private CheckboxTreeViewer viewer;
 	private Image image;
 	private File file;
-	private Set<String> filesInReview;
+	private Set<File> filesInReview;
 
-	public CodeReviewDialog(Shell parentShell, File file, Set<String> filesInReview) {
+	public CodeReviewDialog(Shell parentShell, File file, Set<File> filesInReview) {
 		super(parentShell);
 		this.file = file;
 		this.filesInReview = filesInReview;
@@ -40,19 +42,32 @@ public class CodeReviewDialog extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		Composite textPanel = new Composite(parent, SWT.BORDER);
 		textPanel.setLayout(new FillLayout());
-		textPanel.setSize(580, 150);
 		Label label = new Label(textPanel, SWT.BOLD);
-		label.setSize(580, 150);
 		label.setText("Select files to add in review");
 
 		ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-		Composite scrollPanel = new Composite(scrolledComposite, SWT.NONE);
+		Composite scrollPanel = new Composite(scrolledComposite, SWT.NONE | SWT.BORDER);
 		scrollPanel.setLayout(new FillLayout());
-		scrollPanel.setSize(580, 450);
-		viewer = new CheckboxTreeViewer(scrollPanel, SWT.MULTI);
-		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setLabelProvider(new ViewLabelProvider());
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = GridData.FILL;
+		gridData.heightHint = getInitialSize().y;
+		gridData.verticalIndent = 10;
+		gridData.verticalAlignment = GridData.FILL;
+		gridData.grabExcessHorizontalSpace = true;
+		gridData.grabExcessVerticalSpace = true;
+		scrolledComposite.setLayoutData(gridData);
+		viewer = new CheckboxTreeViewer(scrollPanel, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		viewer.setAutoExpandLevel(2);
+		viewer.setContentProvider(new TreeContentProvider());
+		viewer.setLabelProvider(new TreeViewLabelProvider());
+		viewer.setCheckStateProvider(new TreeCheckedStatedProvider());
 		viewer.setInput(file.listFiles());
+		viewer.addCheckStateListener(new ICheckStateListener() {
+			
+			public void checkStateChanged(CheckStateChangedEvent checkStateEvent) {
+				viewer.setSubtreeChecked(checkStateEvent.getElement(), checkStateEvent.getChecked());
+			}
+		});
 		scrolledComposite.setContent(scrollPanel);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
@@ -67,7 +82,7 @@ public class CodeReviewDialog extends Dialog {
 
 	@Override
 	protected Point getInitialSize() {
-		return new Point(600, 400);
+		return new Point(400, 300);
 	}
 
 	/*
@@ -78,7 +93,7 @@ public class CodeReviewDialog extends Dialog {
 	 * = imageDcr.createImage(); }
 	 */
 
-	class ViewContentProvider implements ITreeContentProvider {
+	class TreeContentProvider implements ITreeContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
 
@@ -86,47 +101,52 @@ public class CodeReviewDialog extends Dialog {
 		}
 
 		public Object[] getElements(Object inputElement) {
-			System.out.println("Get Elements");
-			for (File file : (File[]) inputElement) {
-				validateAndCheck(file);
-			}
 			return (File[]) inputElement;
 		}
 
 		public Object[] getChildren(Object parentElement) {
-			System.out.println("Get Childern");
 			File file = (File) parentElement;
-			validateAndCheck(file);
- 
 			return file.listFiles();
 		}
 
 		public Object getParent(Object element) {
-			System.out.println("Get Parent");
 			File file = (File) element;
-			validateAndCheck(file.getParentFile());
 			return file.getParentFile();
 		}
 
 		public boolean hasChildren(Object element) {
 			File file = (File) element;
-			validateAndCheck(file);
 			if (file.isDirectory()) {
 				return true;
 			}
 			return false;
 		}
 
-		private void validateAndCheck(File file) {
-			if (file != null && filesInReview.contains(file.getAbsolutePath())) {
-				viewer.setChecked(file, true);
-				viewer.setChecked(file.getParentFile(), true);
+	}
+
+	class TreeCheckedStatedProvider implements ICheckStateProvider {
+
+		private boolean isValidForCheck(File file) {
+			return (file != null && filesInReview.contains(file));
+		}
+
+		public boolean isChecked(Object element) {
+			final File file = (File) element;
+			boolean isChecked = isValidForCheck(file);
+			if (isChecked) {
+				viewer.setChecked(file.getParentFile(), isChecked);
 			}
+			return isChecked;
+		}
+
+		public boolean isGrayed(Object element) {
+			return false;
 		}
 
 	}
 
-	class ViewLabelProvider extends StyledCellLabelProvider {
+	class TreeViewLabelProvider extends StyledCellLabelProvider {
+
 		@Override
 		public void update(ViewerCell cell) {
 			Object element = cell.getElement();
@@ -158,7 +178,6 @@ public class CodeReviewDialog extends Dialog {
 		viewer.getControl().setFocus();
 	}
 
-	@PreDestroy
 	public void dispose() {
 		image.dispose();
 	}

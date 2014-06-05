@@ -35,28 +35,28 @@ public class AddToReviewHandler extends AbstractHandler {
 		File file = new File(project.getRawLocationURI());
 		RepositoryBuilder repo = new RepositoryBuilder();
 		// repo.setGitDir(file);
-		Set<String> bigSet = null, filePathSet = null;
+		Set<String> bigSet = null;
+		Set<File> filePathSet = null;
 		try {
 			Repository repos = repo.findGitDir(file).setup().build();
 			Git git = new Git(repos);
 			StatusCommand sc = git.status();
 			Status status = sc.call();
-			System.out.println("File Paent: " + file.getParent());
 			sc.addPath(file.getParent());
 			bigSet = new HashSet<String>();
-			filePathSet = new HashSet<String>();
-			System.out.println("Modified" + status.getModified());
+			filePathSet = new HashSet<File>();
 			bigSet.addAll(status.getModified());
 			bigSet.addAll(status.getChanged());
 			bigSet.addAll(status.getAdded());
+			bigSet.addAll(status.getMissing());
+			bigSet.addAll(status.getUntrackedFolders());
 			bigSet.addAll(status.getUncommittedChanges());
 			bigSet.addAll(status.getUntracked());
 			for (String value : bigSet) {
 				value = sc.getPaths().get(0) + "/" + value;
-				filePathSet.add(value);
+				File fileTemp = new File(value);
+				filePathSet.add(fileTemp);
 			}
-			System.out.println(sc.getRepository().toString());
-			System.out.println(sc.getPaths());
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -70,6 +70,7 @@ public class AddToReviewHandler extends AbstractHandler {
 		CodeReviewDialog crd = new CodeReviewDialog(Workbench.getInstance().getDisplay().getActiveShell(),
 				repo.getWorkTree(), filePathSet);
 		crd.create();
+		
 		crd.open();
 		return null;
 	}
