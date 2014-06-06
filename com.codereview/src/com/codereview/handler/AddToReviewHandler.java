@@ -26,22 +26,21 @@ import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.internal.Workbench;
 
+import com.codereview.util.GitUtil;
+import com.codereview.util.WorkbenchUtil;
 import com.codereview.views.CodeReviewDialog;
 
 public class AddToReviewHandler extends AbstractHandler {
 
 	public Object execute(ExecutionEvent executionEnvironment) throws ExecutionException {
-		IProject project = getCurrentProject();
-		File file = new File(project.getRawLocationURI());
-		RepositoryBuilder repo = new RepositoryBuilder();
+		File file = WorkbenchUtil.getProjectDirectoryAsFile();
 		// repo.setGitDir(file);
 		Set<String> bigSet = null;
 		Set<File> filePathSet = null;
 		try {
-			Repository repos = repo.findGitDir(file).setup().build();
-			Git git = new Git(repos);
-			StatusCommand sc = git.status();
-			Status status = sc.call();
+			//Repository repos = repo.findGitDir(file).setup().build();
+			StatusCommand sc = GitUtil.callStatusCommand(file);
+			Status status = GitUtil.callStatus(file);
 			sc.addPath(file.getParent());
 			bigSet = new HashSet<String>();
 			filePathSet = new HashSet<File>();
@@ -67,36 +66,23 @@ public class AddToReviewHandler extends AbstractHandler {
 			e.printStackTrace();
 		}
 
-		CodeReviewDialog crd = new CodeReviewDialog(Workbench.getInstance().getDisplay().getActiveShell(),
-				repo.getWorkTree(), filePathSet);
+		CodeReviewDialog crd = null;
+		try {
+			crd = new CodeReviewDialog(Workbench.getInstance().getDisplay().getActiveShell(),
+					GitUtil.getRepositoryBuilder().getWorkTree(), filePathSet);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		crd.create();
 		
 		crd.open();
 		return null;
 	}
 
-	public static IProject getCurrentProject() {
-		ISelectionService selectionService = Workbench.getInstance().getActiveWorkbenchWindow()
-				.getSelectionService();
-
-		ISelection selection = selectionService.getSelection();
-
-		IProject project = null;
-		if (selection instanceof IStructuredSelection) {
-			for (Object element : ((IStructuredSelection) selection).toList()) {
-				if (element instanceof IResource) {
-					project = ((IResource) element).getProject();
-				} else if (element instanceof PackageFragmentRootContainer) {
-					IJavaProject jProject = ((PackageFragmentRootContainer) element).getJavaProject();
-					project = jProject.getProject();
-				} else if (element instanceof IJavaElement) {
-					IJavaProject jProject = ((IJavaElement) element).getJavaProject();
-					project = jProject.getProject();
-				}
-			}
-		}
-		return project;
-	}
 
 	@Override
 	protected void fireHandlerChanged(HandlerEvent handlerEvent) {

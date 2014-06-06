@@ -1,10 +1,10 @@
 package com.codereview.views;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
@@ -14,16 +14,24 @@ import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jgit.api.DiffCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+
+import com.codereview.util.GitUtil;
+import com.codereview.util.WorkbenchUtil;
 
 public class CodeReviewDialog extends Dialog {
 
@@ -40,9 +48,14 @@ public class CodeReviewDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		Composite textPanel = new Composite(parent, SWT.BORDER);
-		textPanel.setLayout(new FillLayout());
-		Label label = new Label(textPanel, SWT.BOLD);
+		Composite textPanel = new Composite(parent, SWT.RIGHT);
+		textPanel.setLayout(new GridLayout());
+		GridData gridDataText = new GridData();
+		gridDataText.horizontalAlignment = GridData.FILL;
+		gridDataText.verticalIndent = 5;
+		gridDataText.grabExcessHorizontalSpace = true;
+		Label label = new Label(textPanel, SWT.BOLD | SWT.RIGHT);
+		label.setLayoutData(gridDataText);
 		label.setText("Select files to add in review");
 
 		ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -62,8 +75,9 @@ public class CodeReviewDialog extends Dialog {
 		viewer.setLabelProvider(new TreeViewLabelProvider());
 		viewer.setCheckStateProvider(new TreeCheckedStatedProvider());
 		viewer.setInput(file.listFiles());
+		viewer.expandAll();
 		viewer.addCheckStateListener(new ICheckStateListener() {
-			
+
 			public void checkStateChanged(CheckStateChangedEvent checkStateEvent) {
 				viewer.setSubtreeChecked(checkStateEvent.getElement(), checkStateEvent.getChecked());
 			}
@@ -71,7 +85,8 @@ public class CodeReviewDialog extends Dialog {
 		scrolledComposite.setContent(scrollPanel);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
-		return super.createDialogArea(parent);
+		Control control = super.createDialogArea(parent);
+		return control;
 	}
 
 	@Override
@@ -82,16 +97,15 @@ public class CodeReviewDialog extends Dialog {
 
 	@Override
 	protected Point getInitialSize() {
-		return new Point(400, 300);
+		return new Point(450, 450);
 	}
-
-	/*
-	 * private void createImage() { Bundle bundle =
-	 * FrameworkUtil.getBundle(ViewLabelProvider.class); URL url =
-	 * FileLocator.find(bundle, new Path("icons/folder.png"), null);
-	 * ImageDescriptor imageDcr = ImageDescriptor.createFromURL(url); this.image
-	 * = imageDcr.createImage(); }
-	 */
+	
+	@Override
+	public void create() {
+		super.create();
+		Button buttonOk = getButton(OK);
+		buttonOk.setText("To Review");
+	}
 
 	class TreeContentProvider implements ITreeContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
@@ -180,6 +194,24 @@ public class CodeReviewDialog extends Dialog {
 
 	public void dispose() {
 		image.dispose();
+	}
+	
+	@Override
+	protected void okPressed() {
+		Object [] files = viewer.getCheckedElements();
+		System.out.println(files.length);
+		try {
+			DiffCommand command = GitUtil.callDiffCommand(WorkbenchUtil.getProjectDirectoryAsFile());
+		} catch (NoWorkTreeException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		super.okPressed();
 	}
 
 }
