@@ -21,7 +21,7 @@ public class FakeFactoryFileDetails {
 		reviewComments.add(reviewComment1);
 		reviewComments.add(reviewComment2);
 
-		fileDetails.setReviewComments(reviewComments);
+		//fileDetails.setReviewComments(reviewComments);
 
 		/*
 		 * List<FileContent> fileContents = new ArrayList<FileContent>();

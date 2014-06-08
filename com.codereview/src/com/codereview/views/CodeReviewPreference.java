@@ -14,17 +14,16 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.codeproof.model.User;
 import com.codereview.Activator;
+import com.codereview.i18n.I18NResources;
 import com.codereview.util.StringConstants;
 import com.codereview.web.RestClientUtil;
 
-public class CodeReviewPreference extends FieldEditorPreferencePage
-		implements
-			IWorkbenchPreferencePage,
-			MouseListener {
+public class CodeReviewPreference extends FieldEditorPreferencePage implements IWorkbenchPreferencePage, MouseListener {
 
 	private StringFieldEditor url;
 	private StringFieldEditor userName;
 	private StringFieldEditor password;
+	private static final String COLON = StringConstants.SPACE + StringConstants.COLON + StringConstants.SPACE;
 
 	private Button btnTest;
 
@@ -33,20 +32,21 @@ public class CodeReviewPreference extends FieldEditorPreferencePage
 	}
 
 	public void createFieldEditors() {
-		url = new StringFieldEditor("URL", "URL :", getFieldEditorParent());
-		userName = new StringFieldEditor("USERNAME", "Username :", getFieldEditorParent());
-		password = new StringFieldEditor("PASSWORD", "Password :", getFieldEditorParent());
+
+		url = new StringFieldEditor("URL", I18NResources.LABEL_URL + COLON, getFieldEditorParent());
+		userName = new StringFieldEditor("USERNAME", I18NResources.LABEL_USERNAME + COLON, getFieldEditorParent());
+		password = new StringFieldEditor("PASSWORD", I18NResources.LABEL_PASSWORD + COLON, getFieldEditorParent());
 		addField(url);
 		addField(userName);
 		addField(password);
 		btnTest = new Button(getFieldEditorParent(), SWT.RIGHT_TO_LEFT | SWT.BUTTON3);
-		btnTest.setText("Test");
+		btnTest.setText(I18NResources.BTN_CAPTION_TEST);
 		btnTest.addMouseListener(this);
 	}
 
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Enter your login details here to connect to code review.");
+		setDescription(I18NResources.DESC_PREFERENCES);
 	}
 
 	public void mouseDoubleClick(MouseEvent event) {
@@ -60,14 +60,15 @@ public class CodeReviewPreference extends FieldEditorPreferencePage
 
 	private void performTestAction() {
 		if (isValidUser()) {
-			MessageDialog.openInformation(getShell(), "Test Connection!!!", "Connection Successful !!!");
+			MessageDialog.openInformation(getShell(), I18NResources.TITLE_TEST_CONNECTION,
+					I18NResources.MSG_TEST_CONNECTION);
 		} else {
-			MessageDialog.openError(getShell(), "Invalid!!!", "The username or password provided is incorrect.");
+			MessageDialog.openError(getShell(), I18NResources.TITLE_TEST_INVALID, I18NResources.MSG_TEST_INVALID);
 		}
 	}
 
 	private boolean isValidUser() {
-		RestClientUtil restClientUtil = new RestClientUtil(StringConstants.BASE_URL.getValue());
+		RestClientUtil restClientUtil = new RestClientUtil(StringConstants.BASE_URL);
 		boolean isValidUser = false;
 		User user = new User();
 		user.setUserName(userName.getStringValue());
@@ -86,7 +87,7 @@ public class CodeReviewPreference extends FieldEditorPreferencePage
 		if (isValidUser()) {
 			return super.performOk();
 		} else {
-			MessageDialog.openError(getShell(), "Invalid!!!", "The username or password provided is incorrect.");
+			MessageDialog.openError(getShell(), I18NResources.TITLE_TEST_INVALID, I18NResources.MSG_TEST_INVALID);
 		}
 		return false;
 	}

@@ -1,7 +1,5 @@
 package com.codeproof.data.impl;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +10,7 @@ public abstract class AbstractDataService<E> {
 	MongoTemplate mongoTemplate;
 	
 	/*@Autowired*/
-	SessionFactory sessionFactory;
+	//SessionFactory sessionFactory;
 
 	@Transactional
 	public E find(String id) {
@@ -32,9 +30,9 @@ public abstract class AbstractDataService<E> {
 		//getSession().saveOrUpdate(e);
 	}
 	
-	private Session getSession() {
+	/*private Session getSession() {
 		return sessionFactory.getCurrentSession();
-	}
+	}*/
 	protected abstract Class<E> getReferenceClass();
 	
 }

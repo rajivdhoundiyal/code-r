@@ -1,16 +1,12 @@
 package com.codereview.util;
 
-public enum StringConstants {
+public interface StringConstants {
 	
-	BASE_URL("http://localhost:8080/codeproof-webapp");
-	
-	private String value;
-	
-	StringConstants(String value) {
-		this.value = value;
-	}
-	
-	public String getValue() {
-		return value;
-	}
+	String BASE_URL = "http://localhost:8080/codeproof-webapp";
+	String TREE = "^{tree}";
+	String COLON = ":";
+	String SPACE = " ";
+	String PATH_SEPERATOR = System.getProperty("file.separator");
+	String EMPTY = "";
+
 }

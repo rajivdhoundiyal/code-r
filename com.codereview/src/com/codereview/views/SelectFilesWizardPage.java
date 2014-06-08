@@ -1,10 +1,9 @@
 package com.codereview.views;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
@@ -14,97 +13,84 @@ import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.jgit.api.DiffCommand;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 
-import com.codereview.util.GitUtil;
+import com.codereview.exception.VersionControlException;
+import com.codereview.i18n.I18NResources;
+import com.codereview.scm.GitService;
+import com.codereview.scm.IScmService;
+import com.codereview.util.ScmFactory;
 import com.codereview.util.WorkbenchUtil;
 
-public class CodeReviewDialog extends Dialog {
+public class SelectFilesWizardPage extends WizardPage {
 
+	private Composite container;
 	private CheckboxTreeViewer viewer;
 	private Image image;
 	private File file;
 	private Set<File> filesInReview;
+	private List sharedData;
 
-	public CodeReviewDialog(Shell parentShell, File file, Set<File> filesInReview) {
-		super(parentShell);
-		this.file = file;
-		this.filesInReview = filesInReview;
+	public SelectFilesWizardPage(List sharedData) {
+		super(I18NResources.TITLE_ADD_TO_REVIEW, I18NResources.TITLE_ADD_TO_REVIEW, null);
+		setDescription(I18NResources.DESC_ADD_TO_REVIEW);
+		this.sharedData = sharedData;
 	}
 
-	@Override
-	protected Control createDialogArea(Composite parent) {
-		Composite textPanel = new Composite(parent, SWT.RIGHT);
-		textPanel.setLayout(new GridLayout());
-		GridData gridDataText = new GridData();
-		gridDataText.horizontalAlignment = GridData.FILL;
-		gridDataText.verticalIndent = 5;
-		gridDataText.grabExcessHorizontalSpace = true;
-		Label label = new Label(textPanel, SWT.BOLD | SWT.RIGHT);
-		label.setLayoutData(gridDataText);
-		label.setText("Select files to add in review");
+	public void createControl(Composite parent) {
+		this.file = WorkbenchUtil.getProjectDirectoryAsFile().getParentFile();
+		IScmService scmService = ScmFactory.getScmProvider(GitService.class);
+		try {
+			filesInReview = scmService.getFileStatus(file);
+		} catch (VersionControlException e) {
+			e.printStackTrace();
+		}
+		container = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		container.setLayout(layout);
 
-		ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		ScrolledComposite scrolledComposite = new ScrolledComposite(container, SWT.H_SCROLL | SWT.V_SCROLL);
 		Composite scrollPanel = new Composite(scrolledComposite, SWT.NONE | SWT.BORDER);
 		scrollPanel.setLayout(new FillLayout());
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
-		gridData.heightHint = getInitialSize().y;
-		gridData.verticalIndent = 10;
 		gridData.verticalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.grabExcessVerticalSpace = true;
 		scrolledComposite.setLayoutData(gridData);
 		viewer = new CheckboxTreeViewer(scrollPanel, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+
+		scrolledComposite.setContent(scrollPanel);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+
+		setControl(container);
+		setPageComplete(false);
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
 		viewer.setAutoExpandLevel(2);
 		viewer.setContentProvider(new TreeContentProvider());
 		viewer.setLabelProvider(new TreeViewLabelProvider());
-		viewer.setCheckStateProvider(new TreeCheckedStatedProvider());
+		viewer.setCheckStateProvider(new TreeCheckedStateProvider());
 		viewer.setInput(file.listFiles());
-		viewer.expandAll();
+		// viewer.expandAll();
 		viewer.addCheckStateListener(new ICheckStateListener() {
 
 			public void checkStateChanged(CheckStateChangedEvent checkStateEvent) {
 				viewer.setSubtreeChecked(checkStateEvent.getElement(), checkStateEvent.getChecked());
 			}
 		});
-		scrolledComposite.setContent(scrollPanel);
-		scrolledComposite.setExpandHorizontal(true);
-		scrolledComposite.setExpandVertical(true);
-		Control control = super.createDialogArea(parent);
-		return control;
-	}
-
-	@Override
-	protected void configureShell(Shell newShell) {
-		super.configureShell(newShell);
-		newShell.setText("File Chooser");
-	}
-
-	@Override
-	protected Point getInitialSize() {
-		return new Point(450, 450);
-	}
-	
-	@Override
-	public void create() {
-		super.create();
-		Button buttonOk = getButton(OK);
-		buttonOk.setText("To Review");
+		super.setVisible(visible);
 	}
 
 	class TreeContentProvider implements ITreeContentProvider {
@@ -138,7 +124,7 @@ public class CodeReviewDialog extends Dialog {
 
 	}
 
-	class TreeCheckedStatedProvider implements ICheckStateProvider {
+	class TreeCheckedStateProvider implements ICheckStateProvider {
 
 		private boolean isValidForCheck(File file) {
 			return (file != null && filesInReview.contains(file));
@@ -193,25 +179,6 @@ public class CodeReviewDialog extends Dialog {
 	}
 
 	public void dispose() {
-		image.dispose();
-	}
-	
-	@Override
-	protected void okPressed() {
-		Object [] files = viewer.getCheckedElements();
-		System.out.println(files.length);
-		try {
-			DiffCommand command = GitUtil.callDiffCommand(WorkbenchUtil.getProjectDirectoryAsFile());
-		} catch (NoWorkTreeException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (GitAPIException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		super.okPressed();
 	}
 
 }

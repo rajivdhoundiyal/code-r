@@ -4,51 +4,42 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-@Entity
-@Table(name="user")
+//@Entity
+//@Table(name="user")
 public class User implements Serializable {
 	
 	@Id
-	@javax.persistence.Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@Column(name = "user_id")
+	//@javax.persistence.Id
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	//@Column(name = "user_id")
 	private String userId;
 
-	@Indexed(unique=true, direction=IndexDirection.DESCENDING, dropDups=true)
-	@Column(name = "user_name")
+	//@Indexed(unique=true, direction=IndexDirection.DESCENDING, dropDups=true)
+	//@Column(name = "user_name")
 	private String userName;
 	
-	@Column(name="password")
+	//@Column(name="password")
 	private String password;
 	
-	@Column(name="first_name")
+	//@Column(name="first_name")
 	private String firstName;
 	
-	@Column(name="last_name")
+	//@Column(name="last_name")
 	private String lastName;
 	
-	@Column(name="status")
+	//@Column(name="status")
 	private String status;
 	
-	@Column(name="enabled")
+	//@Column(name="enabled")
 	private Boolean enabled;
 	
 	@DBRef
-	@Transient
+	//@Transient
 	private List<UserRole> roles;
 
 	public String getUserId() {
