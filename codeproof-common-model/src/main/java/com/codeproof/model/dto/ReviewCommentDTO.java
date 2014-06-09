@@ -1,9 +1,6 @@
 package com.codeproof.model.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
 public class ReviewCommentDTO {
 
 	public enum CommentType {
@@ -34,7 +31,6 @@ public class ReviewCommentDTO {
 		}
 	}
 
-	@Id
 	private String reviewCommentId;
 	private String commentType;
 	private String reviewComment;

@@ -1,9 +1,12 @@
 package com.codereview.model;
 
+import org.eclipse.jgit.lib.ObjectId;
+
 public class RevisionLog {
 
 	private String shortMessage;
 	private String author;
+	private ObjectId revisionId;
 	private String dateOfCommit;
 	
 	public String getShortMessage() {
@@ -23,5 +26,11 @@ public class RevisionLog {
 	}
 	public void setDateOfCommit(String dateOfCommit) {
 		this.dateOfCommit = dateOfCommit;
+	}
+	public ObjectId getRevisionId() {
+		return revisionId;
+	}
+	public void setRevisionId(ObjectId revisionId) {
+		this.revisionId = revisionId;
 	}
 }

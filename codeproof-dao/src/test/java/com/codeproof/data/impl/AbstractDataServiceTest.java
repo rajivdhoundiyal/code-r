@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,7 +39,7 @@ public abstract class AbstractDataServiceTest<DS> {
 	private Mongo mongo;
 	
 	/*@Autowired*/
-	SessionFactory sessionFactory;
+	//SessionFactory sessionFactory;
 	
 	protected DS dataService;
 

@@ -1,7 +1,5 @@
 package com.codereview.views;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -136,30 +134,33 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 
 	@Override
 	public boolean canFlipToNextPage() {
-		return true;
-	}
-
-	@Override
-	public IWizardPage getNextPage() {
-		if (canFlipToPage()) {
-			sharedData.clear();
-			for(Object revLog : checkTblVwr.getCheckedElements()) {
-				sharedData.add(revLog);
-			}
-			return super.getNextPage();
-		}
-		
-		MessageDialog.openError(getShell(), I18NResources.TITLE_TEST_INVALID, I18NResources.ERROR_MSG_SELECT_VERSION);
-		return this;
+		return canFlipToPage();
 	}
 
 	protected boolean canFlipToPage() {
 		Object[] object = checkTblVwr.getCheckedElements();
-		return (object != null && object.length >= 1 && object.length < 3);
+		if (object != null && object.length == 1) {
+			return true;
+		}
+		return false;
 	}
-	
+
 	public void checkStateChanged(CheckStateChangedEvent event) {
 		canFlipToNextPage();
+		getWizard().getContainer().updateButtons();
+	}
+
+	public CheckboxTableViewer getCheckTblVwr() {
+		return checkTblVwr;
+	}
+
+	public void setCheckTblVwr(CheckboxTableViewer checkTblVwr) {
+		this.checkTblVwr = checkTblVwr;
+	}
+	
+	@Override
+	public boolean isCurrentPage() {
+		return super.isCurrentPage();
 	}
 
 }

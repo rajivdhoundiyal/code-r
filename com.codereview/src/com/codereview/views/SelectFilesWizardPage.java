@@ -178,6 +178,10 @@ public class SelectFilesWizardPage extends WizardPage {
 		viewer.getControl().setFocus();
 	}
 
+	@Override
+	public boolean isCurrentPage() {
+		return super.isCurrentPage();
+	}
 	public void dispose() {
 	}
 

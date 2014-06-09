@@ -23,4 +23,4 @@ Bundle-ClassPath: ./,
  lib/jersey-core-1.18.jar,
  lib/jersey-json-1.18.jar,
  lib/jettison-1.1.jar,
- lib/codeproof-model-1.0-SNAPSHOT.jar
+ lib/codeproof-common-model-1.0-SNAPSHOT.jar

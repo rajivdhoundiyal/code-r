@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import com.codeproof.model.User;
+import com.codeproof.model.dto.UserDTO;
 import com.codereview.Activator;
 import com.codereview.i18n.I18NResources;
 import com.codereview.util.StringConstants;
@@ -21,7 +21,7 @@ import com.codereview.web.RestClientUtil;
 public class CodeReviewPreference extends FieldEditorPreferencePage implements IWorkbenchPreferencePage, MouseListener {
 
 	private StringFieldEditor url;
-	private StringFieldEditor userName;
+	private StringFieldEditor UserDTOName;
 	private StringFieldEditor password;
 	private static final String COLON = StringConstants.SPACE + StringConstants.COLON + StringConstants.SPACE;
 
@@ -34,10 +34,10 @@ public class CodeReviewPreference extends FieldEditorPreferencePage implements I
 	public void createFieldEditors() {
 
 		url = new StringFieldEditor("URL", I18NResources.LABEL_URL + COLON, getFieldEditorParent());
-		userName = new StringFieldEditor("USERNAME", I18NResources.LABEL_USERNAME + COLON, getFieldEditorParent());
+		UserDTOName = new StringFieldEditor("UserDTONAME", I18NResources.LABEL_USERNAME + COLON, getFieldEditorParent());
 		password = new StringFieldEditor("PASSWORD", I18NResources.LABEL_PASSWORD + COLON, getFieldEditorParent());
 		addField(url);
-		addField(userName);
+		addField(UserDTOName);
 		addField(password);
 		btnTest = new Button(getFieldEditorParent(), SWT.RIGHT_TO_LEFT | SWT.BUTTON3);
 		btnTest.setText(I18NResources.BTN_CAPTION_TEST);
@@ -69,17 +69,17 @@ public class CodeReviewPreference extends FieldEditorPreferencePage implements I
 
 	private boolean isValidUser() {
 		RestClientUtil restClientUtil = new RestClientUtil(StringConstants.BASE_URL);
-		boolean isValidUser = false;
-		User user = new User();
-		user.setUserName(userName.getStringValue());
-		user.setPassword(password.getStringValue());
-		User returnUser = (User) restClientUtil.doPost("login/validate", MediaType.APPLICATION_JSON,
-				MediaType.APPLICATION_JSON, user, User.class);
-		if (returnUser != null && returnUser.getUserName() != null) {
-			isValidUser = true;
+		boolean isValidUserDTO = false;
+		UserDTO UserDTO = new UserDTO();
+		UserDTO.setUserName(UserDTOName.getStringValue());
+		UserDTO.setPassword(password.getStringValue());
+		UserDTO returnUserDTO = (UserDTO) restClientUtil.doPost("login/validate", MediaType.APPLICATION_JSON,
+				MediaType.APPLICATION_JSON, UserDTO, UserDTO.class);
+		if (returnUserDTO != null && returnUserDTO.getUserName() != null) {
+			isValidUserDTO = true;
 		}
 
-		return isValidUser;
+		return isValidUserDTO;
 	}
 
 	@Override

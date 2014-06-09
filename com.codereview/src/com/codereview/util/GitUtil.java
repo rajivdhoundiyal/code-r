@@ -2,13 +2,15 @@ package com.codereview.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
-import org.eclipse.jgit.api.DiffCommand;
+import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LogCommand;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.StatusCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -65,10 +67,19 @@ public class GitUtil {
 		return log.call();
 	}
 
-	public static DiffCommand callDiffCommand(File file) throws NoWorkTreeException, GitAPIException,
+	public static List<DiffEntry> callDiffCommand(File file, ObjectId newRevision, ObjectId oldRevision) throws NoWorkTreeException, GitAPIException,
 			IllegalArgumentException, IOException {
 		initialize(file);
-		return git.diff();
+		ObjectReader reader = git.getRepository().newObjectReader();
+		CanonicalTreeParser oldTreeIter = new CanonicalTreeParser();
+		oldTreeIter.reset(reader, oldRevision);
+		CanonicalTreeParser newTreeIter = new CanonicalTreeParser();
+		newTreeIter.reset(reader, newRevision);
+		List<DiffEntry> diffs= git.diff().setCached(true)
+		                        .setNewTree(newTreeIter)
+		                        .setOldTree(oldTreeIter)
+		                        .call();
+		return diffs;
 	}
 
 	private static ObjectId getObjectId(String objectId) throws RevisionSyntaxException, AmbiguousObjectException,
