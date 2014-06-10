@@ -35,6 +35,8 @@ public class I18NResources extends NLS {
 	public static String DESC_CREATE_REVIEW;
 	public static String LABEL_REVIEW_NAME;
 	public static String LABEL_ADD_TO_EXISTING;
+	public static String VALUE_REVIEW_NAME;
+	public static String VALUE_EXISTING_REVIEW;
 
 	private I18NResources() {
 	}

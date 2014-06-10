@@ -34,7 +34,7 @@ public class CodeReviewPreference extends FieldEditorPreferencePage implements I
 	public void createFieldEditors() {
 
 		url = new StringFieldEditor("URL", I18NResources.LABEL_URL + COLON, getFieldEditorParent());
-		UserDTOName = new StringFieldEditor("UserDTONAME", I18NResources.LABEL_USERNAME + COLON, getFieldEditorParent());
+		UserDTOName = new StringFieldEditor("USERNAME", I18NResources.LABEL_USERNAME + COLON, getFieldEditorParent());
 		password = new StringFieldEditor("PASSWORD", I18NResources.LABEL_PASSWORD + COLON, getFieldEditorParent());
 		addField(url);
 		addField(UserDTOName);

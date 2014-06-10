@@ -1,11 +1,13 @@
 package com.codeproof.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.codeproof.data.spec.FileDataService;
 import com.codeproof.model.File;
 import com.codeproof.spec.FileBusinessService;
 
+@Service
 public class FileBusinessServiceImpl extends AbstractBusinessService implements FileBusinessService {
 
 	@Autowired

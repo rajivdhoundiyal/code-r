@@ -10,7 +10,6 @@
   <groupId>com.codeproof</groupId>
   <artifactId>codeproof-common-model</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>maven-plugin</packaging>
   <name>Code Proof :: A Code Review Solution :: codeproof-common-model</name>
   <url>http://maven.apache.org</url>
   <dependencies>

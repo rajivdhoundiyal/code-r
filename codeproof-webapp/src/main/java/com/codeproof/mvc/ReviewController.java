@@ -24,6 +24,13 @@ public class ReviewController
         return "index";
     }
     
+    @RequestMapping(value="/filter/{username}", method=RequestMethod.GET)
+    public String getReviewByUserName(@PathVariable String userName)
+    {
+    	System.out.println("Inside Get Review : " + userName);
+        return "index";
+    }
+    
     @RequestMapping(value="/{id}", method=RequestMethod.PUT)
     public String updateReview(@PathVariable String id)
     {

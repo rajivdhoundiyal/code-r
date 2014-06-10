@@ -1,35 +1,35 @@
 package com.codereview.views;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import org.eclipse.jface.preference.ComboFieldEditor;
-import org.eclipse.jface.preference.RadioGroupFieldEditor;
-import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
+import javax.ws.rs.core.MediaType;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Text;
 
+import com.codeproof.model.dto.ReviewCommentDTO;
+import com.codeproof.model.dto.ReviewDTO;
+import com.codereview.Activator;
 import com.codereview.exception.VersionControlException;
 import com.codereview.i18n.I18NResources;
 import com.codereview.model.RevisionLog;
@@ -37,14 +37,20 @@ import com.codereview.scm.GitService;
 import com.codereview.scm.IScmService;
 import com.codereview.util.ScmFactory;
 import com.codereview.util.StringConstants;
+import com.codereview.web.RestClientUtil;
 
-public class SelectVersionWizardPage extends WizardPage implements ICheckStateListener {
+public class SelectVersionWizardPage extends WizardPage implements ICheckStateListener, MouseListener, FocusListener {
 
 	private Composite container;
 	private Composite reviewContainer;
 	private IScmService scmService;
 	private List sharedData;
 	private CheckboxTableViewer checkTblVwr;
+	private Button newReview;
+	private Button existingReview;
+	private Text text;
+	private org.eclipse.swt.widgets.List list;
+	private final String[] values = {I18NResources.VALUE_EXISTING_REVIEW};
 
 	protected SelectVersionWizardPage(List sharedData) {
 		super(I18NResources.TITLE_SELECT_VERSION, I18NResources.TITLE_SELECT_VERSION, null);
@@ -149,24 +155,32 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 		GridData groupData = new GridData();
 		groupData.horizontalAlignment = GridData.FILL;
 		groupData.grabExcessHorizontalSpace = true;
-		//groupData.horizontalSpan = GridData.GRAB_HORIZONTAL;
 		groupData.heightHint = 200;
-		//groupData.widthHint = 520;
 		reviewGroup.setLayoutData(groupData);
-		
-		String[][] value = {{"New Review", "NEW"}, {"Existing Review", "EXISTING"}};
-		Button newReview = new Button(reviewGroup, SWT.RADIO + SWT.HORIZONTAL);
+
+		newReview = new Button(reviewGroup, SWT.RADIO + SWT.HORIZONTAL);
 		newReview.setText("New Review");
 		newReview.setSelection(true);
-	    Button existingReview = new Button(reviewGroup, SWT.RADIO + SWT.HORIZONTAL);
-	    existingReview.setText("Existing Review");
-		
-		/*StringFieldEditor field = new StringFieldEditor("REVIEW_NAME", "", reviewGroup);
-		field.setStringValue("Enter a name for your review");*/
-		
-		String [] values = {"Click on Exisiting Review to check reviews created or assigned to you"};
+		existingReview = new Button(reviewGroup, SWT.RADIO + SWT.HORIZONTAL);
+		existingReview.setText("Existing Review");
+		newReview.addMouseListener(this);
+		existingReview.addMouseListener(this);
 
-		org.eclipse.swt.widgets.List list = new org.eclipse.swt.widgets.List(reviewGroup, SWT.BORDER);
+		GridData textData = new GridData();
+		textData.horizontalAlignment = GridData.FILL;
+		textData.horizontalSpan = GridData.GRAB_HORIZONTAL;
+		// textData.verticalAlignment = GridData.FILL;
+		textData.grabExcessHorizontalSpace = true;
+		// textData.grabExcessVerticalSpace = true;
+		text = new Text(reviewGroup, SWT.NONE + SWT.BORDER);
+		text.setLayoutData(textData);
+		text.setText(I18NResources.VALUE_REVIEW_NAME);
+		text.addMouseListener(this);
+		text.addFocusListener(this);
+
+		String[] values = {I18NResources.VALUE_EXISTING_REVIEW};
+
+		list = new org.eclipse.swt.widgets.List(reviewGroup, SWT.BORDER);
 		GridData listData = new GridData();
 		listData.horizontalAlignment = GridData.FILL;
 		listData.horizontalSpan = GridData.GRAB_HORIZONTAL;
@@ -174,9 +188,10 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 		listData.grabExcessHorizontalSpace = true;
 		listData.grabExcessVerticalSpace = true;
 		listData.widthHint = 200;
-		
+		list.setEnabled(false);
+
 		list.setItems(values);
-		//list.setLayoutData(listData);
+		list.setLayoutData(listData);
 	}
 
 	class GitLogContentProvider implements IStructuredContentProvider {
@@ -226,6 +241,58 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 	@Override
 	public boolean isCurrentPage() {
 		return super.isCurrentPage();
+	}
+
+	public void mouseDoubleClick(MouseEvent event) {
+
+	}
+
+	public void mouseDown(MouseEvent event) {
+
+	}
+
+	public void mouseUp(MouseEvent event) {
+		if (event.getSource() == text && text.getText().equals(I18NResources.VALUE_REVIEW_NAME)) {
+			text.setText(StringConstants.EMPTY);
+		} else if (event.getSource() == existingReview && existingReview.getSelection()) {
+			setTextEnabled(!existingReview.getSelection());
+			setValue(existingReview.getSelection());
+			getAssociatedReviews();
+		} else if (event.getSource() == newReview && newReview.getSelection()) {
+			setTextEnabled(newReview.getSelection());
+			setValue(!newReview.getSelection());
+		}
+	}
+
+	private void setTextEnabled(boolean status) {
+		text.setEnabled(status);
+		list.setEnabled(!status);
+	}
+	
+	private Set<ReviewDTO> getAssociatedReviews() {
+		RestClientUtil restClientUtil = new RestClientUtil(StringConstants.BASE_URL);
+		String userName = Activator.getDefault().getPreferenceStore()
+		        .getString("USERNAME");
+		restClientUtil.doGet("review/filter/" + userName, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, ReviewDTO.class);
+		return null;
+	}
+
+	private void setValue(boolean status) {
+		if (status) {
+			list.removeAll();
+		} else {
+			list.setItems(values);
+		}
+	}
+
+	public void focusGained(FocusEvent event) {
+
+	}
+
+	public void focusLost(FocusEvent event) {
+		if (text.getText().equals(StringConstants.EMPTY)) {
+			text.setText(I18NResources.VALUE_REVIEW_NAME);
+		}
 	}
 
 }
