@@ -184,5 +184,10 @@ public class SelectFilesWizardPage extends WizardPage {
 	}
 	public void dispose() {
 	}
+	
+	@Override
+	public boolean canFlipToNextPage() {
+		return true;
+	}
 
 }

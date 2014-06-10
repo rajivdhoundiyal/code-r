@@ -31,6 +31,10 @@ public class I18NResources extends NLS {
 	public static String TBL_COL_COMMITTED_BY;
 	public static String TBL_COL_COMMIT_DATE;
 	public static String ERROR_MSG_SELECT_VERSION;
+	public static String TITLE_CREATE_REVIEW;
+	public static String DESC_CREATE_REVIEW;
+	public static String LABEL_REVIEW_NAME;
+	public static String LABEL_ADD_TO_EXISTING;
 
 	private I18NResources() {
 	}

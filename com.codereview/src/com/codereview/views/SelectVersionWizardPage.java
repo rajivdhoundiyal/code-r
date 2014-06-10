@@ -1,22 +1,33 @@
 package com.codereview.views;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.preference.RadioGroupFieldEditor;
+import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 
 import com.codereview.exception.VersionControlException;
@@ -30,6 +41,7 @@ import com.codereview.util.StringConstants;
 public class SelectVersionWizardPage extends WizardPage implements ICheckStateListener {
 
 	private Composite container;
+	private Composite reviewContainer;
 	private IScmService scmService;
 	private List sharedData;
 	private CheckboxTableViewer checkTblVwr;
@@ -42,8 +54,23 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 
 	public void createControl(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
+
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
+
+		createReviewContainer();
+		createVersionContainer();
+		// required to avoid an error in the system
+		setControl(container);
+		setPageComplete(false);
+
+	}
+
+	private void createVersionContainer() {
+		Group versionGroup = new Group(container, NONE);
+		versionGroup.setText("Version Selection");
+		GridLayout versionLayout = new GridLayout();
+		versionGroup.setLayout(versionLayout);
 		scmService = ScmFactory.getScmProvider(GitService.class);
 
 		List<RevisionLog> revisionLog = null;
@@ -55,7 +82,8 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 		}
 
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		checkTblVwr = CheckboxTableViewer.newCheckList(container, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL
+		// gd.heightHint = 200;
+		checkTblVwr = CheckboxTableViewer.newCheckList(versionGroup, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION);
 		Table table = checkTblVwr.getTable();
 		table.setHeaderVisible(true);
@@ -109,11 +137,48 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 		checkTblVwr.setInput(revisionLog);
 
 		checkTblVwr.addCheckStateListener(this);
-		// required to avoid an error in the system
-		setControl(container);
-		setPageComplete(false);
 
 	}
+
+	private void createReviewContainer() {
+		Group reviewGroup = new Group(container, SWT.NONE);
+		reviewGroup.setText("Review Creation");
+		GridLayout reviewLayout = new GridLayout();
+		reviewLayout.numColumns = 2;
+		reviewGroup.setLayout(reviewLayout);
+		GridData groupData = new GridData();
+		groupData.horizontalAlignment = GridData.FILL;
+		groupData.grabExcessHorizontalSpace = true;
+		//groupData.horizontalSpan = GridData.GRAB_HORIZONTAL;
+		groupData.heightHint = 200;
+		//groupData.widthHint = 520;
+		reviewGroup.setLayoutData(groupData);
+		
+		String[][] value = {{"New Review", "NEW"}, {"Existing Review", "EXISTING"}};
+		Button newReview = new Button(reviewGroup, SWT.RADIO + SWT.HORIZONTAL);
+		newReview.setText("New Review");
+		newReview.setSelection(true);
+	    Button existingReview = new Button(reviewGroup, SWT.RADIO + SWT.HORIZONTAL);
+	    existingReview.setText("Existing Review");
+		
+		/*StringFieldEditor field = new StringFieldEditor("REVIEW_NAME", "", reviewGroup);
+		field.setStringValue("Enter a name for your review");*/
+		
+		String [] values = {"Click on Exisiting Review to check reviews created or assigned to you"};
+
+		org.eclipse.swt.widgets.List list = new org.eclipse.swt.widgets.List(reviewGroup, SWT.BORDER);
+		GridData listData = new GridData();
+		listData.horizontalAlignment = GridData.FILL;
+		listData.horizontalSpan = GridData.GRAB_HORIZONTAL;
+		listData.verticalAlignment = GridData.FILL;
+		listData.grabExcessHorizontalSpace = true;
+		listData.grabExcessVerticalSpace = true;
+		listData.widthHint = 200;
+		
+		list.setItems(values);
+		//list.setLayoutData(listData);
+	}
+
 	class GitLogContentProvider implements IStructuredContentProvider {
 		private final Object[] EMPTY = new Object[]{};
 
@@ -157,7 +222,7 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 	public void setCheckTblVwr(CheckboxTableViewer checkTblVwr) {
 		this.checkTblVwr = checkTblVwr;
 	}
-	
+
 	@Override
 	public boolean isCurrentPage() {
 		return super.isCurrentPage();

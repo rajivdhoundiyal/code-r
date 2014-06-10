@@ -6,7 +6,7 @@ public class RevisionLog {
 
 	private String shortMessage;
 	private String author;
-	private ObjectId revisionId;
+	private String revisionId;
 	private String dateOfCommit;
 	
 	public String getShortMessage() {
@@ -27,10 +27,10 @@ public class RevisionLog {
 	public void setDateOfCommit(String dateOfCommit) {
 		this.dateOfCommit = dateOfCommit;
 	}
-	public ObjectId getRevisionId() {
+	public String getRevisionId() {
 		return revisionId;
 	}
-	public void setRevisionId(ObjectId revisionId) {
+	public void setRevisionId(String revisionId) {
 		this.revisionId = revisionId;
 	}
 }

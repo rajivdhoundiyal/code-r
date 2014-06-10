@@ -9,20 +9,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.jgit.api.DiffCommand;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.StatusCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.errors.NoWorkTreeException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
+import com.codeproof.model.dto.FileDetailsDTO;
 import com.codereview.exception.VersionControlException;
 import com.codereview.i18n.I18NResources;
-import com.codereview.model.FileDiff;
 import com.codereview.model.RevisionLog;
 import com.codereview.util.GitUtil;
 import com.codereview.util.StringConstants;
@@ -38,7 +35,7 @@ public class GitService implements IScmService {
 			RevisionLog revLog;
 			for (RevCommit revCommit : logs) {
 				revLog = new RevisionLog();
-				revLog.setRevisionId(revCommit.getId());
+				revLog.setRevisionId(revCommit.getId().getName());
 				PersonIdent personIdent = revCommit.getAuthorIdent();
 				revLog.setAuthor(personIdent.getName());
 				revLog.setShortMessage(revCommit.getShortMessage());
@@ -59,17 +56,16 @@ public class GitService implements IScmService {
 		}
 	}
 
-	public List<FileDiff> getFileDiff(ObjectId newVersion, ObjectId oldVersion) throws VersionControlException {
+	public Set<FileDetailsDTO> getFileDiff(String newVersion, String oldVersion) throws VersionControlException {
 		try {
 			Repository repository = GitUtil.getRepositoryBaseOnGitDir(WorkbenchUtil.getProjectDirectoryAsFile());
+			
 			if(newVersion == null) {
-				newVersion = repository.resolve("HEAD" + StringConstants.TREE);
+				newVersion = "HEAD" + StringConstants.TREE;
 			}
-			List<DiffEntry> diffEntries = GitUtil.callDiffCommand(WorkbenchUtil.getProjectDirectoryAsFile(),
+			Set<FileDetailsDTO> diffEntries = GitUtil.callDiffCommand(WorkbenchUtil.getProjectDirectoryAsFile(),
 					newVersion, oldVersion);
-			for (DiffEntry entry : diffEntries) {
-				entry.getNewMode();
-			}
+			return diffEntries;
 		} catch (NoWorkTreeException e) {
 			throw new VersionControlException(e);
 		} catch (IllegalArgumentException e) {
@@ -79,7 +75,6 @@ public class GitService implements IScmService {
 		} catch (IOException e) {
 			throw new VersionControlException(e);
 		}
-		return null;
 	}
 
 	public Set<File> getFileStatus(File file) throws VersionControlException {

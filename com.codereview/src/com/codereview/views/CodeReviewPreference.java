@@ -70,11 +70,11 @@ public class CodeReviewPreference extends FieldEditorPreferencePage implements I
 	private boolean isValidUser() {
 		RestClientUtil restClientUtil = new RestClientUtil(StringConstants.BASE_URL);
 		boolean isValidUserDTO = false;
-		UserDTO UserDTO = new UserDTO();
-		UserDTO.setUserName(UserDTOName.getStringValue());
-		UserDTO.setPassword(password.getStringValue());
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUserName(UserDTOName.getStringValue());
+		userDTO.setPassword(password.getStringValue());
 		UserDTO returnUserDTO = (UserDTO) restClientUtil.doPost("login/validate", MediaType.APPLICATION_JSON,
-				MediaType.APPLICATION_JSON, UserDTO, UserDTO.class);
+				MediaType.APPLICATION_JSON, userDTO, UserDTO.class);
 		if (returnUserDTO != null && returnUserDTO.getUserName() != null) {
 			isValidUserDTO = true;
 		}

@@ -4,12 +4,16 @@ import static com.codereview.i18n.I18NResources.TITLE_REVIEW_CREATION;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import javax.ws.rs.core.MediaType;
 
 import org.eclipse.jdt.internal.compiler.ast.FakedTrackingVariable;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import com.codeproof.model.dto.FileDetailsDTO;
 import com.codereview.exception.VersionControlException;
 import com.codereview.model.RevisionLog;
 import com.codereview.scm.GitService;
@@ -17,6 +21,7 @@ import com.codereview.scm.IScmService;
 import com.codereview.util.GitUtil;
 import com.codereview.util.ScmFactory;
 import com.codereview.util.StringConstants;
+import com.codereview.web.RestClientUtil;
 
 public class CodeReviewWizard extends Wizard {
 
@@ -50,36 +55,39 @@ public class CodeReviewWizard extends Wizard {
 		for (Object revLog : versionWizPage.getCheckTblVwr().getCheckedElements()) {
 			sharedData.add(revLog);
 		}
+		Set<FileDetailsDTO> fileContents = null;
 		if (diff2RemoteRevision()) {
 			RevisionLog revLogNew = (RevisionLog) sharedData.get(0);
 			RevisionLog revLogOld = (RevisionLog) sharedData.get(1);
-			ObjectId revisionIdNew = revLogNew.getRevisionId();
-			ObjectId revisionIdOld = revLogOld.getRevisionId();
+			String revisionIdNew = revLogNew.getRevisionId();
+			String revisionIdOld = revLogOld.getRevisionId();
 
 			IScmService iScmService = ScmFactory.getScmProvider(GitService.class);
 
 			try {
-				iScmService.getFileDiff(revisionIdNew, revisionIdOld);
+				fileContents = iScmService.getFileDiff(revisionIdNew, revisionIdOld);
 			} catch (VersionControlException e) {
 				e.printStackTrace();
 			}
 		} else {
 
 			RevisionLog revLogOld = (RevisionLog) sharedData.get(0);
-			ObjectId revisionIdOld = revLogOld.getRevisionId();
+			String revisionIdOld = revLogOld.getRevisionId();
 
 			IScmService iScmService = ScmFactory.getScmProvider(GitService.class);
 
 			try {
-				iScmService.getFileDiff(null, revisionIdOld);
+				fileContents = iScmService.getFileDiff(null, revisionIdOld);
 			} catch (VersionControlException e) {
 				e.printStackTrace();
 			}
-
 		}
+
+		RestClientUtil restClient = new RestClientUtil(StringConstants.BASE_URL);
+		String response = (String) restClient.doPost("file/details", MediaType.APPLICATION_JSON,
+				MediaType.APPLICATION_JSON, fileContents, String.class);
 		return true;
 	}
-
 	@Override
 	public boolean canFinish() {
 		return canDoFinish();
