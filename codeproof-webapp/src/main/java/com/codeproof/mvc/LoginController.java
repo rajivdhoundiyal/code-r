@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.codeproof.model.User;
+import com.codeproof.model.dto.UserDTO;
 import com.codeproof.spec.ReviewBusinessService;
 
 @Controller
@@ -36,9 +37,9 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/validate", method=RequestMethod.POST)
-	public @ResponseBody User login(@RequestBody User user) {
+	public @ResponseBody UserDTO login(@RequestBody UserDTO user) {
  
-		User returnUser = new User();
+		UserDTO returnUser = new UserDTO();
 		returnUser.setUserName(user.getUserName());
 		System.out.println("Validating : " + user.getUserName());
 		//returnUser.setUserName("Rajiv");

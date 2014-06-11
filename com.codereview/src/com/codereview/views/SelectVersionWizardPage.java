@@ -270,9 +270,11 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 	}
 	
 	private Set<ReviewDTO> getAssociatedReviews() {
-		RestClientUtil restClientUtil = new RestClientUtil(StringConstants.BASE_URL);
 		String userName = Activator.getDefault().getPreferenceStore()
-		        .getString("USERNAME");
+		        .getString(I18NResources.TAG_USERNAME);
+		String url = Activator.getDefault().getPreferenceStore()
+		        .getString(I18NResources.TAG_URL);
+		RestClientUtil restClientUtil = new RestClientUtil(url);
 		restClientUtil.doGet("review/filter/" + userName, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, ReviewDTO.class);
 		return null;
 	}

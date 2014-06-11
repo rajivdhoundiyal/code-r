@@ -25,9 +25,9 @@ public class ReviewController
     }
     
     @RequestMapping(value="/filter/{username}", method=RequestMethod.GET)
-    public String getReviewByUserName(@PathVariable String userName)
+    public String getReviewByUserName(@PathVariable String username)
     {
-    	System.out.println("Inside Get Review : " + userName);
+    	System.out.println("Inside Get Review : " + username);
         return "index";
     }
     

@@ -16,8 +16,11 @@ public class I18NResources extends NLS {
 	public static String TITLE_ADD_TO_REVIEW;
 	public static String DESC_ADD_TO_REVIEW;
 	public static String LABEL_URL;
+	public static String TAG_URL;
 	public static String LABEL_USERNAME;
+	public static String TAG_USERNAME;
 	public static String LABEL_PASSWORD;
+	public static String TAG_PASSWORD;
 	public static String BTN_CAPTION_TEST;
 	public static String DESC_PREFERENCES;
 	public static String TITLE_TEST_CONNECTION;
