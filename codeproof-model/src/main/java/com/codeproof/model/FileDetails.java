@@ -8,12 +8,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class FileDetails {
 
+	public static final String FILE_CONTENTS = "fileContents";
+	public static final String FILE_FULL_PATH = "fullPath";
+	
 	@Id
 	private String fileDetailsId;
 	private String name;
 	private String fullPath;
 	private String type;
-	private List<String> fileContentsIds;
+	private List<FileContent> fileContents;
 	
 	public String getFileDetailsId() {
 		return fileDetailsId;
@@ -39,10 +42,10 @@ public class FileDetails {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public List<String> getFileContentsIds() {
-		return fileContentsIds;
+	public List<FileContent> getFileContents() {
+		return fileContents;
 	}
-	public void setFileContentsIds(List<String> fileContentsIds) {
-		this.fileContentsIds = fileContentsIds;
+	public void setFileContents(List<FileContent> fileContents) {
+		this.fileContents = fileContents;
 	}
 }

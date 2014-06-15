@@ -13,6 +13,13 @@ public class Review {
 	
 	public static final String REVIEWERS = "reviewers";
 	public static final String REVIEWER = "reviewer";
+	public static final String REVIEWEE = "reviewee";
+	
+	public static final String PROP_FILES = "files";
+	public static final String PROP_REVIEW_CODE = "reviewCode";
+	public static final String PROP_REVIEW_NAME = "reviewName";
+	public static final String PROP_REVIEW_DESCRIPTION = "reviewDescription";
+	public static final String PROP_REVIEW_STATUS = "reviewStatus";
 	
 	public enum ReviewStatus {
 		COMPLETED("Completed"),
@@ -54,7 +61,7 @@ public class Review {
 	//@Column(name="review_description")
 	private String reviewDescription;
 	
-	private List<FileDetails> reviewFilesDetails;
+	private List<FileDetails> files;
 	
 	//@Column(name="review_status")
 	private String reviewStatus;
@@ -95,10 +102,10 @@ public class Review {
 	public void setReviewName(String reviewName) {
 		this.reviewName = reviewName;
 	}
-	public List<FileDetails> getReviewFilesDetails() {
-		return reviewFilesDetails;
+	public List<FileDetails> getFiles() {
+		return files;
 	}
-	public void setReviewFilesDetails(List<FileDetails> reviewFilesDetails) {
-		this.reviewFilesDetails = reviewFilesDetails;
+	public void setFiles(List<FileDetails> files) {
+		this.files = files;
 	}
 }

@@ -4,9 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -17,11 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.codeproof.data.spec.ReviewDataService;
 import com.codeproof.data.spec.ReviewRoleDataService;
 import com.codeproof.data.spec.UserDataService;
-import com.codeproof.model.FakeFactoryFile;
 import com.codeproof.model.FakeFactoryReview;
 import com.codeproof.model.FakeFactoryReviewRole;
 import com.codeproof.model.FakeFactoryUser;
-import com.codeproof.model.File;
 import com.codeproof.model.Review;
 import com.codeproof.model.ReviewRole;
 import com.codeproof.model.ReviewRoleType;
@@ -82,7 +78,7 @@ public class ReviewDataServiceTest extends AbstractDataServiceTest<ReviewDataSer
 	@Test
 	public void testFindByReviewer() {
 		dataService.save(review);
-		List<Review> dbReviews = dataService.findByReviewer("User3");
+		List<Review> dbReviews = dataService.findReviewByReviewer("User3");
 
 		assertNotNull(dbReviews);
 		

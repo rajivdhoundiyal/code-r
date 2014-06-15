@@ -1,4 +1,3 @@
-
 function RestURLFactory(angularModule) {
 	this.registerService = function(serviceName, url, params, methods) {
 		angularModule.factory(serviceName, function($resource) {
@@ -17,15 +16,37 @@ restUrlFactory.registerService('LoginService', "", {}, {
 	}
 });
 
-restUrlFactory.registerService('GetReviewService',
-		"dashboard/reviews/:username", {
-			username : '@username'
-		}, {
-			getReviews : {
-				method : 'GET',
-				isArray : true
-			}
-		});
+restUrlFactory.registerService('DashboardService', "", "", {
+	getReviews : {
+		method : 'GET',
+		url : 'dashboard/reviews/:username',
+		username : '@username',
+		isArray : true
+	},
+	getFilesByReviewCode : {
+		method : 'GET',
+		url : 'dashboard/reviews/:username/:reviewcode',
+		username : '@username',
+		reviewcode : '@reviewcode',
+		isArray : true
+	}
+});
+
+restUrlFactory.registerService('FileService', "", "", {
+	getFileContent : {
+		method : 'POST',
+		url : 'file/:username/:reviewcode',
+		username : '@username',
+		reviewcode : '@reviewcode',
+		transformRequest : function(data, headersGetter) {
+			var headers = headersGetter();
+			headers['Content-Type'] = 'application/json; charset=UTF-8';
+			console.log(data.fullpath);
+			return '"fullpath"="'+data.fullpath+'"';
+		},
+		isArray : true
+	}
+});
 
 restUrlFactory.registerService('ReviewService', "review/:id", {
 	id : '@id'

@@ -1,13 +1,16 @@
 package com.codeproof.mvc;
 
- import org.springframework.beans.factory.annotation.Autowired;
+ import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.codeproof.model.dto.ReviewDTO;
+import com.codeproof.common.model.dto.FileDetailsDTO;
+import com.codeproof.common.model.dto.ReviewDTO;
 import com.codeproof.spec.ReviewBusinessService;
 
 @Controller
@@ -49,6 +52,8 @@ public class ReviewController
     public String createReview(@RequestBody ReviewDTO review)
     {
     	System.out.println("Inside Create Review : " + review);
+    	Set<FileDetailsDTO> files = review.getFiles();
+    	
     	reviewBusinessService.save(review);
         return "index";
     }

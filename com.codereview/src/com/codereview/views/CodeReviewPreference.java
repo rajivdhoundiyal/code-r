@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import com.codeproof.model.dto.UserDTO;
+import com.codeproof.common.model.dto.UserDTO;
 import com.codereview.Activator;
 import com.codereview.i18n.I18NResources;
 import com.codereview.util.StringConstants;

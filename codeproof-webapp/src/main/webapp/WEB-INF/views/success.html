@@ -11,17 +11,20 @@
 			title="{{'TT_REPORT' | translate}}" class="seperator"><img
 			src="static/resources/gfx/text-file-4-32.png" class="icon32" /></a>
 	</div>
-	<div class="oneRowsDivRight">{{ 'TXT_WELCOME' | translate }} {{user.userName}}!!! <input
-			type="text" name="search" class="search" title="{{'TT_SEARCH' | translate}}"
+	<div class="oneRowsDivRight">
+		{{ 'TXT_WELCOME' | translate }} {{user.userName}}!!! <input
+			type="text" name="search" class="search"
+			title="{{'TT_SEARCH' | translate}}"
 			placeholder="{{ 'PH_SEARCH' | translate }}" ng-click="logout()" /> <a
-			value="Log Out" placeholder="Log Out" ng-click="logout()" class="seperator"><img
-			src="static/resources/gfx/logout-32.png" class="icon32" title="{{'TT_LOGOUT' | translate}}" class="icon32" ></a>
+			value="Log Out" placeholder="Log Out" ng-click="logout()"
+			class="seperator"><img src="static/resources/gfx/logout-32.png"
+			class="icon32" title="{{'TT_LOGOUT' | translate}}" class="icon32"></a>
 	</div>
 </div>
 
-<div class="outer_container" ng-contoller="dashboardController">
+<div class="outer_container">
 
-<script type="text/ng-template" id="createReviewView.html">
+	<script type="text/ng-template" id="createReviewView.html">
 	<div class="title_bar">
 		<div class="oneRowsDivLeft">
 			<label class="textWhiteMedium bold">{{ 'TTL_REVIEW_CREATION'
@@ -84,12 +87,40 @@
 </form>
 </script>
 
-	<div class="side_left_panel"></div>
-	<div class="middle_work_panel" data-ng-init="init()">
+<script type="text/ng-template" id="fileDetails.html">
 		<div class="title_bar">
 			<div class="oneRowsDivLeft">
-				<label class="textWhiteMedium bold">{{ 'TTL_DASHBORD_DETAIL' |
+				<label class="textWhiteMedium bold">{{ 'TTL_FILE_DETAILS' |
 					translate }}</label>
+			</div>
+		</div>
+		<div class="" ng-controller="fileController">
+			<table>
+				<thead>
+					<th ng-click="changeSorting('fullPath')"
+						ng-class="selectedColumn('fullPath')"><a
+						class="textWhiteSmall">{{ 'TH_FILE_NAME' | translate}}</a></th>
+					<th></th>
+				</thead>
+				<tbody
+				data-ng-repeat="file in files[0].files | orderBy:sort.column:sort.descending">
+				<tr>
+					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 97%" ng-click="isCollapsed = !isCollapsed"><a
+						href="" class="medium" ng-click="onExpand(files[0].reviewCode, file.fullPath)">{{file.fullPath}}</a><div collapse="!isCollapsed">So it collapsed</div></td>
+					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 6%"><a
+						href="" class="medium"><a href="" class="medium"><img
+							src="static/resources/gfx/delete-16.png" class="icon16"></img></a></td>
+				</tr>
+			</tbody>
+			</table>
+		</div>
+</script>
+	<div class="side_left_panel"></div>
+	<div class="middle_work_panel" data-ng-init="init()" ui-view="success">
+		<div class="title_bar">
+			<div class="oneRowsDivLeft">
+				<label class="textWhiteMedium bold">{{ 'TTL_DASHBORD_DETAIL'
+					| translate }}</label>
 			</div>
 			<div class="oneRowsDivRight">
 				<a href="" class="medium"><img
@@ -98,31 +129,44 @@
 		</div>
 		<table>
 			<thead>
-				<th ng-click="changeSorting('reviewCode')" ng-class="selectedColumn('reviewCode')"><a class="textWhiteSmall" >{{ 'TH_REVIEW_CODE' | translate}}</a></th>
-				<th ng-click="changeSorting('reviewDescription')" ng-class="selectedColumn('reviewDescription')"><a class="textWhiteSmall" >{{ 'TH_REVIEW_NAME' | translate}}</a></th>
-				<th ng-click="changeSorting('reviewStatus')" ng-class="selectedColumn('reviewStatus')"><a class="textWhiteSmall" >{{ 'TH_REVIEW_STATUS' | translate}}</a></th>
+				<th ng-click="changeSorting('reviewCode')"
+					ng-class="selectedColumn('reviewCode')"><a
+					class="textWhiteSmall">{{ 'TH_REVIEW_CODE' | translate}}</a></th>
+				<th ng-click="changeSorting('reviewDescription')"
+					ng-class="selectedColumn('reviewDescription')"><a
+					class="textWhiteSmall">{{ 'TH_REVIEW_NAME' | translate}}</a></th>
+				<th ng-click="changeSorting('reviewStatus')"
+					ng-class="selectedColumn('reviewStatus')"><a
+					class="textWhiteSmall">{{ 'TH_REVIEW_STATUS' | translate}}</a></th>
 				<th></th>
 			</thead>
-			<tbody data-ng-repeat="review in reviews | orderBy:sort.column:sort.descending | filter:((selectedOption.id === '-1') ? undefined : selectedOption.name)">
+			<tbody
+				data-ng-repeat="review in reviews | orderBy:sort.column:sort.descending | filter:((selectedOption.id === '-1') ? undefined : selectedOption.name)">
 				<tr>
-					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 15%">{{review.reviewCode}}</td>
+					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 15%" ><a
+						href="" class="medium" 
+						ng-click="getFileDetails(review.reviewCode)">#{{review.reviewCode.toUpperCase()}}</a></td>
 					<td ng-class-odd="'odd'" ng-class-even="'even'"><a href=""
-						class="medium">{{review.reviewName}}</a></td>
-					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 18%"><a href=""
-						class="medium">{{review.reviewStatus}}</a></td>
+						class="medium" ng-click="getFileDetails(review.reviewCode)">{{review.reviewName}}</a></td>
+					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 18%"><a
+						href="" class="medium">{{review.reviewStatus}}</a></td>
 					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 6%"><a
 						href="" class="medium"><img
-							src="static/resources/gfx/edit-6-16-red.png" class="icon16" ng-click="open(review)"></img></a>
-						<a href="" class="medium"><img
+							src="static/resources/gfx/edit-6-16-red.png" class="icon16"
+							ng-click="open(review)"></img></a> <a href="" class="medium"><img
 							src="static/resources/gfx/delete-16.png" class="icon16"></img></a></td>
 				</tr>
 			</tbody>
 			<tfoot>
-			<tr>
-			<td colspan="4" data-ng-model="reviews"><a class="textWhiteSmall">{{ 'TXT_REVIEW_FILTER' | translate}}</a> 
-			<select class="small_select" data-ng-options="o.name for o in reviewStatus" data-ng-model="selectedOption"></select> 
-			<label class="textWhiteSmall"> | </label> <a class="textWhiteSmall">{{ 'TXT_TOTAL_NUM_REVIEW' | translate}} : {{reviews.length}}</a></td>
-			</tr>
+				<tr>
+					<td colspan="4" data-ng-model="reviews"><a
+						class="textWhiteSmall">{{ 'TXT_REVIEW_FILTER' | translate}}</a> <select
+						class="small_select"
+						data-ng-options="o.name for o in reviewStatus"
+						data-ng-model="selectedOption"></select> <label
+						class="textWhiteSmall"> | </label> <a class="textWhiteSmall">{{
+							'TXT_TOTAL_NUM_REVIEW' | translate}} : {{reviews.length}}</a></td>
+				</tr>
 			</tfoot>
 		</table>
 	</div>
@@ -131,8 +175,7 @@
 <div class="bottom_container_dashboad_credits">
 	<div class="credits">
 		<lable class="textWhiteVerySmall">{{ 'MSG_CREDITS_1' |
-					translate }} <a
-			href="http://www.icons8.com/" class="textWhiteVerySmall"
-			target="_blank">http://www.icons8.com/</a></lable>
+		translate }} <a href="http://www.icons8.com/"
+			class="textWhiteVerySmall" target="_blank">http://www.icons8.com/</a></lable>
 	</div>
 </div>

@@ -31,8 +31,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
-import com.codeproof.model.dto.FileContentDTO;
-import com.codeproof.model.dto.FileDetailsDTO;
+import com.codeproof.common.model.dto.FileContentDTO;
+import com.codeproof.common.model.dto.FileDetailsDTO;
 
 public class GitUtil {
 

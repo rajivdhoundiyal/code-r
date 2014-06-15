@@ -6,6 +6,6 @@ reviewModel = {
 	"reviewId" : null,
 	"reviewName" : null,
 	"reviewStatus" : null,
-	"reviewer" : null,
+	"reviewee" : null,
 	"reviewers" : null
 };

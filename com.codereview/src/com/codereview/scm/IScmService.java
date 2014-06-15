@@ -4,11 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.jgit.lib.ObjectId;
-
-import com.codeproof.model.dto.FileDetailsDTO;
+import com.codeproof.common.model.dto.FileDetailsDTO;
 import com.codereview.exception.VersionControlException;
-import com.codereview.model.FileDiff;
 import com.codereview.model.RevisionLog;
 
 public interface IScmService {

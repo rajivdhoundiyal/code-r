@@ -27,8 +27,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
-import com.codeproof.model.dto.ReviewCommentDTO;
-import com.codeproof.model.dto.ReviewDTO;
+import com.codeproof.common.model.dto.ReviewDTO;
 import com.codereview.Activator;
 import com.codereview.exception.VersionControlException;
 import com.codereview.i18n.I18NResources;
@@ -48,8 +47,8 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 	private CheckboxTableViewer checkTblVwr;
 	private Button newReview;
 	private Button existingReview;
-	private Text text;
-	private org.eclipse.swt.widgets.List list;
+	private Text txtReviewName;
+	private org.eclipse.swt.widgets.List listExistingReview;
 	private final String[] values = {I18NResources.VALUE_EXISTING_REVIEW};
 
 	protected SelectVersionWizardPage(List sharedData) {
@@ -172,15 +171,15 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 		// textData.verticalAlignment = GridData.FILL;
 		textData.grabExcessHorizontalSpace = true;
 		// textData.grabExcessVerticalSpace = true;
-		text = new Text(reviewGroup, SWT.NONE + SWT.BORDER);
-		text.setLayoutData(textData);
-		text.setText(I18NResources.VALUE_REVIEW_NAME);
-		text.addMouseListener(this);
-		text.addFocusListener(this);
+		txtReviewName = new Text(reviewGroup, SWT.NONE + SWT.BORDER);
+		txtReviewName.setLayoutData(textData);
+		txtReviewName.setText(I18NResources.VALUE_REVIEW_NAME);
+		txtReviewName.addMouseListener(this);
+		txtReviewName.addFocusListener(this);
 
 		String[] values = {I18NResources.VALUE_EXISTING_REVIEW};
 
-		list = new org.eclipse.swt.widgets.List(reviewGroup, SWT.BORDER);
+		listExistingReview = new org.eclipse.swt.widgets.List(reviewGroup, SWT.BORDER);
 		GridData listData = new GridData();
 		listData.horizontalAlignment = GridData.FILL;
 		listData.horizontalSpan = GridData.GRAB_HORIZONTAL;
@@ -188,10 +187,10 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 		listData.grabExcessHorizontalSpace = true;
 		listData.grabExcessVerticalSpace = true;
 		listData.widthHint = 200;
-		list.setEnabled(false);
+		listExistingReview.setEnabled(false);
 
-		list.setItems(values);
-		list.setLayoutData(listData);
+		listExistingReview.setItems(values);
+		listExistingReview.setLayoutData(listData);
 	}
 
 	class GitLogContentProvider implements IStructuredContentProvider {
@@ -252,8 +251,8 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 	}
 
 	public void mouseUp(MouseEvent event) {
-		if (event.getSource() == text && text.getText().equals(I18NResources.VALUE_REVIEW_NAME)) {
-			text.setText(StringConstants.EMPTY);
+		if (event.getSource() == txtReviewName && txtReviewName.getText().equals(I18NResources.VALUE_REVIEW_NAME)) {
+			txtReviewName.setText(StringConstants.EMPTY);
 		} else if (event.getSource() == existingReview && existingReview.getSelection()) {
 			setTextEnabled(!existingReview.getSelection());
 			setValue(existingReview.getSelection());
@@ -265,25 +264,24 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 	}
 
 	private void setTextEnabled(boolean status) {
-		text.setEnabled(status);
-		list.setEnabled(!status);
+		txtReviewName.setEnabled(status);
+		listExistingReview.setEnabled(!status);
 	}
-	
+
 	private Set<ReviewDTO> getAssociatedReviews() {
-		String userName = Activator.getDefault().getPreferenceStore()
-		        .getString(I18NResources.TAG_USERNAME);
-		String url = Activator.getDefault().getPreferenceStore()
-		        .getString(I18NResources.TAG_URL);
+		String userName = Activator.getDefault().getPreferenceStore().getString(I18NResources.TAG_USERNAME);
+		String url = Activator.getDefault().getPreferenceStore().getString(I18NResources.TAG_URL);
 		RestClientUtil restClientUtil = new RestClientUtil(url);
-		restClientUtil.doGet("review/filter/" + userName, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, ReviewDTO.class);
+		restClientUtil.doGet("review/filter/" + userName, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON,
+				ReviewDTO.class);
 		return null;
 	}
 
 	private void setValue(boolean status) {
 		if (status) {
-			list.removeAll();
+			listExistingReview.removeAll();
 		} else {
-			list.setItems(values);
+			listExistingReview.setItems(values);
 		}
 	}
 
@@ -292,9 +290,21 @@ public class SelectVersionWizardPage extends WizardPage implements ICheckStateLi
 	}
 
 	public void focusLost(FocusEvent event) {
-		if (text.getText().equals(StringConstants.EMPTY)) {
-			text.setText(I18NResources.VALUE_REVIEW_NAME);
+		if (txtReviewName.getText().equals(StringConstants.EMPTY)) {
+			txtReviewName.setText(I18NResources.VALUE_REVIEW_NAME);
 		}
+	}
+
+	public String getReviewName() {
+		return txtReviewName.getText();
+	}
+
+	public String getExistingReview() {
+		return listExistingReview.getSelection()[0];
+	}
+
+	public boolean isNewReview() {
+		return newReview.getSelection();
 	}
 
 }

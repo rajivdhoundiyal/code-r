@@ -1,17 +1,18 @@
-package com.codeproof.model.dto;
+package com.codeproof.common.model.dto;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ReviewDTO {
 	
 	private String reviewId;
-	private Map<String, String> reviewers;
-	private List<String> reviewer;
+	private List<ReviewRoleDTO> reviewers;
+	private String reviewee;
 	private String reviewCode;
 	private String reviewName;
 	private String reviewDescription;
-	/*private Map<String, FileDTO> files;*/
+	private Set<FileDetailsDTO> files;
 	private String reviewStatus;
 	
 	public String getReviewId() {
@@ -20,35 +21,17 @@ public class ReviewDTO {
 	public void setReviewId(String reviewId) {
 		this.reviewId = reviewId;
 	}
-	public Map<String, String> getReviewers() {
-		return reviewers;
-	}
-	public void setReviewers(Map<String, String> reviewers) {
-		this.reviewers = reviewers;
-	}
 	public String getReviewCode() {
 		return reviewCode;
 	}
 	public void setReviewCode(String reviewCode) {
 		this.reviewCode = reviewCode;
 	}
-	/*public Map<String, FileDTO> getFiles() {
-		return files;
-	}
-	public void setFiles(Map<String, FileDTO> files) {
-		this.files = files;
-	}*/
 	public String getReviewDescription() {
 		return reviewDescription;
 	}
 	public void setReviewDescription(String reviewDescription) {
 		this.reviewDescription = reviewDescription;
-	}
-	public List<String> getReviewer() {
-		return reviewer;
-	}
-	public void setReviewer(List<String> reviewer) {
-		this.reviewer = reviewer;
 	}
 	public String getReviewStatus() {
 		return reviewStatus;
@@ -61,5 +44,23 @@ public class ReviewDTO {
 	}
 	public void setReviewName(String reviewName) {
 		this.reviewName = reviewName;
+	}
+	public Set<FileDetailsDTO> getFiles() {
+		return files;
+	}
+	public void setFiles(Set<FileDetailsDTO> files) {
+		this.files = files;
+	}
+	public String getReviewee() {
+		return reviewee;
+	}
+	public void setReviewee(String reviewee) {
+		this.reviewee = reviewee;
+	}
+	public List<ReviewRoleDTO> getReviewers() {
+		return reviewers;
+	}
+	public void setReviewers(List<ReviewRoleDTO> reviewers) {
+		this.reviewers = reviewers;
 	}
 }

@@ -1,37 +1,68 @@
-
 function ControllerService(angularModule) {
 	this.registerController = function(controllerName, functionDetail) {
 		angularModule.controller(controllerName, functionDetail);
 	}
-	
+
 };
 
 var controllerService = new ControllerService(app);
 
-controllerService.registerController("welcomeController", function($scope, $http, $location,
-		userService) {
+controllerService.registerController("welcomeController", function($scope,
+		$state, UserService) {
 
 });
 
-controllerService.registerController("loginController", function($scope, $http, $location,
-		userService, LoginService) {
+controllerService.registerController("fileController", function($scope, $state, UserService, 
+		FileFactory, FileService) {
+
+	$scope.files = FileFactory.getFiles();
+
+	var sort = new SortUtil('fileName');
+	$scope.sort = sort.sort;
+
+	$scope.selectedColumn = sort.selectedColumn;
+	$scope.changeSorting = sort.changeSorting;
+
+	$scope.collapseState = false;
+
+	$scope.onExpand = function(reviewCode, fullPath) {
+		$scope.user = (UserService.getUser() === 'undefined') ? 'rajiv' : UserService.getUser().userName;
+		$scope.reviewcode = reviewCode;
+		$scope.fullpath = fullPath;
+		console.log(reviewCode + ' : ' + fullPath + ' : ' + $scope.user);
+
+		FileService.getFileContent({
+			username : $scope.user,
+			reviewcode : $scope.reviewcode}, {
+			fullpath : $scope.fullpath
+		}).$promise.then(function(data) {
+			console.log(data);
+			//FileFactory.setFiles(data);
+			//$state.transitionTo('success.files');
+		});
+
+	}
+
+});
+
+controllerService.registerController("loginController", function($scope,
+		$state, UserService, LoginService) {
 
 	$scope.user = {
 		userName : '',
 		password : ''
 	};
 
-	$scope.userService = userService;
+	$scope.UserService = UserService;
 
 	$scope.validate = function() {
 		LoginService.validate($scope.user).$promise.then(function(data) {
-			$scope.userService.addUser(data);
-			$location.path('/login/success');
+			$scope.UserService.addUser(data);
+			$state.transitionTo('success');
 		});
 	};
 
 	$scope.submitForm = function(isValid) {
-
 		// check to make sure the form is completely valid
 		if (isValid) {
 			alert('our form is amazing');
@@ -40,11 +71,11 @@ controllerService.registerController("loginController", function($scope, $http, 
 	};
 });
 
-
-controllerService.registerController("successController", function($scope, $route, $http, $modal,
-		$log, userService, GetReviewService) {
-	$scope.user = (userService.getUser() === 'undefined' || userService
-			.getUser() === undefined) ? 'rajiv' : userService.getUser();
+controllerService.registerController("successController", function($scope,
+		$modal, $log, $rootScope, $state, UserService, FileFactory,
+		DashboardService) {
+	$scope.user = (UserService.getUser() === 'undefined' || UserService
+			.getUser() === undefined) ? 'rajiv' : UserService.getUser();
 
 	$scope.reviews = "";
 
@@ -65,7 +96,7 @@ controllerService.registerController("successController", function($scope, $rout
 	$scope.selectedOption = $scope.reviewStatus[0];
 
 	$scope.init = function() {
-		GetReviewService.getReviews({
+		DashboardService.getReviews({
 			username : $scope.user
 		}).$promise.then(function(data) {
 			$scope.reviews = data;
@@ -85,10 +116,20 @@ controllerService.registerController("successController", function($scope, $rout
 	$scope.selectedColumn = sort.selectedColumn;
 	$scope.changeSorting = sort.changeSorting;
 
+	$scope.getFileDetails = function(reviewCode) {
+		$scope.reviewCode = reviewCode;
+		DashboardService.getFilesByReviewCode({
+			username : $scope.user,
+			reviewcode : $scope.reviewCode
+		}).$promise.then(function(data) {
+			FileFactory.setFiles(data);
+			$state.transitionTo('success.files');
+		});
+	};
+
 });
 
-
-var CreateReviewController = function($scope, $modalInstance, $http, data,
+var CreateReviewController = function($scope, $modalInstance, data,
 		ReviewService) {
 
 	$scope.review = angular.copy(data);
@@ -114,17 +155,16 @@ var CreateReviewController = function($scope, $modalInstance, $http, data,
 		} else {
 			console.log("Validation failed while adding review....");
 		}
-
 	}
-
 };
 
-controllerService.registerController("dashboardController", function($scope, $route, $http,
-		userService) {
-	$scope.user = userService.getUser();
+controllerService.registerController("dashboardController", function($scope,
+		UserService) {
+	$scope.user = UserService.getUser();
 
 });
 
-controllerService.registerController("adminController", function($scope, $route, userService) {
-	$scope.user = userService.getUser();
+controllerService.registerController("adminController", function($scope,
+		UserService) {
+	$scope.user = UserService.getUser();
 });

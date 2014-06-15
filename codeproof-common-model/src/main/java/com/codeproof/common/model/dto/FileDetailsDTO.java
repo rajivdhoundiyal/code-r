@@ -1,6 +1,5 @@
-package com.codeproof.model.dto;
+package com.codeproof.common.model.dto;
 
-import java.util.List;
 import java.util.Set;
 
 public class FileDetailsDTO {

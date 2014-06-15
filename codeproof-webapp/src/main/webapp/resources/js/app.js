@@ -1,8 +1,8 @@
-var app = angular.module("login", [ 'ngResource', 'ngRoute',
+var app = angular.module("login", [ 'ngResource', 'ui.router',
 		'pascalprecht.translate', 'ui.bootstrap', 'ui.bootstrap.tpls',
 		'ui.bootstrap.modal' ]);
 
-app.service('userService', function() {
+app.service('UserService', function() {
 
 	var user = '';
 
@@ -15,23 +15,56 @@ app.service('userService', function() {
 	};
 });
 
+app.factory('FileFactory', function() {
 
-app.config(function($routeProvider) {
-	$routeProvider.when('/', {
+	var files = {};
+
+	return {
+		setFiles : function(data) {
+			this.files = data;
+		},
+		getFiles : function() {
+			return this.files;
+		}
+	}
+});
+
+/*
+ * app.config(function($routeProvider) { $routeProvider.when('/', { templateUrl :
+ * 'index.html', controller : 'welcomeController' }).when('/login/success', {
+ * templateUrl : 'login/success', controller : 'successController'
+ * }).when('/success', { templateUrl : 'login/success', controller :
+ * 'loginController' }).when('/admin', { templateUrl : 'admin.html', controller :
+ * 'adminController' }).when('/dashboard/files', { templateUrl :
+ * 'fileDetails.html', controller : 'fileController' }).otherwise({ redirectTo :
+ * '/' }); });
+ */
+
+app.config(function($stateProvider, $urlRouterProvider) {
+	$urlRouterProvider.otherwise("/");
+
+	$stateProvider.state('/', {
+		url : '/',
 		templateUrl : 'index.html',
 		controller : 'welcomeController'
-	}).when('/login/success', {
+	}).state('success', {
+		url : "/success",
 		templateUrl : 'login/success',
 		controller : 'successController'
-	}).when('/success', {
+	}).state('success.files', {
+		views : {
+			"success" : {
+				url : "/fileDetails",
+				templateUrl : "fileDetails.html",
+				controller : 'fileController'
+			}
+		}
+	}).state('successq', {
+		url : "/successq",
 		templateUrl : 'login/success',
 		controller : 'loginController'
-	}).when('/admin', {
-		templateUrl : 'admin.html',
-		controller : 'adminController'
-	}).otherwise({
-		redirectTo : '/'
 	});
+
 });
 
 var Modal = function(scope, modal, templateUrl, controller, windowClass) {

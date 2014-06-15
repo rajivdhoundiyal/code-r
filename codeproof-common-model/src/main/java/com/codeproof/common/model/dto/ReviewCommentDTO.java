@@ -1,4 +1,4 @@
-package com.codeproof.model.dto;
+package com.codeproof.common.model.dto;
 
 
 public class ReviewCommentDTO {

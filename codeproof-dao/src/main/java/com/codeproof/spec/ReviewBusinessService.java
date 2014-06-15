@@ -2,7 +2,7 @@ package com.codeproof.spec;
 
 import java.util.List;
 
-import com.codeproof.model.dto.ReviewDTO;
+import com.codeproof.common.model.dto.ReviewDTO;
 
 public interface ReviewBusinessService {
 	
@@ -14,6 +14,6 @@ public interface ReviewBusinessService {
 	
 	List<ReviewDTO> findByReviewRole(String reviewRoleType);
 	
-	List<ReviewDTO> findByReviewer(String userName);
+	List<ReviewDTO> findReviewByReviewer(String userName);
 	
 }

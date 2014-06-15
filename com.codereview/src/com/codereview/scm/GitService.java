@@ -17,7 +17,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import com.codeproof.model.dto.FileDetailsDTO;
+import com.codeproof.common.model.dto.FileDetailsDTO;
 import com.codereview.exception.VersionControlException;
 import com.codereview.i18n.I18NResources;
 import com.codereview.model.RevisionLog;

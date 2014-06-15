@@ -5,7 +5,7 @@ import java.util.List;
 import com.codeproof.model.Review;
 
 public interface ReviewDataService {
-	
+
 	Review find(String id);
 
 	void save(Review review);
@@ -13,6 +13,6 @@ public interface ReviewDataService {
 	void update(Review review);
 
 	List<Review> findByReviewRole(String reviewRoleType);
-	
-	List<Review> findByReviewer(String userName);
+
+	List<Review> findReviewByReviewer(String userName);
 }

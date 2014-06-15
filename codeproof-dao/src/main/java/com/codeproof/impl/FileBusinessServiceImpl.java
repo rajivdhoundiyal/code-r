@@ -1,8 +1,11 @@
 package com.codeproof.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.codeproof.common.model.dto.ReviewDTO;
 import com.codeproof.data.spec.FileDataService;
 import com.codeproof.model.File;
 import com.codeproof.spec.FileBusinessService;
@@ -11,8 +14,8 @@ import com.codeproof.spec.FileBusinessService;
 public class FileBusinessServiceImpl extends AbstractBusinessService implements FileBusinessService {
 
 	@Autowired
-	FileDataService fileDataService;
-	
+	private FileDataService fileDataService;
+
 	@Override
 	public File find(String id) {
 		return fileDataService.find(id);
@@ -26,6 +29,17 @@ public class FileBusinessServiceImpl extends AbstractBusinessService implements 
 	@Override
 	public void update(File file) {
 		fileDataService.update(file);
+	}
+
+	@Override
+	public List<ReviewDTO> getFileDetailsByReviewCode(String reviewCode) {
+		return dozerConverter.convertFrom(fileDataService.getFileDetailsByReviewCode(reviewCode), ReviewDTO.class);
+	}
+
+	@Override
+	public List<ReviewDTO> getFileContentByReviewCodeAndFileName(String reviewCode, String filePath) {
+		return dozerConverter.convertFrom(fileDataService.getFileContentByReviewCodeAndFileName(reviewCode, filePath),
+				ReviewDTO.class);
 	}
 
 }

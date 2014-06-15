@@ -37,6 +37,7 @@
 	"TH_REVIEW_CODE" : "Review Code",
 	"TH_REVIEW_DESCRIPTION" : "Review Description",
 	"TH_REVIEW_NAME" : "Review Name",
+	"TH_FILE_NAME" : "File Name",
 	
 	"PH_SEARCH"	: "Search...",
 	"PH_LOGIN_USERNAME"	: "Username",
@@ -56,6 +57,7 @@
 	
 	"TTL_DASHBORD_DETAIL" : "Reviews associated with you",
 	"TTL_REVIEW_CREATION" : "Provide Review Details",
+	"TTL_FILE_DETAILS" : "Files In Review",
 	
 	"MSG_CREDITS_1" : "Icons provided by : "
 } ]

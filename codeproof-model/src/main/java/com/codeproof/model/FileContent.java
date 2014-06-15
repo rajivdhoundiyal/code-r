@@ -14,7 +14,7 @@ public class FileContent {
 	private byte[] content;
 	private List<ReviewComment> reviewComments;
 	private String transactionStatus;
-	
+
 	public String getFileContentId() {
 		return fileContentId;
 	}
@@ -39,5 +39,4 @@ public class FileContent {
 	public void setReviewComments(List<ReviewComment> reviewComments) {
 		this.reviewComments = reviewComments;
 	}
-	
 }
