@@ -86,23 +86,25 @@ controllerService.registerController("fileController", function($scope, $state,
 
 	$scope.collapseState = false;
 
-	$scope.onExpand = function(reviewCode, fullPath) {
-		$scope.user = (UserService.getUser() === 'undefined' || UserService.getUser() === undefined) ? 'rajiv'
-				: UserService.getUser().userName;
-		$scope.reviewcode = reviewCode;
-		$scope.fullpath = fullPath;
-		console.log(reviewCode + ' : ' + fullPath + ' : ' + $scope.user);
+	$scope.onExpand = function(reviewCode, fullPath, isCollapsed) {
+		if (!isCollapsed) {
+			$scope.user = (UserService.getUser() === 'undefined' || UserService
+					.getUser() === undefined) ? 'rajiv'
+					: UserService.getUser().userName;
+			$scope.reviewcode = reviewCode;
+			$scope.fullpath = fullPath;
+			console.log(reviewCode + ' : ' + fullPath + ' : ' + $scope.user);
 
-		FileService.getFileContent({
-			username : $scope.user,
-			reviewcode : $scope.reviewcode
-		}, {
-			fullpath : $scope.fullpath
-		}).$promise.then(function(data) {
-			console.log(data);
-			// FileFactory.setFiles(data);
-			// $state.transitionTo('success.files');
-		});
+			FileService.getFileContent({
+				username : $scope.user,
+				reviewcode : $scope.reviewcode
+			}, {
+				fullPath : $scope.fullpath
+			}).$promise.then(function(data) {
+				console.log(data);
+				$scope.data = data;
+			});
+		}
 
 	};
 

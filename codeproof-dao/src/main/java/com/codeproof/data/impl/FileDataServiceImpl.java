@@ -15,7 +15,8 @@ import com.codeproof.model.Review;
 import com.codeproof.util.StringConstants;
 
 @Repository("fileDataService")
-public class FileDataServiceImpl extends AbstractDataService<File> implements FileDataService {
+public class FileDataServiceImpl extends AbstractDataService<File> implements
+		FileDataService {
 
 	Logger logger = LoggerFactory.getLogger(FileDataServiceImpl.class);
 
@@ -28,19 +29,29 @@ public class FileDataServiceImpl extends AbstractDataService<File> implements Fi
 	public List<Review> getFileDetailsByReviewCode(String reviewCode) {
 		logger.debug("Inside Get File Details (Review Code) : " + reviewCode);
 		System.out.println(reviewCode);
-		Query query = Query.query(Criteria.where(Review.PROP_REVIEW_CODE).regex(reviewCode));
+		Query query = Query.query(Criteria.where(Review.PROP_REVIEW_CODE)
+				.regex(reviewCode));
 		query.fields().exclude(Review.PROP_REVIEW_STATUS);
 		query.fields().exclude(Review.PROP_REVIEW_DESCRIPTION);
-		query.fields().exclude(Review.PROP_FILES + StringConstants.DOT + FileDetails.FILE_CONTENTS);
+		query.fields().exclude(
+				Review.PROP_FILES + StringConstants.DOT
+						+ FileDetails.FILE_CONTENTS);
 		return mongoTemplate.find(query, Review.class);
 	}
 
 	@Override
-	public List<Review> getFileContentByReviewCodeAndFileName(String reviewCode, String filePath) {
-		logger.debug("Inside Get File Content (Review Code) : " + reviewCode + " (File Path) : " + filePath);
-		Query query = Query.query(Criteria.where(Review.PROP_REVIEW_CODE).regex(reviewCode)
-				.and(FileDetails.FILE_FULL_PATH).regex(filePath));
+	public List<Review> getFileContentByReviewCodeAndFileName(
+			String reviewCode, String filePath) {
+		logger.debug("Inside Get File Content (Review Code) : " + reviewCode
+				+ " (File Path) : " + filePath);
+		Query query = Query.query(Criteria
+				.where(Review.PROP_REVIEW_CODE)
+				.regex(reviewCode)
+				.andOperator(
+						Criteria.where(
+								Review.PROP_FILES + StringConstants.DOT
+										+ FileDetails.FILE_FULL_PATH).regex(
+								filePath)));
 		return mongoTemplate.find(query, Review.class);
 	}
-
 }

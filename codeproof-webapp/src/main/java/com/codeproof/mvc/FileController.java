@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codeproof.common.model.dto.FileDetailsDTO;
 import com.codeproof.common.model.dto.ReviewDTO;
@@ -35,7 +35,7 @@ public class FileController {
 	}
 
 	@RequestMapping(value = "/{username}/{reviewcode}", method = RequestMethod.POST)
-	public List<ReviewDTO> getFileContents(@PathVariable("username") String userName,
+	public @ResponseBody List<ReviewDTO> getFileContents(@PathVariable("username") String userName,
 			@PathVariable("reviewcode") String reviewCode, @RequestBody FileDetailsDTO filePath) {
 		System.out.println("Inside file content Username : " + userName + " Review Code : " + reviewCode
 				+ " File Path : " + filePath.getFullPath());
