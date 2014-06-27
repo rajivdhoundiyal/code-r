@@ -15,6 +15,19 @@ app.service('UserService', function() {
 	};
 });
 
+app.service('ServiceLocater', function($injector) {
+
+	var service = '';
+
+	this.locate = function(service) {
+		try {
+			return $injector.get(service)
+		} catch (e) {
+			console.log('Error locating service...')
+		}
+	};
+});
+
 app.factory('FileFactory', function() {
 
 	var files = {};

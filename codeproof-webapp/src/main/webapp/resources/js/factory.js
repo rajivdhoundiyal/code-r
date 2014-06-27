@@ -17,6 +17,12 @@ restUrlFactory.registerService('LoginService', "", {}, {
 });
 
 restUrlFactory.registerService('DashboardService', "", "", {
+	get : {
+		method : 'GET',
+		url : 'dashboard/reviews/:username',
+		username : '@username',
+		isArray : true
+	},
 	getReviews : {
 		method : 'GET',
 		url : 'dashboard/reviews/:username',
@@ -38,12 +44,6 @@ restUrlFactory.registerService('FileService', "", "", {
 		url : 'file/:username/:reviewcode',
 		username : '@username',
 		reviewcode : '@reviewcode',
-		transformRequest : function(data, headersGetter) {
-			var headers = headersGetter();
-			headers['Content-Type'] = 'application/json; charset=UTF-8';
-			console.log(data.fullpath);
-			return '"fullpath"="'+data.fullpath+'"';
-		},
 		isArray : true
 	}
 });

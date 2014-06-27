@@ -121,10 +121,9 @@ body {
 }
 
 .bottom_control_panel {
-	width: 100%;
+	width: inherit;
 	min-width: 690px;
 	height: 40px;
-	position: absolute;
 	margin-top: 0;
 	margin-bottom: auto;
 	clear: both;
@@ -501,6 +500,12 @@ border-width: 0 px 1 px 0 px 0 px;
 	font-size: small;
 }
 
+.textOrangeMedium {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	color: orange;
+	font-size: medium;
+}
+
 .textOrangeSmall {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	color: orange;
@@ -612,4 +617,8 @@ tfoot>tr>td {
 
 .app-modal-window .modal-dialog {
   width: 720px;
+}
+
+.text_align_center {
+	text-align: center;
 }

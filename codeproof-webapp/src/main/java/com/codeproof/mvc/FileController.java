@@ -36,9 +36,9 @@ public class FileController {
 
 	@RequestMapping(value = "/{username}/{reviewcode}", method = RequestMethod.POST)
 	public List<ReviewDTO> getFileContents(@PathVariable("username") String userName,
-			@PathVariable("reviewcode") String reviewCode, @RequestParam("fullpath") String filePath) {
+			@PathVariable("reviewcode") String reviewCode, @RequestBody FileDetailsDTO filePath) {
 		System.out.println("Inside file content Username : " + userName + " Review Code : " + reviewCode
-				+ " File Path : " + filePath);
-		return fileBusinessService.getFileContentByReviewCodeAndFileName(reviewCode, filePath);
+				+ " File Path : " + filePath.getFullPath());
+		return fileBusinessService.getFileContentByReviewCodeAndFileName(reviewCode, filePath.getFullPath());
 	}
 }

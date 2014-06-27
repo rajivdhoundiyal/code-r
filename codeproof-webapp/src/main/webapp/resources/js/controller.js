@@ -2,18 +2,79 @@ function ControllerService(angularModule) {
 	this.registerController = function(controllerName, functionDetail) {
 		angularModule.controller(controllerName, functionDetail);
 	}
-
 };
 
 var controllerService = new ControllerService(app);
+
+var TitleController = function($scope, $state) {
+
+	$scope.isBack = false;
+
+	$scope.init = function(isBack) {
+		$scope.isBack = isBack;
+	}
+
+	$scope.back = function() {
+		if ($scope.isBack) {
+			$state.transitionTo('success');
+		}
+	}
+
+}
+
+var TableController = function($scope, ServiceLocater, UserService) {
+	$scope.user = (UserService.getUser() === 'undefined' || UserService
+			.getUser() === undefined) ? 'rajiv' : UserService.getUser();
+
+	var sortColumn;
+
+	$scope.init = function(sortColumn, service, params) {
+		this.sortColum = sortColumn;
+		var service = ServiceLocater.locate(service);
+		if (params === undefined || params === 'undefined') {
+			params = {
+				username : $scope.user
+			};
+		} else {
+			params.username = $scope.user
+		}
+		$scope.data = service.get(params);
+	}
+
+	var sort = new SortUtil(sortColumn);
+
+	$scope.sort = sort.sort;
+
+	$scope.selectedColumn = sort.selectedColumn;
+	$scope.changeSorting = sort.changeSorting;
+};
+
+var ReviewTableController = function($scope, ServiceLocater, UserService) {
+	TableController.call(this, $scope, ServiceLocater, UserService);
+	$scope.reviewStatus = [ {
+		"id" : "-1",
+		"name" : "All"
+	}, {
+		"id" : "0",
+		"name" : "Completed"
+	}, {
+		"id" : "1",
+		"name" : "In-Progress"
+	}, {
+		"id" : "2",
+		"name" : "Not Picked"
+	} ];
+
+	$scope.selectedOption = $scope.reviewStatus[0];
+}
 
 controllerService.registerController("welcomeController", function($scope,
 		$state, UserService) {
 
 });
 
-controllerService.registerController("fileController", function($scope, $state, UserService, 
-		FileFactory, FileService) {
+controllerService.registerController("fileController", function($scope, $state,
+		UserService, FileFactory, FileService) {
 
 	$scope.files = FileFactory.getFiles();
 
@@ -26,22 +87,24 @@ controllerService.registerController("fileController", function($scope, $state, 
 	$scope.collapseState = false;
 
 	$scope.onExpand = function(reviewCode, fullPath) {
-		$scope.user = (UserService.getUser() === 'undefined') ? 'rajiv' : UserService.getUser().userName;
+		$scope.user = (UserService.getUser() === 'undefined' || UserService.getUser() === undefined) ? 'rajiv'
+				: UserService.getUser().userName;
 		$scope.reviewcode = reviewCode;
 		$scope.fullpath = fullPath;
 		console.log(reviewCode + ' : ' + fullPath + ' : ' + $scope.user);
 
 		FileService.getFileContent({
 			username : $scope.user,
-			reviewcode : $scope.reviewcode}, {
+			reviewcode : $scope.reviewcode
+		}, {
 			fullpath : $scope.fullpath
 		}).$promise.then(function(data) {
 			console.log(data);
-			//FileFactory.setFiles(data);
-			//$state.transitionTo('success.files');
+			// FileFactory.setFiles(data);
+			// $state.transitionTo('success.files');
 		});
 
-	}
+	};
 
 });
 
@@ -79,42 +142,12 @@ controllerService.registerController("successController", function($scope,
 
 	$scope.reviews = "";
 
-	$scope.reviewStatus = [ {
-		"id" : "-1",
-		"name" : "All"
-	}, {
-		"id" : "0",
-		"name" : "Completed"
-	}, {
-		"id" : "1",
-		"name" : "In-Progress"
-	}, {
-		"id" : "2",
-		"name" : "Not Picked"
-	} ];
-
-	$scope.selectedOption = $scope.reviewStatus[0];
-
-	$scope.init = function() {
-		DashboardService.getReviews({
-			username : $scope.user
-		}).$promise.then(function(data) {
-			$scope.reviews = data;
-		});
-	};
-
 	$scope.items = [ 'item1', 'item2', 'item3' ];
 
 	var model = new Modal($scope, $modal, 'createReviewView.html',
 			CreateReviewController, 'app-modal-window');
 
 	$scope.open = model.open;
-
-	var sort = new SortUtil('reviewCode');
-	$scope.sort = sort.sort;
-
-	$scope.selectedColumn = sort.selectedColumn;
-	$scope.changeSorting = sort.changeSorting;
 
 	$scope.getFileDetails = function(reviewCode) {
 		$scope.reviewCode = reviewCode;
@@ -157,6 +190,11 @@ var CreateReviewController = function($scope, $modalInstance, data,
 		}
 	}
 };
+
+controllerService.registerController("titleController", TitleController);
+controllerService.registerController("tableController", TableController);
+controllerService.registerController("reviewTableController",
+		ReviewTableController);
 
 controllerService.registerController("dashboardController", function($scope,
 		UserService) {
