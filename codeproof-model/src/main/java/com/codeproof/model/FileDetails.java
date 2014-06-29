@@ -10,6 +10,7 @@ public class FileDetails {
 
 	public static final String FILE_CONTENTS = "fileContents";
 	public static final String FILE_FULL_PATH = "fullPath";
+	public static final String FILE_NAME = "name";
 	
 	@Id
 	private String fileDetailsId;

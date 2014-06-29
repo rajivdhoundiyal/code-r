@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.codeproof.common.model.dto.FileContentDTO;
 import com.codeproof.common.model.dto.FileDetailsDTO;
 import com.codeproof.common.model.dto.ReviewDTO;
+import com.codeproof.model.FileContent;
 import com.codeproof.spec.FileBusinessService;
 import com.codeproof.spec.ReviewBusinessService;
 
@@ -35,10 +37,14 @@ public class FileController {
 	}
 
 	@RequestMapping(value = "/{username}/{reviewcode}", method = RequestMethod.POST)
-	public @ResponseBody List<ReviewDTO> getFileContents(@PathVariable("username") String userName,
-			@PathVariable("reviewcode") String reviewCode, @RequestBody FileDetailsDTO filePath) {
-		System.out.println("Inside file content Username : " + userName + " Review Code : " + reviewCode
-				+ " File Path : " + filePath.getFullPath());
-		return fileBusinessService.getFileContentByReviewCodeAndFileName(reviewCode, filePath.getFullPath());
+	public @ResponseBody FileContentDTO getFileContents(@PathVariable("username") String userName,
+			@PathVariable("reviewcode") String reviewCode, @RequestBody FileDetailsDTO name) {
+		List<ReviewDTO> review = fileBusinessService.getFileContentByReviewCodeAndFileName(reviewCode, name.getName());
+		ReviewDTO reviewDto = fileBusinessService.getFileContentByReviewCodeAndFileName(reviewCode, name.getName()).get(0);
+		FileDetailsDTO fileDetailsDTO = reviewDto.getFiles().iterator().next();
+		FileContentDTO fileContent = fileDetailsDTO.getFileContents().iterator().next();
+		fileContent.setContentValue(new String(fileContent.getContent()));
+		fileContent.setContent(null);
+		return fileContent;
 	}
 }

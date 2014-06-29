@@ -37,8 +37,8 @@ public class FileBusinessServiceImpl extends AbstractBusinessService implements 
 	}
 
 	@Override
-	public List<ReviewDTO> getFileContentByReviewCodeAndFileName(String reviewCode, String filePath) {
-		return dozerConverter.convertFrom(fileDataService.getFileContentByReviewCodeAndFileName(reviewCode, filePath),
+	public List<ReviewDTO> getFileContentByReviewCodeAndFileName(String reviewCode, String fileName) {
+		return dozerConverter.convertFrom(fileDataService.getFileContentByReviewCodeAndFileName(reviewCode, fileName),
 				ReviewDTO.class);
 	}
 

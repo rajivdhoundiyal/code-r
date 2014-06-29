@@ -15,6 +15,6 @@ public interface FileDataService {
 	
 	List<Review> getFileDetailsByReviewCode(String reviewCode);
 	
-	List<Review> getFileContentByReviewCodeAndFileName(String reviewCode, String filePath);
+	List<Review> getFileContentByReviewCodeAndFileName(String reviewCode, String fileName);
 
 }

@@ -9,7 +9,14 @@ public class FileContentDTO {
 	private byte[] content;
 	private List<ReviewCommentDTO> reviewComments;
 	private String transactionStatus;
+	private String contentValue;
 	
+	public String getContentValue() {
+		return contentValue;
+	}
+	public void setContentValue(String contentValue) {
+		this.contentValue = contentValue;
+	}
 	public String getFileContentId() {
 		return fileContentId;
 	}

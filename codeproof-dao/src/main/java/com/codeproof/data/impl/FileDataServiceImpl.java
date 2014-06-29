@@ -4,7 +4,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation.GroupOperationBuilder;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Field;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -41,17 +46,32 @@ public class FileDataServiceImpl extends AbstractDataService<File> implements
 
 	@Override
 	public List<Review> getFileContentByReviewCodeAndFileName(
-			String reviewCode, String filePath) {
+			String reviewCode, String fileName) {
 		logger.debug("Inside Get File Content (Review Code) : " + reviewCode
-				+ " (File Path) : " + filePath);
-		Query query = Query.query(Criteria
+				+ " (File Path) : " + fileName);
+		/*Query query = Query.query(Criteria
 				.where(Review.PROP_REVIEW_CODE)
 				.regex(reviewCode)
 				.andOperator(
 						Criteria.where(
 								Review.PROP_FILES + StringConstants.DOT
-										+ FileDetails.FILE_FULL_PATH).regex(
-								filePath)));
-		return mongoTemplate.find(query, Review.class);
+										+ FileDetails.FILE_NAME).regex(
+								fileName)));*/
+		AggregationOperation unwind = Aggregation.unwind(Review.PROP_FILES);
+		AggregationOperation matchReviewCode = Aggregation.match(Criteria.where(Review.PROP_REVIEW_CODE).regex(reviewCode));
+		AggregationOperation matchFileName = Aggregation.match(Criteria.where(Review.PROP_FILES + StringConstants.DOT
+				+ FileDetails.FILE_NAME).regex(fileName));
+		GroupOperation group = Aggregation.group("reviewId", Review.PROP_FILES).push(Review.PROP_FILES).as(Review.PROP_FILES);
+		
+		Aggregation aggregation = Aggregation.newAggregation(unwind, matchFileName, matchReviewCode, group);
+		
+		return mongoTemplate.aggregate(aggregation, Review.class, Review.class).getMappedResults();
+		/*Query query = Query.query(Criteria
+				.where(Review.PROP_REVIEW_CODE)
+				.regex(reviewCode)
+				.and(Review.PROP_FILES + StringConstants.DOT
+										+ FileDetails.FILE_NAME).regex(
+								fileName));*/
+		//return mongoTemplate.find(query, Review.class);
 	}
 }

@@ -125,3 +125,24 @@ var SortUtil = function SortableTableUtil(defaultSortColumn) {
 		}
 	};
 }
+
+var Convertor = function() {
+	
+	this.pack = function pack(bytes) {
+	    var chars = [];
+	    for(var i = 0, n = bytes.length; i < n;) {
+	        chars.push(((bytes[i++] & 0xff) << 8) | (bytes[i++] & 0xff));
+	    }
+	    return String.fromCharCode.apply(null, chars);
+	}
+
+	this.unpack = function unpack(str) {
+		var bytes = [];
+		for ( var i = 0; i < str.length; i++) {
+			var char = str.charCodeAt(i);
+			bytes.push(char >>> 8);
+			bytes.push(char & 0xFF);
+		}
+		return bytes;
+	}
+}

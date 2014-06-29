@@ -86,23 +86,23 @@ controllerService.registerController("fileController", function($scope, $state,
 
 	$scope.collapseState = false;
 
-	$scope.onExpand = function(reviewCode, fullPath, isCollapsed) {
+	$scope.onExpand = function(reviewCode, name, isCollapsed) {
 		if (!isCollapsed) {
 			$scope.user = (UserService.getUser() === 'undefined' || UserService
 					.getUser() === undefined) ? 'rajiv'
 					: UserService.getUser().userName;
 			$scope.reviewcode = reviewCode;
-			$scope.fullpath = fullPath;
-			console.log(reviewCode + ' : ' + fullPath + ' : ' + $scope.user);
+			$scope.name = name;
+			console.log(reviewCode + ' : ' + name + ' : ' + $scope.user);
 
 			FileService.getFileContent({
 				username : $scope.user,
 				reviewcode : $scope.reviewcode
 			}, {
-				fullPath : $scope.fullpath
+				name : $scope.name
 			}).$promise.then(function(data) {
-				console.log(data);
-				$scope.data = data;
+				var convertor = new Convertor();
+				$scope.data = data.contentValue;
 			});
 		}
 

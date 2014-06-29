@@ -44,7 +44,7 @@ restUrlFactory.registerService('FileService', "", "", {
 		url : 'file/:username/:reviewcode',
 		username : '@username',
 		reviewcode : '@reviewcode',
-		isArray : true
+		isArray : false
 	}
 });
 

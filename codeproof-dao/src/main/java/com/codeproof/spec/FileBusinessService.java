@@ -15,6 +15,6 @@ public interface FileBusinessService {
 	
 	List<ReviewDTO> getFileDetailsByReviewCode(String reviewCode);
 	
-	List<ReviewDTO> getFileContentByReviewCodeAndFileName(String reviewCode, String filePath);
+	List<ReviewDTO> getFileContentByReviewCodeAndFileName(String reviewCode, String fileName);
 	
 }
