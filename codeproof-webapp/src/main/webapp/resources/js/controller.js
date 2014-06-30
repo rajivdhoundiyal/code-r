@@ -105,7 +105,7 @@ controllerService.registerController("fileController", function($scope, $state,
 				hljs.configure({tabReplace: '<span class="indent">\t</span>', useBR: true});
 				var hText = hljs.highlightAuto(data.contentValue).value;
 				var marker = new Marker();
-				var markedText = marker.markChanges(hText, 'added_changes', 'deleted_changes');
+				var markedText = marker.markChanges(hText, 'num_tick', 'no_changes', 'added_changes', 'deleted_changes');
 				$scope.data = markedText;
 			});
 		}

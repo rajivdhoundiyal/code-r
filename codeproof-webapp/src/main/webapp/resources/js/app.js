@@ -130,7 +130,7 @@ var Convertor = function() {
 
 	this.pack = function pack(bytes) {
 		var chars = [];
-		for (var i = 0, n = bytes.length; i < n;) {
+		for ( var i = 0, n = bytes.length; i < n;) {
 			chars.push(((bytes[i++] & 0xff) << 8) | (bytes[i++] & 0xff));
 		}
 		return String.fromCharCode.apply(null, chars);
@@ -138,7 +138,7 @@ var Convertor = function() {
 
 	this.unpack = function unpack(str) {
 		var bytes = [];
-		for (var i = 0; i < str.length; i++) {
+		for ( var i = 0; i < str.length; i++) {
 			var char = str.charCodeAt(i);
 			bytes.push(char >>> 8);
 			bytes.push(char & 0xFF);
@@ -148,19 +148,26 @@ var Convertor = function() {
 }
 
 var Marker = function() {
-	this.markChanges = function(data, classAdd, classDelete) {
+	this.markChanges = function(data, numClass, classNoChange, classAdd, classDelete) {
 		var fileData = data.split('\n');
 		var val = '';
+		var NUM_CSS = "float: left; width: auto;";
+		var DIV_CONTAINER = "<div class='side_by_side'>";
+		var CLOSING_DIV = "</div>";
 		$.each(fileData, function(index, value) {
 			var ind = index + 1;
 			if (value.indexOf('-') == 0) {
-				val += "<div>" + ind + ".</div> <div class='" + classDelete + "'>" + value
-						+ "</div>\n"
+				val += DIV_CONTAINER + "<div class='" + numClass + "'>" + ind
+						+ ".</div> <div class='" + classDelete + "'><lable class='text_align_center'>" + value.replace("/\r\n/g","")
+						+ "</lable></div>" + CLOSING_DIV;
 			} else if (value.indexOf('+') == 0) {
-				val += "<div>" + ind + ".</div> <div class='" + classAdd + "'>" + value
-						+ "</div>\n"
+				val += DIV_CONTAINER + "<div class='" + numClass + "'>" + ind
+						+ ".</div> <div class='" + classAdd + "'><lable class='text_align_center'>" + value.replace("/\r\n/g","")
+						+ "</lable></div>" + CLOSING_DIV;
 			} else {
-				val += "<div>" + ind + ".</div> <div class=''>"+ value + "</div>\n"
+				val += DIV_CONTAINER + "<div class='" + numClass + "'>" + ind
+						+ ".</div> <div class='" + classNoChange + "'><lable class='text_align_center'>" + value.replace("/\r\n/g","")
+						+ "</lable></div>" + CLOSING_DIV;
 			}
 		});
 		return val;

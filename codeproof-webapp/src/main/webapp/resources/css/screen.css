@@ -462,19 +462,73 @@ img:hover {
 	transform: scale(1.4);
 }
 
-img:not (:hover) {
-border-width: 0 px 1 px 0 px 0 px;
-	border-style: solid;
-	border-color: black;
-	opacity: 0 .6;
-	filter: alpha(opacity= 
+img
+:not
+ 
+(
+:hover
+ 
+)
+{
+border-width
+:
+ 
+0
+px
+ 
+1
+px
+ 
+0
+px
+ 
+0
+px
+;
+
+	
+border-style
+:
+ 
+solid
+;
+
+	
+border-color
+:
+ 
+black
+;
+
+	
+opacity
+:
+ 
+0
+.6
+;
+
+	
+filter
+:
+ 
+alpha
+(opacity
+ 
+=
 60);
-	opacity: 0 .6; /* For IE8 and earlier */
-	/* -moz-box-shadow: 0 0 10px #ccc;
+opacity
+:
+ 
+0
+.6
+; /* For IE8 and earlier */
+/* -moz-box-shadow: 0 0 10px #ccc;
 	-webkit-box-shadow: 0 0 10px #ccc;
 	box-shadow: 0 0 10px #ccc; */
-}
 
+
+}
 .textWhiteLarge {
 	font-family: sans-serif;
 	color: white;
@@ -606,29 +660,50 @@ tfoot>tr>td {
 }
 
 .sort-true {
-     background:no-repeat right center url('../gfx/arrow-up.png');
-     background-color: #ffbf51;
+	background: no-repeat right center url('../gfx/arrow-up.png');
+	background-color: #ffbf51;
 }
 
 .sort-false {
-     background:no-repeat right center url('../gfx/arrow-down.png');
-     background-color: #ffbf51;
+	background: no-repeat right center url('../gfx/arrow-down.png');
+	background-color: #ffbf51;
 }
 
 .app-modal-window .modal-dialog {
-  width: 720px;
+	width: 720px;
 }
 
 .text_align_center {
 	text-align: center;
 }
 
+.side_by_side {
+	overflow: hidden;
+	width: auto;	
+}
+
+.num_tick {
+	float: left;
+	width: 25px;
+}
+
+.no_changes {
+	float: right;
+	margin-left:15px;
+	width: auto;
+}
+
+}
 .added_changes {
+	float: right;
 	background-color: aqua;
-	width: inherit;
+	margin-left:15px;
+	width: auto;
 }
 
 .deleted_changes {
+	float: right;
 	background-color: #FF8C98;
-	width: inherit;
+	margin-left:15px;
+	width: auto;
 }
