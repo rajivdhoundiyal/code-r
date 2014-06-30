@@ -110,10 +110,13 @@
 				data-ng-repeat="file in files[0].files | orderBy:sort.column:sort.descending">
 				<tr>
 					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 97%" ng-click="isCollapsed = !isCollapsed"><a
-						href="" class="medium" ng-click="onExpand(files[0].reviewCode, file.name, isCollapsed)">{{file.fullPath}}</a><div collapse="!isCollapsed"><pre><code>{{data}}</code></pre></div></td>
+						href="" class="medium" ng-click="onExpand(files[0].reviewCode, file.name, isCollapsed)">{{file.fullPath}}</a></td>
 					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 6%"><a
 						href="" class="medium"><a href="" class="medium"><img
 							src="static/resources/gfx/delete-16.png" class="icon16"></img></a></td>
+				</tr>
+				<tr>
+					<td><div collapse="!isCollapsed"><pre><code ng-bind-html="data"></code></pre></div></td>
 				</tr>
 			</tbody>
 			</table>

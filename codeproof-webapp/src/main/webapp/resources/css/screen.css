@@ -622,3 +622,13 @@ tfoot>tr>td {
 .text_align_center {
 	text-align: center;
 }
+
+.added_changes {
+	background-color: aqua;
+	width: inherit;
+}
+
+.deleted_changes {
+	background-color: #FF8C98;
+	width: inherit;
+}

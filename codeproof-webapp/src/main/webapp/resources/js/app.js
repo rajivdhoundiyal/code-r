@@ -1,6 +1,6 @@
 var app = angular.module("login", [ 'ngResource', 'ui.router',
 		'pascalprecht.translate', 'ui.bootstrap', 'ui.bootstrap.tpls',
-		'ui.bootstrap.modal' ]);
+		'ui.bootstrap.modal', 'ngSanitize' ]);
 
 app.service('UserService', function() {
 
@@ -127,22 +127,42 @@ var SortUtil = function SortableTableUtil(defaultSortColumn) {
 }
 
 var Convertor = function() {
-	
+
 	this.pack = function pack(bytes) {
-	    var chars = [];
-	    for(var i = 0, n = bytes.length; i < n;) {
-	        chars.push(((bytes[i++] & 0xff) << 8) | (bytes[i++] & 0xff));
-	    }
-	    return String.fromCharCode.apply(null, chars);
+		var chars = [];
+		for (var i = 0, n = bytes.length; i < n;) {
+			chars.push(((bytes[i++] & 0xff) << 8) | (bytes[i++] & 0xff));
+		}
+		return String.fromCharCode.apply(null, chars);
 	}
 
 	this.unpack = function unpack(str) {
 		var bytes = [];
-		for ( var i = 0; i < str.length; i++) {
+		for (var i = 0; i < str.length; i++) {
 			var char = str.charCodeAt(i);
 			bytes.push(char >>> 8);
 			bytes.push(char & 0xFF);
 		}
 		return bytes;
+	}
+}
+
+var Marker = function() {
+	this.markChanges = function(data, classAdd, classDelete) {
+		var fileData = data.split('\n');
+		var val = '';
+		$.each(fileData, function(index, value) {
+			var ind = index + 1;
+			if (value.indexOf('-') == 0) {
+				val += "<div>" + ind + ".</div> <div class='" + classDelete + "'>" + value
+						+ "</div>\n"
+			} else if (value.indexOf('+') == 0) {
+				val += "<div>" + ind + ".</div> <div class='" + classAdd + "'>" + value
+						+ "</div>\n"
+			} else {
+				val += "<div>" + ind + ".</div> <div class=''>"+ value + "</div>\n"
+			}
+		});
+		return val;
 	}
 }
