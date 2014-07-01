@@ -707,3 +707,16 @@ tfoot>tr>td {
 	margin-left:15px;
 	width: auto;
 }
+
+div#preloader {
+	visibility: hidden;
+	height: 0px;
+	width: 0px;
+}
+
+.spinner {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	height: 38px;
+	width: 38px;
+}

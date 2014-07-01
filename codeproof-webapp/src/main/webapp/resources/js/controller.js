@@ -27,6 +27,9 @@ var TableController = function($scope, ServiceLocater, UserService) {
 			.getUser() === undefined) ? 'rajiv' : UserService.getUser();
 
 	var sortColumn;
+	
+	var spinner = new Spinner();
+	$scope.spinner = spinner.getSpinner();
 
 	$scope.init = function(sortColumn, service, params) {
 		this.sortColum = sortColumn;
@@ -38,7 +41,9 @@ var TableController = function($scope, ServiceLocater, UserService) {
 		} else {
 			params.username = $scope.user
 		}
-		$scope.data = service.get(params);
+		service.get(params).$promise.then(function(data) {
+			$scope.data = data;
+		});
 	}
 
 	var sort = new SortUtil(sortColumn);
@@ -80,7 +85,7 @@ controllerService.registerController("fileController", function($scope, $state,
 
 	var sort = new SortUtil('fileName');
 	$scope.sort = sort.sort;
-
+	
 	$scope.selectedColumn = sort.selectedColumn;
 	$scope.changeSorting = sort.changeSorting;
 
@@ -88,6 +93,9 @@ controllerService.registerController("fileController", function($scope, $state,
 
 	$scope.onExpand = function(reviewCode, name, isCollapsed) {
 		if (!isCollapsed) {
+			var spinner = new Spinner();
+			$scope.data = spinner.getSpinner();
+			
 			$scope.user = (UserService.getUser() === 'undefined' || UserService
 					.getUser() === undefined) ? 'rajiv'
 					: UserService.getUser().userName;
@@ -102,13 +110,22 @@ controllerService.registerController("fileController", function($scope, $state,
 				name : $scope.name
 			}).$promise.then(function(data) {
 				var convertor = new Convertor();
-				hljs.configure({tabReplace: '<span class="indent">\t</span>', useBR: true});
+				hljs.configure({
+					tabReplace : '<span class="indent">\t</span>',
+					useBR : true
+				});
 				var hText = hljs.highlightAuto(data.contentValue).value;
 				var marker = new Marker();
-				var markedText = marker.markChanges(hText, 'num_tick', 'no_changes', 'added_changes', 'deleted_changes');
+				var markedText = marker.markChanges(hText, 'num_tick',
+						'no_changes', 'added_changes', 'deleted_changes');
+				$scope.isDataCollapsed = false;
+				$scope.isCollapsed = true;
 				$scope.data = markedText;
 			});
+		}else {
+			$scope.isDataCollapsed = true;
 		}
+		
 
 	};
 

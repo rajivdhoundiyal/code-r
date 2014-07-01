@@ -87,7 +87,7 @@
 </form>
 </script>
 
-<script type="text/ng-template" id="fileDetails.html">
+	<script type="text/ng-template" id="fileDetails.html">
 		<div class="title_bar" ng-controller="titleController" ng-init="init(true)">
 			<div class="oneRowsDivLeft">
 				<label class="textWhiteMedium bold">{{ 'TTL_FILE_DETAILS' |
@@ -147,22 +147,29 @@
 					class="textWhiteSmall">{{ 'TH_REVIEW_STATUS' | translate}}</a></th>
 				<th></th>
 			</thead>
-			<tbody ng-if="data.length < 1">
+			<tbody ng-if="data === undefined || data === 'undefined' || data === null">
 				<tr>
-				<td colspan="4" class="text_align_center textOrangeMedium">No Data Found</td>
+					<td colspan="4" class="text_align_center textOrangeMedium"><img class="spinner" src="static/resources/gfx/loader.gif"></img></td>
 				</tr>
+			</tbody>
+			<tbody ng-if="data.length == 0">
+				<tr>
+					<td colspan="4" class="text_align_center textOrangeMedium">No
+						Data Found</td>
+				</tr>
+			</tbody>
 			<tbody ng-if="data.length > 0"
 				data-ng-repeat="review in data | orderBy:sort.column:sort.descending | filter:((selectedOption.id === '-1') ? undefined : selectedOption.name)">
 				<tr>
-					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 15%" ><a
-						href="" class="medium" 
+					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 15%"><a
+						href="" class="medium"
 						ng-click="getFileDetails(review.reviewCode)">#{{review.reviewCode.toUpperCase()}}</a></td>
 					<td ng-class-odd="'odd'" ng-class-even="'even'"><a href=""
 						class="medium" ng-click="getFileDetails(review.reviewCode)">{{review.reviewName}}</a></td>
 					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 18%"><a
 						href="" class="medium">{{review.reviewStatus}}</a></td>
-					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 6%" nowrap><a
-						href="" class="medium"><img
+					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 6%"
+						nowrap><a href="" class="medium"><img
 							src="static/resources/gfx/edit-6-16-red.png" class="icon16"
 							ng-click="open(review)"></img></a> <a href="" class="medium"><img
 							src="static/resources/gfx/delete-16.png" class="icon16"></img></a></td>
