@@ -18,6 +18,7 @@
 	"TXT_SELECT_REVIEWERS"	: "Select Reviewers",
 	"TXT_TOTAL_NUM_REVIEW"	: "Total number of reviews",
 	"TXT_REVIEW_FILTER"	: "Filter by review status",
+	"TXT_NO_DATA_FOUND" : "No Data Found",
 	
 	"TT_CONFIGURATION" : "Configuration",
 	"TT_REPORT" : "Report",

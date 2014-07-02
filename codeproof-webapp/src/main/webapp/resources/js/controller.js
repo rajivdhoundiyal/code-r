@@ -22,6 +22,12 @@ var TitleController = function($scope, $state) {
 
 }
 
+var LoaderController = function($scope) {
+
+	$scope.isVisible = false;
+
+}
+
 var TableController = function($scope, ServiceLocater, UserService) {
 	$scope.user = (UserService.getUser() === 'undefined' || UserService
 			.getUser() === undefined) ? 'rajiv' : UserService.getUser();
@@ -43,6 +49,8 @@ var TableController = function($scope, ServiceLocater, UserService) {
 		}
 		service.get(params).$promise.then(function(data) {
 			$scope.data = data;
+		}).catch(function(){
+			$scope.data = [];
 		});
 	}
 
@@ -90,8 +98,10 @@ controllerService.registerController("fileController", function($scope, $state,
 	$scope.changeSorting = sort.changeSorting;
 
 	$scope.collapseState = false;
+	$scope.data;
 
-	$scope.onExpand = function(reviewCode, name, isCollapsed) {
+	$scope.onExpand = function(reviewCode, name, isCollapsed, showLoader) {
+		console.log(isCollapsed + " : " + showLoader);
 		if (!isCollapsed) {
 			var spinner = new Spinner();
 			$scope.data = spinner.getSpinner();
@@ -118,15 +128,16 @@ controllerService.registerController("fileController", function($scope, $state,
 				var marker = new Marker();
 				var markedText = marker.markChanges(hText, 'num_tick',
 						'no_changes', 'added_changes', 'deleted_changes');
-				$scope.isDataCollapsed = false;
-				$scope.isCollapsed = true;
+				showLoader = false;
 				$scope.data = markedText;
+			}).catch(function(){
+				showLoader = false;
+				$scope.data = [];
 			});
-		}else {
-			$scope.isDataCollapsed = true;
 		}
 		
 
+		$scope.$apply();
 	};
 
 });
@@ -216,6 +227,8 @@ var CreateReviewController = function($scope, $modalInstance, data,
 
 controllerService.registerController("titleController", TitleController);
 controllerService.registerController("tableController", TableController);
+controllerService.registerController("loaderController", LoaderController);
+
 controllerService.registerController("reviewTableController",
 		ReviewTableController);
 
