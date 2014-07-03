@@ -156,18 +156,19 @@ var Marker = function() {
 		var CLOSING_DIV = "</div>";
 		$.each(fileData, function(index, value) {
 			var ind = index + 1;
+			value = value.trim();
 			if (value.indexOf('-') == 0) {
-				val += DIV_CONTAINER + "<div class='" + numClass + "'>" + ind
-						+ ".</div> <div class='" + classDelete + "'><lable class='text_align_center'>" + value.replace("/\r\n/g","")
-						+ "</lable></div>" + CLOSING_DIV;
+				val += DIV_CONTAINER + "<div class='" + numClass + "'><label>" + ind
+						+ ".</label></div> <div class='div_right'><label class='"+ classDelete +" text_align_center'>" + value.replace("/\r/g","").replace("/\n/g", "")
+						+ "</label></div>" + CLOSING_DIV;
 			} else if (value.indexOf('+') == 0) {
-				val += DIV_CONTAINER + "<div class='" + numClass + "'>" + ind
-						+ ".</div> <div class='" + classAdd + "'><lable class='text_align_center'>" + value.replace("/\r\n/g","")
-						+ "</lable></div>" + CLOSING_DIV;
+				val += DIV_CONTAINER + "<div class='" + numClass + "'><label>" + ind
+						+ ".</label></div> <div class='div_right'><label class='"+ classAdd +" text_align_center'>" + value.replace("/\r/g","").replace("/\n/g", "")
+						+ "</label></div>" + CLOSING_DIV;
 			} else {
-				val += DIV_CONTAINER + "<div class='" + numClass + "'>" + ind
-						+ ".</div> <div class='" + classNoChange + "'><lable class='text_align_center'>" + value.replace("/\r\n/g","")
-						+ "</lable></div>" + CLOSING_DIV;
+				val += DIV_CONTAINER + "<div class='" + numClass + "'><label>" + ind
+						+ ".</label></div> <div class='div_right'><label class='"+ classNoChange +" text_align_center'>" + value.replace("/\r/g","").replace("/\n/g", "")
+						+ "</label></div>" + CLOSING_DIV;
 			}
 		});
 		return val;

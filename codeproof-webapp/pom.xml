@@ -151,14 +151,14 @@
 					<contextReloadable>true</contextReloadable>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
 					<outputDirectory>D:\Program Files\Apache Software Foundation\apache-tomcat-6.0\webapps</outputDirectory>
 				</configuration>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 	<profiles>

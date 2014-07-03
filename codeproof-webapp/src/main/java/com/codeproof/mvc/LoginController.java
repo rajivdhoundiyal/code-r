@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.codeproof.common.model.dto.UserDTO;
-import com.codeproof.model.User;
 import com.codeproof.spec.ReviewBusinessService;
 
 @Controller

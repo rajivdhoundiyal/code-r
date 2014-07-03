@@ -136,8 +136,6 @@ controllerService.registerController("fileController", function($scope, $state,
 			});
 		}
 		
-
-		$scope.$apply();
 	};
 
 });

@@ -674,7 +674,7 @@ tfoot>tr>td {
 }
 
 .text_align_center {
-	text-align: center;
+	text-align: left;
 }
 
 .side_by_side {
@@ -684,27 +684,28 @@ tfoot>tr>td {
 
 .num_tick {
 	float: left;
-	width: 25px;
+	width: 40px;
+	height: auto;
+	border-right: 5px solid #6d0019;
 }
 
 .no_changes {
-	float: right;
-	margin-left:15px;
 	width: auto;
 }
 
-}
-.added_changes {
+.div_right {
 	float: right;
+	width: 92%;
+	min-width: 92%;
+}
+
+.added_changes {
 	background-color: aqua;
-	margin-left:15px;
 	width: auto;
 }
 
 .deleted_changes {
-	float: right;
 	background-color: #FF8C98;
-	margin-left:15px;
 	width: auto;
 }
 
@@ -717,6 +718,4 @@ div#preloader {
 .spinner {
 	margin-top: 5px;
 	margin-bottom: 5px;
-	/* height: 100px;
-	width: 100px; */
 }
