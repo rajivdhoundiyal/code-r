@@ -156,7 +156,7 @@ var Marker = function() {
 		var CLOSING_DIV = "</div>";
 		$.each(fileData, function(index, value) {
 			var ind = index + 1;
-			value = value.trim();
+			//value = value.trim();
 			if (value.indexOf('-') == 0) {
 				val += DIV_CONTAINER + "<div class='" + numClass + "'><label>" + ind
 						+ ".</label></div> <div class='div_right'><label class='"+ classDelete +" text_align_center'>" + value.replace("/\r/g","").replace("/\n/g", "")

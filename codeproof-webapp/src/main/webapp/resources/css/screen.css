@@ -289,7 +289,7 @@ input {
 
 .login_text {
 	margin-bottom: 8px;
-	font-family: Calibri;
+	font-family: Arial;
 	font-size: medium;
 	border: 1px solid #E8E8E8;
 	padding-left: 4px;
@@ -339,7 +339,7 @@ input[type=button][class=login] {
 	border: 0px;
 	color: black;
 	height: 29px;
-	width: 50px; /* Old browsers */
+	width: auto; /* Old browsers */
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3x;

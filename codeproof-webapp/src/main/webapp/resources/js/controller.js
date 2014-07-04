@@ -101,7 +101,6 @@ controllerService.registerController("fileController", function($scope, $state,
 	$scope.data;
 
 	$scope.onExpand = function(reviewCode, name, isCollapsed, showLoader) {
-		console.log(isCollapsed + " : " + showLoader);
 		if (!isCollapsed) {
 			var spinner = new Spinner();
 			$scope.data = spinner.getSpinner();
@@ -111,7 +110,6 @@ controllerService.registerController("fileController", function($scope, $state,
 					: UserService.getUser().userName;
 			$scope.reviewcode = reviewCode;
 			$scope.name = name;
-			console.log(reviewCode + ' : ' + name + ' : ' + $scope.user);
 
 			FileService.getFileContent({
 				username : $scope.user,
