@@ -80,7 +80,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 });
 
-var Modal = function(scope, modal, templateUrl, controller, windowClass) {
+var Modal = function(scope, modal, templateUrl, controller, windowClass, size) {
 	this.templateUrl = templateUrl;
 	this.controller = controller;
 	this.windowClass = windowClass;
@@ -89,12 +89,14 @@ var Modal = function(scope, modal, templateUrl, controller, windowClass) {
 
 	this.open = function(modalData) {
 
-		scope.data = (modalData === undefined) ? reviewModel : modalData;
+		modal.data = (modalData === undefined) ? reviewModel : modalData;
 
 		modalInstance = modal.open({
 			templateUrl : templateUrl,
 			controller : controller,
 			windowClass : windowClass,
+			backdrop : false,
+			size: 'sm',
 			resolve : {
 				data : function() {
 					return scope.data;
@@ -154,23 +156,24 @@ var Marker = function() {
 		var NUM_CSS = "float: left; width: auto;";
 		var DIV_CONTAINER = "<div class='side_by_side'>";
 		var CLOSING_DIV = "</div>";
+		var start = new Date();
 		$.each(fileData, function(index, value) {
 			var ind = index + 1;
-			//value = value.trim();
 			if (value.indexOf('-') == 0) {
-				val += DIV_CONTAINER + "<div class='" + numClass + "'><label>" + ind
+				val += DIV_CONTAINER + "<div class='" + numClass + "' ng-click='addReviewComments('"+ ind +"')'><label>" + ind
 						+ ".</label></div> <div class='div_right'><label class='"+ classDelete +" text_align_center'>" + value.replace("/\r/g","").replace("/\n/g", "")
 						+ "</label></div>" + CLOSING_DIV;
 			} else if (value.indexOf('+') == 0) {
-				val += DIV_CONTAINER + "<div class='" + numClass + "'><label>" + ind
+				val += DIV_CONTAINER + "<div class='" + numClass + "' ng-click='addReviewComments('"+ ind +"')'><label>" + ind
 						+ ".</label></div> <div class='div_right'><label class='"+ classAdd +" text_align_center'>" + value.replace("/\r/g","").replace("/\n/g", "")
 						+ "</label></div>" + CLOSING_DIV;
 			} else {
-				val += DIV_CONTAINER + "<div class='" + numClass + "'><label>" + ind
+				val += DIV_CONTAINER + "<div class='" + numClass + "' ng-click='addReviewComments('"+ ind +"')'><label>" + ind
 						+ ".</label></div> <div class='div_right'><label class='"+ classNoChange +" text_align_center'>" + value.replace("/\r/g","").replace("/\n/g", "")
 						+ "</label></div>" + CLOSING_DIV;
 			}
 		});
+		var end = new Date();
 		return val;
 	}
 }

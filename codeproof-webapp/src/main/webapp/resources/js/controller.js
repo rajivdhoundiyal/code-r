@@ -81,25 +81,57 @@ var ReviewTableController = function($scope, ServiceLocater, UserService) {
 	$scope.selectedOption = $scope.reviewStatus[0];
 }
 
-controllerService.registerController("welcomeController", function($scope,
-		$state, UserService) {
-
-});
-
-controllerService.registerController("fileController", function($scope, $state,
-		UserService, FileFactory, FileService) {
-
-	$scope.files = FileFactory.getFiles();
-
-	var sort = new SortUtil('fileName');
-	$scope.sort = sort.sort;
+var AddReviewCommentController = function($scope, $modalInstance) {
 	
-	$scope.selectedColumn = sort.selectedColumn;
-	$scope.changeSorting = sort.changeSorting;
+	$scope.errorType = {
+    	isopen: false,
+    	value: 'Text',
+    	errors : ['Text', 'Logical', 'Design']
+  	};
 
-	$scope.collapseState = false;
-	$scope.data;
+	$scope.commentType = {
+    	isopen: false,
+    	value: 'Comment',
+    	comments : ['Comment', 'Error']
+  	};
+  	
+  	
+  	$scope.disabled = true;
+  	
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
+	
+	$scope.toggleCommentType = function($event) {
+		$event.preventDefault();
+		$event.stopPropagation();
+		$scope.commentType.isopen = !$scope.commentType.isopen;
+	};
+	
+	$scope.toggleErrorType = function($event) {
+		$event.preventDefault();
+		$event.stopPropagation();
+		$scope.errorType.isopen = !$scope.errorType.isopen;
+	};
+	
+	$scope.addComment = function() {
+		console.log($scope.errorType.value + " : " + $scope.commentType.value)
+	};
+	
+	$scope.isErrorType = function(value) {
+		console.log(value);
+		$scope.commentType.value=value;
+	};
 
+	$scope.setErrorType = function(value) {
+	};
+}
+
+var FileContentController = function($scope, $modal, UserService, FileService) {
+	
+	$scope.isCollapsed = true;
+	$scope.showLoader = true;
+	
 	$scope.onExpand = function(reviewCode, name, isCollapsed, showLoader) {
 		if (!isCollapsed) {
 			var spinner = new Spinner();
@@ -123,18 +155,39 @@ controllerService.registerController("fileController", function($scope, $state,
 					useBR : true
 				});
 				var hText = hljs.highlightAuto(data.contentValue).value;
-				var marker = new Marker();
-				var markedText = marker.markChanges(hText, 'num_tick',
-						'no_changes', 'added_changes', 'deleted_changes');
-				showLoader = false;
-				$scope.data = markedText;
+				$scope.showLoader = false;
+				$scope.data = hText.split("\n");
 			}).catch(function(){
-				showLoader = false;
+				$scope.showLoader = false;
 				$scope.data = [];
 			});
+		}else {
+			$scope.showLoader = true;
 		}
 		
+		
+		var model = new Modal($scope.$new, $modal, 'addReviewComment.html',
+		AddReviewCommentController, 'app-modal-window-review', 'sm');
+		$scope.addReviewComments = model.open;
 	};
+}
+
+
+controllerService.registerController("welcomeController", function($scope,
+		$state, UserService) {
+
+});
+
+controllerService.registerController("fileController", function($scope, $state, $modal, 
+		UserService, FileFactory, FileService) {
+
+	$scope.files = FileFactory.getFiles();
+
+	var sort = new SortUtil('fileName');
+	$scope.sort = sort.sort;
+	
+	$scope.selectedColumn = sort.selectedColumn;
+	$scope.changeSorting = sort.changeSorting;
 
 });
 
@@ -224,6 +277,8 @@ var CreateReviewController = function($scope, $modalInstance, data,
 controllerService.registerController("titleController", TitleController);
 controllerService.registerController("tableController", TableController);
 controllerService.registerController("loaderController", LoaderController);
+controllerService.registerController("addReviewCommentController", AddReviewCommentController);
+controllerService.registerController("fileContentController", FileContentController);
 
 controllerService.registerController("reviewTableController",
 		ReviewTableController);

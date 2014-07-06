@@ -34,6 +34,7 @@
 	"TH_REVIEW_STATUS"	: "Review Status",
 	"TT_SELECT_REVIEWERS"	: "Select Reviewers",
 	"TT_ADD_ROLE"	: "Add Role",
+	"TT_COMMENT_DESCRIPTION"	: "Comment Description",
 	
 	"TH_REVIEW_CODE" : "Review Code",
 	"TH_REVIEW_DESCRIPTION" : "Review Description",
@@ -50,6 +51,7 @@
 	"PH_REVIEW_DESCRIPTION"	: "Add description of this review, for e.g. the funtionality or change this review contains.",
 	"PH_SELECT_REVIEWERS"	: "Add reviewers",
 	"PH_ADD_ROLE"	: "Add review role",
+	"PH_COMMENT_DESCRIPTION"	: "Add comment...",
 	
 	"CA_SIGNUP" : "Sign Up",
 	"CA_LOGIN" : "Log In",
@@ -59,6 +61,7 @@
 	"TTL_DASHBORD_DETAIL" : "Reviews associated with you",
 	"TTL_REVIEW_CREATION" : "Provide Review Details",
 	"TTL_FILE_DETAILS" : "Files In Review",
+	"TTL_REVIEW_CMMNT" : "Add Review Comment",
 	
 	"MSG_CREDITS_1" : "Icons provided by : "
 } ]

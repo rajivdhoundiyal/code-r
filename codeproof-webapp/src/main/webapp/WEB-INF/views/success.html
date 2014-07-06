@@ -1,135 +1,179 @@
 <div class="top_panel" ng-contoller="successController">
 	<div class="oneRowsDivLeft">
 		<a href="#" title="{{'TT_HOME' | translate}}"><img
-			src="static/resources/gfx/home-32.png" class="icon32" /></a> <a href="#"
-			title="{{'TT_SETTING' | translate}}" class="seperator"><img
-			src="static/resources/gfx/settings-2-32.png" class="icon32" /></a> <a
-			href="#" title="{{'TT_CONFIGURATION' | translate}}" class="seperator"><img
-			src="static/resources/gfx/settings-3-32.png" class="icon32" /></a> <a
-			href="#" title="{{'TT_ANALYSIS' | translate}}" class="seperator"><img
-			src="static/resources/gfx/pie-32.png" class="icon32" /></a> <a href="#"
-			title="{{'TT_REPORT' | translate}}" class="seperator"><img
-			src="static/resources/gfx/text-file-4-32.png" class="icon32" /></a>
+		src="static/resources/gfx/home-32.png" class="icon32" /></a><a href="#"
+		title="{{'TT_SETTING' | translate}}" class="seperator"><img
+		src="static/resources/gfx/settings-2-32.png" class="icon32" /></a><a
+		href="#" title="{{'TT_CONFIGURATION' | translate}}" class="seperator"><img
+		src="static/resources/gfx/settings-3-32.png" class="icon32" /></a><a
+		href="#" title="{{'TT_ANALYSIS' | translate}}" class="seperator"><img
+		src="static/resources/gfx/pie-32.png" class="icon32" /></a><a href="#"
+		title="{{'TT_REPORT' | translate}}" class="seperator"><img
+		src="static/resources/gfx/text-file-4-32.png" class="icon32" /></a>
 	</div>
 	<div class="oneRowsDivRight">
-		{{ 'TXT_WELCOME' | translate }} {{user.userName}}!!! <input
-			type="text" name="search" class="search"
-			title="{{'TT_SEARCH' | translate}}"
-			placeholder="{{ 'PH_SEARCH' | translate }}" ng-click="logout()" /> <a
-			value="Log Out" placeholder="Log Out" ng-click="logout()"
-			class="seperator"><img src="static/resources/gfx/logout-32.png"
-			class="icon32" title="{{'TT_LOGOUT' | translate}}" class="icon32"></a>
+		{{ 'TXT_WELCOME' | translate }} {{user.userName}}!!!
+		<input
+		type="text" name="search" class="search"
+		title="{{'TT_SEARCH' | translate}}"
+		placeholder="{{ 'PH_SEARCH' | translate }}" ng-click="logout()" />
+		<a
+		value="Log Out" placeholder="Log Out" ng-click="logout()"
+		class="seperator"><img src="static/resources/gfx/logout-32.png"
+		class="icon32" title="{{'TT_LOGOUT' | translate}}" class="icon32"></a>
 	</div>
 </div>
 
 <div class="outer_container">
 
 	<script type="text/ng-template" id="createReviewView.html">
-	<div class="title_bar">
+		<div class="title_bar">
 		<div class="oneRowsDivLeft">
-			<label class="textWhiteMedium bold">{{ 'TTL_REVIEW_CREATION'
-				| translate }}</label>
+		<label class="textWhiteMedium bold">{{ 'TTL_REVIEW_CREATION'
+		| translate }}</label>
 		</div>
-	</div>
-<form name="reviewCreationForm" ng-submit="reviewCreation(reviewCreationForm.$valid)" novalidate>
-	<div class="popup_container">
+		</div>
+		<form name="reviewCreationForm" ng-submit="reviewCreation(reviewCreationForm.$valid)" novalidate>
+		<div class="popup_container">
 		<table class="table_form">
-			<tr>
-				<td><lable class="textOrangeSmall">{{ 'TXT_REVIEW_NAME'
-					| translate }}</lable></td>
-				<td colspan="3">
-				<label ng-show="submitted && reviewCreationForm.reviewName.$error.required" class="textOrangeSmall">Review must have a review name.</label>
-				<input type="text" name="reviewName"
-					class="long_type" title="{{'TT_REVIEW_NAME' | translate}}"
-					placeholder="{{ 'PH_REVIEW_NAME' | translate }}" value="{{review.reviewName}}" ng-model="review.reviewName" ng-minlength="8" required="" /></td>
-			</tr>
-			<tr>
-				<td><lable class="textOrangeSmall">{{
-					'TXT_REVIEW_DESCRIPTION' | translate }}</lable></td>
-				<td colspan="3" class="big_cell">
-				<textarea class="login" name="reviewDescription"
-						title="{{ 'TT_REVIEW_DESCRIPTION' | translate }}"
-						placeholder="{{ 'PH_REVIEW_DESCRIPTION' | translate }}" ng-model="review.reviewDescription">{{review.reviewDescription}}</textarea>
-				</td>
-			</tr>
-			<tr>
-				<td><lable class="textOrangeSmall">{{
-					'TXT_SELECT_REVIEWERS' | translate }}</lable></td>
-				<td>
-				<table>
-				<tbody ng-repeat="rev in review.reviewers">
-				<tr>
-				<td>
-				<label ng-show="submitted && reviewCreationForm.reviewers.$error.minlength" class="textWhiteSmall">Review must have a review name.</label>
-				<input type="text" name="reviewers" class="long_type"
-					title="{{'TT_SELECT_REVIEWERS' | translate}}"
-					placeholder="{{ 'PH_SELECT_REVIEWERS' | translate }}" value="{{rev.reviewer.firstName}}"/></td>
-				<td><input type="text" name="search" class="long_type"
-					title="{{'TT_SEARCH' | translate}}"
-					placeholder="{{ 'PH_ADD_ROLE' | translate }}" value="{{rev.reviewRoleType.reviewRoleType}}" /></td>
-				<td><label class="textOrangeSmall">+</label></td>
-				</tr>
-				</tbody>
-				</table>
-				</td>
-			</tr>
+		<tr>
+		<td><lable class="textOrangeSmall">{{ 'TXT_REVIEW_NAME'
+		| translate }}</lable></td>
+		<td colspan="3">
+		<label ng-show="submitted && reviewCreationForm.reviewName.$error.required" class="textOrangeSmall">Review must have a review name.</label>
+		<input type="text" name="reviewName"
+		class="long_type" title="{{'TT_REVIEW_NAME' | translate}}"
+		placeholder="{{ 'PH_REVIEW_NAME' | translate }}" value="{{review.reviewName}}" ng-model="review.reviewName" ng-minlength="8" required="" /></td>
+		</tr>
+		<tr>
+		<td><lable class="textOrangeSmall">{{
+		'TXT_REVIEW_DESCRIPTION' | translate }}</lable></td>
+		<td colspan="3" class="big_cell">
+		<textarea class="login" name="reviewDescription"
+		title="{{ 'TT_REVIEW_DESCRIPTION' | translate }}"
+		placeholder="{{ 'PH_REVIEW_DESCRIPTION' | translate }}" ng-model="review.reviewDescription">{{review.reviewDescription}}</textarea>
+		</td>
+		</tr>
+		<tr>
+		<td><lable class="textOrangeSmall">{{
+		'TXT_SELECT_REVIEWERS' | translate }}</lable></td>
+		<td>
+		<table>
+		<tbody ng-repeat="rev in review.reviewers">
+		<tr>
+		<td>
+		<label ng-show="submitted && reviewCreationForm.reviewers.$error.minlength" class="textWhiteSmall">Review must have a review name.</label>
+		<input type="text" name="reviewers" class="long_type"
+		title="{{'TT_SELECT_REVIEWERS' | translate}}"
+		placeholder="{{ 'PH_SELECT_REVIEWERS' | translate }}" value="{{rev.reviewer.firstName}}"/></td>
+		<td><input type="text" name="search" class="long_type"
+		title="{{'TT_SEARCH' | translate}}"
+		placeholder="{{ 'PH_ADD_ROLE' | translate }}" value="{{rev.reviewRoleType.reviewRoleType}}" /></td>
+		<td><label class="textOrangeSmall">+</label></td>
+		</tr>
+		</tbody>
 		</table>
-	</div>
-	<div class="bottom_control_panel">
-		<div class="inner_container">
-			<input type="submit" name="add" class="button_type"
-				title="{{ 'TT_ADD' | translate}}" value="{{ 'CA_ADD' | translate }}" ng-click="submitted=true"/>
-			<input type="button" name="cancel" class="button_type"
-				title="{{ 'TT_CANCEL' | translate}}"
-				value="{{ 'CA_CANCEL' | translate }}" ng-click="cancel()" />
+		</td>
+		</tr>
+		</table>
 		</div>
-	</div>
-</form>
-</script>
+		<div class="bottom_control_panel">
+		<div class="inner_container">
+		<input type="submit" name="add" class="button_type"
+		title="{{ 'TT_ADD' | translate}}" value="{{ 'CA_ADD' | translate }}" ng-click="submitted=true"/>
+		<input type="button" name="cancel" class="button_type"
+		title="{{ 'TT_CANCEL' | translate}}"
+		value="{{ 'CA_CANCEL' | translate }}" ng-click="cancel()" />
+		</div>
+		</div>
+		</form>
+	</script>
+
+	<script type="text/ng-template" id="addReviewComment.html">
+		<div class="container_small_outer">
+		<div class="title_bar">
+		<div class="oneRowsDivLeft">
+		<label class="textWhiteMedium bold">{{ 'TTL_REVIEW_CMMNT' |
+		translate }}</label>
+		</div>
+		</div>
+		<div class="container_small">
+		<textarea class="form-group comment" name="commentDescription"
+		title="{{ 'TT_COMMENT_DESCRIPTION' | translate }}"
+		placeholder="{{ 'PH_COMMENT_DESCRIPTION' | translate }}" ng-model="comment"></textarea>
+		
+		<div class="btn-group" dropdown is-open="commentType.isopen">
+		<button type="button" class="btn btn-warning" ng-click="toggleCommentType($event)" ng-bind="commentType.value"><button type="button" class="btn btn-warning dropdown-toggle">
+        <span class="caret"></span> <span class="sr-only">Split button!</span></button></button>
+		<ul class="dropdown-menu" role="menu" ng-repeat="type in commentType.comments">
+		<li><a href="" ng-click="commentType.isopen = false; isError(type)" ng-bind="type"></a></li>
+		</ul>
+		</div>
+		<div class="btn-group" dropdown is-open="errorType.isopen">
+		<button type="button" class="btn btn-primary" ng-click="toggleErrorType($event)" ng-modal="errorType.value"  ng-disabled="disabled" ng-bind="errorType.value"><button type="button" class="btn btn-primary dropdown-toggle"  ng-disabled="disabled">
+        <span class="caret"></span> <span class="sr-only">Split button!</span></button></button>
+		<ul class="dropdown-menu" role="menu" ng-repeat="type in errorType.errors">
+		<li><a href="" ng-modal="errorType.value" ng-click="errorType.isopen = false; setErrorType(type)" ng-bind="type"></a></li>
+		</ul>
+		</div>
+		
+		</div>
+		<div class="bottom_control_panel_small">
+		<div class="inner_container">
+		<input type="submit" name="add" class="button_type_medium"
+		title="{{ 'TT_ADD' | translate}}" value="{{ 'CA_ADD' | translate }}" ng-click="addComment()"/>
+		<input type="button" name="cancel" class="button_type_medium"
+		title="{{ 'TT_CANCEL' | translate}}"
+		value="{{ 'CA_CANCEL' | translate }}" ng-click="cancel()" />
+		</div>
+		</div>
+		</div>
+	</script>
 
 	<script type="text/ng-template" id="fileDetails.html">
 		<div class="title_bar" ng-controller="titleController" ng-init="init(true)">
-			<div class="oneRowsDivLeft">
-				<label class="textWhiteMedium bold">{{ 'TTL_FILE_DETAILS' |
-					translate }}</label>
-			</div>
-			<div class="oneRowsDivRight">
-				<a href="" class="medium"><a href="" class="medium" ng-click="back()"><img
-							src="static/resources/gfx/arrow-88-24.png"></img></a>
-			</div>
+		<div class="oneRowsDivLeft">
+		<label class="textWhiteMedium bold">{{ 'TTL_FILE_DETAILS' |
+		translate }}</label>
+		</div>
+		<div class="oneRowsDivRight">
+		<a href="" class="medium"><a href="" class="medium" ng-click="back()"><img
+		src="static/resources/gfx/arrow-88-24.png"></img></a>
+		</div>
 		</div>
 		<div class="" ng-controller="fileController">
-			<table>
-				<thead>
-					<th ng-click="changeSorting('fullPath')"
-						ng-class="selectedColumn('fullPath')" nowrap><a
-						class="textWhiteSmall">{{ 'TH_FILE_NAME' | translate}}</a></th>
-					<th></th>
-				</thead>
-				<tbody
-				data-ng-repeat="file in files[0].files | orderBy:sort.column:sort.descending">
-				<tr>
-					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 97%" ng-click="isCollapsed = !isCollapsed; showLoader=true"><a
-						href="" class="medium" ng-click="onExpand(files[0].reviewCode, file.name, isCollapsed, showLoader)">{{file.fullPath}}</a></td>
-					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 6%"><a
-						href="" class="medium"><a href="" class="medium"><img
-							src="static/resources/gfx/delete-16.png" class="icon16"></img></a></td>
-				</tr>
-				<tr>
-					<td>
-						<div ng-show="showLoader">
-							<img class="spinner" src="static/resources/gfx/loader-red-bar-light.gif"></img>
-						</div>
-						<div collapse="!isCollapsed">
-							<pre ng-if="data != undefined"><code ng-bind-html="data"></code></pre>
-							<pre ng-if="data.length === 0">{{ 'TXT_NO_DATA_FOUND' | translate}}</pre>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-			</table>
+		<table class="table  table-striped table-hover">
+		<thead>
+		<th ng-click="changeSorting('fullPath')" 
+		ng-class="selectedColumn('fullPath')" nowrap><a
+		>{{ 'TH_FILE_NAME' | translate}}</a></th>
+		<th></th>
+		</thead>
+		<tbody ng-controller="fileContentController">
+		<tr data-ng-repeat="file in files[0].files | orderBy:sort.column:sort.descending">
+		<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 97%"><a
+		href="" ng-click="isCollapsed = !isCollapsed; onExpand(files[0].reviewCode, file.name, isCollapsed, showLoader)">{{file.fullPath}}</a><div class="text-center" ng-show="!isCollapsed && showLoader">
+		<progressbar class="progress-striped active" style="width: 30%;" value="100" type="danger"><i>loading...</i></progressbar>
 		</div>
-</script>
+		<div collapse="isCollapsed">
+		<div ng-if="data != undefined"><pre><code>
+		<div class='side_by_side' ng-repeat="line in data track by $index">
+		<div class="num_tick"  ng-click="addReviewComments($index)"><label ng-bind="$index + 1"></label></div>
+		<div ng-if="line.indexOf('-') == 0" class='div_right deleted_changes'><label class='text-center' ng-bind-html="line.replace('-','')"></div>
+		<div ng-if="line.indexOf('+') == 0" class='div_right added_changes'><label class='text-center' ng-bind-html="line.replace('+','')"></div>
+		<div ng-if="!(line.indexOf('-') == 0 || line.indexOf('+') == 0)" class='div_right no_changes'><label class='text-center' ng-bind-html="line"></div>
+		</div>
+		</code></pre>
+		</div>
+		<div ng-if="data.length === 0"><a class="textOrangeSmall">{{ 'TXT_NO_DATA_FOUND' | translate }}</a></div>
+		</div></td>
+		<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 6%"><a href=""><img
+		src="static/resources/gfx/delete-16.png" class="icon16"></img></a></td>
+		</tr>
+		</tbody>
+		</table>
+		</div>
+	</script>
 	<div class="side_left_panel"></div>
 	<div class="middle_work_panel" data-ng-init="init()" ui-view="success">
 		<div class="title_bar">
@@ -139,58 +183,65 @@
 			</div>
 			<div class="oneRowsDivRight">
 				<a href="" class="medium"><img
-					src="static/resources/gfx/add-row-24.png" ng-click="open()"></img></a>
+				src="static/resources/gfx/add-row-24.png" ng-click="open()"></img></a>
 			</div>
 		</div>
-		<table ng-controller="ReviewTableController">
+		<table ng-controller="ReviewTableController" class="table  table-striped table-hover">
 			<thead ng-init="init('reviewCode', 'DashboardService')">
 				<th ng-click="changeSorting('reviewCode')"
-					ng-class="selectedColumn('reviewCode')" nowrap><a
-					class="textWhiteSmall">{{ 'TH_REVIEW_CODE' | translate}}</a></th>
+				ng-class="selectedColumn('reviewCode')" nowrap><a
+				>{{ 'TH_REVIEW_CODE' | translate}}</a></th>
 				<th ng-click="changeSorting('reviewDescription')"
-					ng-class="selectedColumn('reviewDescription')" nowrap><a
-					class="textWhiteSmall">{{ 'TH_REVIEW_NAME' | translate}}</a></th>
+				ng-class="selectedColumn('reviewDescription')" nowrap><a
+				>{{ 'TH_REVIEW_NAME' | translate}}</a></th>
 				<th ng-click="changeSorting('reviewStatus')"
-					ng-class="selectedColumn('reviewStatus')" nowrap><a
-					class="textWhiteSmall">{{ 'TH_REVIEW_STATUS' | translate}}</a></th>
+				ng-class="selectedColumn('reviewStatus')" nowrap><a
+				>{{ 'TH_REVIEW_STATUS' | translate}}</a></th>
 				<th></th>
 			</thead>
-			<tbody ng-if="data === undefined || data === 'undefined' || data === null">
+			<tbody
+			ng-if="data === undefined || data === 'undefined' || data === null">
 				<tr>
-					<td colspan="4" class="text_align_center textOrangeMedium"><img class="spinner" src="static/resources/gfx/loader-red-bar-light.gif"></img></td>
+					<td colspan="4" class="text-center">
+					<progressbar
+					class="progress-striped active" style="width: 30%;" value="100"
+					type="danger">
+						<i>loading...</i>
+					</progressbar></td>
 				</tr>
 			</tbody>
 			<tbody ng-if="data.length === 0">
 				<tr>
-					<td colspan="4" class="text_align_center textOrangeMedium">{{ 'TXT_NO_DATA_FOUND' | translate}}</td>
+					<td colspan="4" class="text-center">{{
+					'TXT_NO_DATA_FOUND' | translate}}</td>
 				</tr>
 			</tbody>
-			<tbody ng-if="data.length > 0"
+			<tbody>
+				<tr ng-if="data.length > 0"
 				data-ng-repeat="review in data | orderBy:sort.column:sort.descending | filter:((selectedOption.id === '-1') ? undefined : selectedOption.name)">
-				<tr>
 					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 15%"><a
-						href="" class="medium"
-						ng-click="getFileDetails(review.reviewCode)">#{{review.reviewCode.toUpperCase()}}</a></td>
+					href="" class=""
+					ng-click="getFileDetails(review.reviewCode)">#{{review.reviewCode.toUpperCase()}}</a></td>
 					<td ng-class-odd="'odd'" ng-class-even="'even'"><a href=""
-						class="medium" ng-click="getFileDetails(review.reviewCode)">{{review.reviewName}}</a></td>
+					class="" ng-click="getFileDetails(review.reviewCode)">{{review.reviewName}}</a></td>
 					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 18%"><a
-						href="" class="medium">{{review.reviewStatus}}</a></td>
+					href="" class="">{{review.reviewStatus}}</a></td>
 					<td ng-class-odd="'odd'" ng-class-even="'even'" style="width: 6%"
-						nowrap><a href="" class="medium"><img
-							src="static/resources/gfx/edit-6-16-red.png" class="icon16"
-							ng-click="open(review)"></img></a> <a href="" class="medium"><img
-							src="static/resources/gfx/delete-16.png" class="icon16"></img></a></td>
+					nowrap><a href="" class=""><img
+					src="static/resources/gfx/edit-6-16-red.png" class="icon16"
+					ng-click="open(review)"></img></a><a href="" class="medium"><img
+					src="static/resources/gfx/delete-16.png" class="icon16"></img></a></td>
 				</tr>
 			</tbody>
 			<tfoot>
-				<tr>
+				<tr class="table-striped warning">
 					<td colspan="4" data-ng-model="reviews"><a
-						class="textWhiteSmall">{{ 'TXT_REVIEW_FILTER' | translate}}</a> <select
-						class="small_select"
-						data-ng-options="o.name for o in reviewStatus"
-						data-ng-model="selectedOption"></select> <label
-						class="textWhiteSmall"> | </label> <a class="textWhiteSmall">{{
-							'TXT_TOTAL_NUM_REVIEW' | translate}} : {{data.length}}</a></td>
+					>{{ 'TXT_REVIEW_FILTER' | translate}}:</a><select
+					class="small_select"
+					data-ng-options="o.name for o in reviewStatus"
+					data-ng-model="selectedOption"></select><label
+					class="textWhiteSmall"> | </label><a>{{
+					'TXT_TOTAL_NUM_REVIEW' | translate}} : {{data.length}}</a></td>
 				</tr>
 			</tfoot>
 		</table>
@@ -199,8 +250,10 @@
 </div>
 <div class="bottom_container_dashboad_credits">
 	<div class="credits">
-		<lable class="textWhiteVerySmall">{{ 'MSG_CREDITS_1' |
-		translate }} <a href="http://www.iconsdb.com"
-			class="textWhiteVerySmall" target="_blank">http://www.iconsdb.com</a></lable>
+		<lable class="textWhiteVerySmall">
+			{{ 'MSG_CREDITS_1' |
+			translate }} <a href="http://www.iconsdb.com"
+			class="textWhiteVerySmall" target="_blank">http://www.iconsdb.com</a>
+		</lable>
 	</div>
 </div>
