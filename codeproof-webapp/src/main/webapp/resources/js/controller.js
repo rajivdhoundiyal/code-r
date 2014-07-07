@@ -81,12 +81,15 @@ var ReviewTableController = function($scope, ServiceLocater, UserService) {
 	$scope.selectedOption = $scope.reviewStatus[0];
 }
 
-var AddReviewCommentController = function($scope, $modalInstance) {
+var AddReviewCommentController = function($scope, $modalInstance, data) {
+	
+	$scope.data = data;
 	
 	$scope.errorType = {
     	isopen: false,
     	value: 'Text',
-    	errors : ['Text', 'Logical', 'Design']
+    	errors : ['Text', 'Logical', 'Design'],
+		disabled : true
   	};
 
 	$scope.commentType = {
@@ -115,15 +118,20 @@ var AddReviewCommentController = function($scope, $modalInstance) {
 	};
 	
 	$scope.addComment = function() {
-		console.log($scope.errorType.value + " : " + $scope.commentType.value)
+		console.log($scope.errorType.value + " : " + $scope.commentType.value + " : " + $scope.data)
 	};
 	
 	$scope.isErrorType = function(value) {
-		console.log(value);
 		$scope.commentType.value=value;
+		if('Error' === value) {
+			$scope.errorType.disabled = false;
+		} else {
+			$scope.errorType.disabled = true;
+		}
 	};
 
 	$scope.setErrorType = function(value) {
+		$scope.errorType.value = value; 
 	};
 }
 
@@ -165,11 +173,10 @@ var FileContentController = function($scope, $modal, UserService, FileService) {
 			$scope.showLoader = true;
 		}
 		
-		
-		var model = new Modal($scope.$new, $modal, 'addReviewComment.html',
-		AddReviewCommentController, 'app-modal-window-review', 'sm');
-		$scope.addReviewComments = model.open;
 	};
+	var model = new Modal($scope.$new, $modal, 'addReviewComment.html',
+			AddReviewCommentController, 'app-modal-window-review', 'sm');
+	$scope.addReviewComments = model.open;
 }
 
 

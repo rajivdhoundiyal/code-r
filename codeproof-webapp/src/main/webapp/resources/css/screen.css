@@ -218,6 +218,23 @@ body {
 	width: Auto;
 }
 
+.icon {
+	vertical-align: bottom;
+	float: left;
+	border-bottom: 5px solid #D31F46;
+	padding: 0px 8px 0px 8px;
+	data-icon: "&#x21dd;"
+}
+
+.icon:hover {
+	cursor: pointer;
+	vertical-align: bottom;
+	float: left;
+	border-bottom: 5px solid orange;
+	padding: 0px 8px 0px 8px;
+	data-icon: "&#x21dd;"
+}
+
 .icon32 {
 	/* width: 32px;
 	height: 32px; */
@@ -266,7 +283,6 @@ a:hover {
 	background-color: #D31F46;
 	padding: 6px 6px 6px 6px;
 	margin-bottom: 2px;
-	text-align: center;
 	vertical-align: middle;
 }
 
@@ -480,6 +496,7 @@ input[type=button][class=button_type_medium] {
 	color: white;
 	height: 25px;
 	width: auto;
+	margin-top: 10px;
 	min-width: 45px;
 	font-size: large;
 	font-weight: normal;

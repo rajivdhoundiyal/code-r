@@ -88,7 +88,6 @@ var Modal = function(scope, modal, templateUrl, controller, windowClass, size) {
 	this.modal = modal;
 
 	this.open = function(modalData) {
-
 		modal.data = (modalData === undefined) ? reviewModel : modalData;
 
 		modalInstance = modal.open({
@@ -99,7 +98,7 @@ var Modal = function(scope, modal, templateUrl, controller, windowClass, size) {
 			size: 'sm',
 			resolve : {
 				data : function() {
-					return scope.data;
+					return modal.data;
 				}
 			}
 		});
