@@ -15,7 +15,7 @@
 	<spring-version>4.0.0.RELEASE</spring-version>
 	<spring-security-version>3.2.3.RELEASE</spring-security-version>
 	<mongo-java-driver-version>2.11.0</mongo-java-driver-version>
-	<spring-data-mongodb-version>1.2.0.RELEASE</spring-data-mongodb-version>
+	<spring-data-mongodb-version>1.5.0.RELEASE</spring-data-mongodb-version>
 	<cglib-version>2.2.2</cglib-version>
 	<junit-version>4.11</junit-version>
 	<mongo-java-server-version>1.1.1</mongo-java-server-version>
