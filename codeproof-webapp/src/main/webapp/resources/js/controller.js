@@ -81,9 +81,11 @@ var ReviewTableController = function($scope, ServiceLocater, UserService) {
 	$scope.selectedOption = $scope.reviewStatus[0];
 }
 
-var AddReviewCommentController = function($scope, $modalInstance, data) {
+var AddReviewCommentController = function($scope, $modalInstance, $modal, $rootScope, data, ReviewCommentService) {
 	
 	$scope.data = data;
+	
+	$scope.comment;
 	
 	$scope.errorType = {
     	isopen: false,
@@ -98,6 +100,14 @@ var AddReviewCommentController = function($scope, $modalInstance, data) {
     	comments : ['Comment', 'Error']
   	};
   	
+	$scope.value = {
+		reviewComment: '',
+		errorType : '',
+		commentType : $scope.commentType.value,
+		reviewCodeId : data.reviewCode,
+		fileName : data.fileName,
+		lineNumber : data.lineNumber
+	}
   	
   	$scope.disabled = true;
   	
@@ -118,24 +128,35 @@ var AddReviewCommentController = function($scope, $modalInstance, data) {
 	};
 	
 	$scope.addComment = function() {
-		console.log($scope.errorType.value + " : " + $scope.commentType.value + " : " + $scope.data)
+		ReviewCommentService.save($scope.value).$promise.then(function(data){
+				$rootScope.$broadcast("REV_CMMNT_UPDT", $scope.data);
+				$modalInstance.dismiss('cancel');
+		}).catch(function(e){
+			var message = new MesageModal($modal,'TT_ERROR','', 'MSG_ERROR_REVIEW_COMMENTS');
+			message.open();
+			console.log("Exception ... : " + e)
+		});
 	};
 	
 	$scope.isErrorType = function(value) {
 		$scope.commentType.value=value;
+		$scope.value.commentType = value;
 		if('Error' === value) {
 			$scope.errorType.disabled = false;
+			$scope.value.errorType = $scope.errorType.value;
 		} else {
 			$scope.errorType.disabled = true;
+			$scope.value.errorType = '';
 		}
 	};
 
 	$scope.setErrorType = function(value) {
-		$scope.errorType.value = value; 
+		$scope.errorType.value = value;
+		$scope.value.errorType = value;
 	};
 }
 
-var FileContentController = function($scope, $modal, UserService, FileService) {
+var FileContentController = function($scope, $modal, $rootScope, UserService, FileService) {
 	
 	$scope.isCollapsed = true;
 	$scope.showLoader = true;
@@ -165,20 +186,50 @@ var FileContentController = function($scope, $modal, UserService, FileService) {
 				var hText = hljs.highlightAuto(data.contentValue).value;
 				$scope.showLoader = false;
 				$scope.data = hText.split("\n");
+				var data = { reviewCode : $scope.reviewcode, fileName : $scope.name};
+				console.log(data);
+				$rootScope.$broadcast("REV_CMMNT_UPDT", data);
 			}).catch(function(){
 				$scope.showLoader = false;
 				$scope.data = [];
 			});
+			
 		}else {
 			$scope.showLoader = true;
 		}
 		
 	};
-	var model = new Modal($scope.$new, $modal, 'addReviewComment.html',
+	$scope.addReviewComments = function(reviewCode, fileName, lineNumber) {
+		var modal = new Modal($scope.$new, $modal, 'addReviewComment.html',
 			AddReviewCommentController, 'app-modal-window-review', 'sm');
-	$scope.addReviewComments = model.open;
-}
+		var data = { reviewCode : reviewCode, fileName : fileName, lineNumber : lineNumber};
+		return modal.open(data);
+	};
+};
 
+var ShowReviewCommentController = function($scope, ReviewCommentService) {
+	
+	$scope.$on("REV_CMMNT_UPDT", function(scope, data) {
+		if(data) {
+			console.log(data.reviewCode + " : " + data.fileName);
+			ReviewCommentService.getReviews({reviewcodeid : data.reviewCode, filename : data.fileName}).$promise
+			.then(function(data){
+				$scope.data = data;
+			}).catch(function(e){
+				var message = new MesageModal($modal,'TT_ERROR','', 'MSG_ERROR_REVIEW_COMMENTS');
+				message.open();
+				console.log("Exception ... : " + e)
+			});
+		}else{
+			console.log('No Data');
+		}
+	});
+	
+	$scope.init = function() {
+		
+	}
+	
+};
 
 controllerService.registerController("welcomeController", function($scope,
 		$state, UserService) {
@@ -286,6 +337,8 @@ controllerService.registerController("tableController", TableController);
 controllerService.registerController("loaderController", LoaderController);
 controllerService.registerController("addReviewCommentController", AddReviewCommentController);
 controllerService.registerController("fileContentController", FileContentController);
+controllerService.registerController("showReviewCommentController", ShowReviewCommentController);
+
 
 controllerService.registerController("reviewTableController",
 		ReviewTableController);

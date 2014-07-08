@@ -28,7 +28,9 @@
 	"TT_LOGOUT"	: "Logout",
 	"TT_SEARCH"	: "Search",
 	"TT_ADD"	: "Add",
+	"TT_OK"	: "OK",
 	"TT_CANCEL"	: "Cancel",
+	"TT_ERROR"	: "Error!!!",
 	"TT_REVIEW_NAME"	: "Review Name",
 	"TT_REVIEW_DESCRIPTION"	: "Review Description",
 	"TH_REVIEW_STATUS"	: "Review Status",
@@ -56,6 +58,7 @@
 	"CA_SIGNUP" : "Sign Up",
 	"CA_LOGIN" : "Log In",
 	"CA_ADD" : "Add",
+	"CA_OK" : "OK",
 	"CA_CANCEL" : "Cancel",
 	
 	"TTL_DASHBORD_DETAIL" : "Reviews associated with you",
@@ -63,5 +66,6 @@
 	"TTL_FILE_DETAILS" : "Files In Review",
 	"TTL_REVIEW_CMMNT" : "Add Review Comment",
 	
-	"MSG_CREDITS_1" : "Icons provided by : "
+	"MSG_CREDITS_1" : "Icons provided by : ",
+	"MSG_ERROR_REVIEW_COMMENTS" : "Error saving review comment, kindly try again."
 } ]

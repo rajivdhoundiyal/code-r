@@ -278,7 +278,7 @@ a:hover {
 }
 
 .title_bar {
-	width: 100%;
+	width: auto;
 	height: 32px;
 	background-color: #D31F46;
 	padding: 6px 6px 6px 6px;
@@ -715,6 +715,10 @@ td>a {
 .popup_container {
 	height: 300px;
 	padding: 1% .5% 1% 1%;
+}
+
+.inner_container_pad_8px {
+	padding: 8px 8px 8px 8px;
 }
 
 table[class="table_form"] {

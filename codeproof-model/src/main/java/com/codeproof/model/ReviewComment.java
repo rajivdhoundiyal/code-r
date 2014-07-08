@@ -3,8 +3,12 @@ package com.codeproof.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+
 @Document
 public class ReviewComment {
+	
+	public static final String PROP_REVIEW_CODE_ID = "reviewCodeId";
+	public static final String PROP_FILE_NAME = "fileName";
 
 	public enum CommentType {
 		ERROR("Error"), COMMENT("Comment");
@@ -17,6 +21,20 @@ public class ReviewComment {
 
 		public String getCommentType() {
 			return commentType;
+		}
+	}
+	
+	public enum ErrorType {
+		TEXT("Text"), LOGICAL("Logical"), DESIGN("Design"), TESTING("Testing");
+
+		private String errorType;
+
+		private ErrorType(String errorType) {
+			this.errorType = errorType;
+		}
+
+		public String getErrorType() {
+			return errorType;
 		}
 	}
 
@@ -37,6 +55,9 @@ public class ReviewComment {
 	@Id
 	private String reviewCommentId;
 	private String commentType;
+	private String errorType;
+	private String reviewCodeId;
+	private String fileName;
 	private String reviewComment;
 	private String commentStatus;
 	private Long lineNumber;
@@ -71,5 +92,24 @@ public class ReviewComment {
 	public void setLineNumber(Long lineNumber) {
 		this.lineNumber = lineNumber;
 	}
+	public String getErrorType() {
+		return errorType;
+	}
+	public void setErrorType(String errorType) {
+		this.errorType = errorType;
+	}
+	public String getReviewCodeId() {
+		return reviewCodeId;
+	}
+	public void setReviewCodeId(String reviewCodeId) {
+		this.reviewCodeId = reviewCodeId;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
 }
+

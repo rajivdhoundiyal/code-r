@@ -30,6 +30,12 @@ public abstract class AbstractDataService<E> {
 		//getSession().saveOrUpdate(e);
 	}
 	
+	@Transactional
+	public void remove(E e) {
+		mongoTemplate.remove(e);
+		//getSession().saveOrUpdate(e);
+	}
+	
 	/*private Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}*/

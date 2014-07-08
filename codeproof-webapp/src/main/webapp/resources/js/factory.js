@@ -70,3 +70,32 @@ restUrlFactory.registerService('ReviewService', "review/:id", {
 		}
 	}
 });
+
+restUrlFactory.registerService('ReviewCommentService', "comment/:id", {
+	id : '@id'
+}, {
+	saveReview : {
+		method : 'POST'
+	},
+	getReview : {
+		method : 'GET',
+		params : {
+			id : '@id'
+		}
+	},
+	updateReview : {
+		method : 'PUT'
+	},
+	deleteReview : {
+		method : 'DELETE'
+	},
+	getReviews : {
+		method : 'GET',
+		url : 'comment',
+		params : {
+			reviewcodeid : '@reivewcodeid',
+			filename : '@filename'
+		},
+		isArray : true
+	}
+});

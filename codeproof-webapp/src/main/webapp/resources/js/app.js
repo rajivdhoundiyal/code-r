@@ -42,6 +42,7 @@ app.factory('FileFactory', function() {
 	}
 });
 
+
 /*
  * app.config(function($routeProvider) { $routeProvider.when('/', { templateUrl :
  * 'index.html', controller : 'welcomeController' }).when('/login/success', {
@@ -94,6 +95,36 @@ var Modal = function(scope, modal, templateUrl, controller, windowClass, size) {
 			templateUrl : templateUrl,
 			controller : controller,
 			windowClass : windowClass,
+			backdrop : false,
+			size: 'sm',
+			resolve : {
+				data : function() {
+					return modal.data;
+				}
+			}
+		});
+	};
+};
+
+var MesageModal = function(modal, title, messageTypeClass, message) {
+	this.modal = modal;
+	this.title = (title === undefined) ? messageTypeClass + "!!!" : title;
+	this.messageTypeClass = messageTypeClass;
+	this.message = message;
+
+	this.open = function(modalData) {
+		modal.data = (modalData === undefined) ? reviewModel : modalData;
+
+		modalInstance = modal.open({
+			template : '<div class="row"><div class="col-md-12"><div class="title_bar"><label class="textWhiteMedium bold" ng-bind=" \'' + this.title + '\' | translate "></label></div></div></div>' + 
+			'<div class="row"><div class="col-md-12"><div class="inner_container_pad_8px"><label class="text-danger h6" ng-bind=" \'' + this.message + '\' | translate "></label></div></div></div>'+
+			'<div class="row"><div class="col-sm-offset-4 col-md-8"><div class="inner_container"><input type="button" name="add" style="margin-right: 10px;" class="button_type_medium" title="{{ \'TT_OK\' | translate}}" value="{{ \'CA_OK\' | translate }}" ng-click="ok()"></div></div></div>',
+			controller : function($scope, $modalInstance){
+				$scope.ok = function() {
+					$modalInstance.dismiss('cancel');
+				}
+			},
+			windowClass : 'app-modal-window-review',
 			backdrop : false,
 			size: 'sm',
 			resolve : {
