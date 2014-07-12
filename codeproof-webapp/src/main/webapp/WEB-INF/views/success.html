@@ -130,7 +130,7 @@
 			</div>
 			<div class="row">
 			<div class="col-md-9">
-			<strong style="margin-left: 10px;">@Line: <strong ng-bind="data.lineNumber"></strong></strong>
+			<strong style="margin-left: 10px;">Line: <strong ng-bind="data.lineNumber"></strong></strong>
 			</div>
 			<div class="col-md-9 form-group">
 			<textarea style="margin-left: 10px;" class="comment"
@@ -208,20 +208,79 @@
 			<th></th>
 			</thead>
 			<tbody ng-controller="fileContentController">
-			<tr data-ng-repeat="file in files[0].files | orderBy:sort.column:sort.descending">
+			<tr data-ng-repeat="file in selectedReview[0].files | orderBy:sort.column:sort.descending">
 			<td style="width: 97%"><a
-			href="" ng-click="isCollapsed = !isCollapsed; onExpand(files[0].reviewCode, file.name, isCollapsed, showLoader)" ng-bind-html="file.fullPath"></a><div class="text-center" ng-show="!isCollapsed && showLoader">
+			href="" ng-click="isCollapsed = !isCollapsed; onExpand(selectedReview[0].reviewCode, file.name, isCollapsed, showLoader)" ng-bind-html="file.fullPath"></a><div class="text-center" ng-show="!isCollapsed && showLoader">
 			<progressbar class="progress-striped active" style="width: 30%;" value="100" type="danger"><i>loading...</i></progressbar>
 			</div>
 			<div collapse="isCollapsed">
 			<div ng-if="data != undefined"><pre><code>
 			<div class='side_by_side' ng-repeat="line in data track by $index">
-			<div class="num_tick"  ng-click="addReviewComments(files[0].reviewCode, file.name, $index + 1)"><label ng-bind="$index + 1"></label></div>
+			<div class="num_tick"  ng-click="addReviewComments(selectedReview[0].reviewCode, file.name, $index + 1)"><label ng-bind="$index + 1"></label></div>
 			<div ng-if="line.indexOf('-') == 0" class='div_right deleted_changes'><label class='text-center' ng-bind-html="line.replace('-','')"></div>
 			<div ng-if="line.indexOf('+') == 0" class='div_right added_changes'><label class='text-center' ng-bind-html="line.replace('+','')"></div>
 			<div ng-if="!(line.indexOf('-') == 0 || line.indexOf('+') == 0)" class='div_right no_changes'><label class='text-center' ng-bind-html="line"></div>
 			</div>
 			</code></pre>
+			<!-- Preview Conversation On File -->
+			<div ng-controller="blogReviewCommentController"  ng-init="init(true)">
+			<div ng-repeat="blogEntry in data">
+			<div class="row">
+			<div class="col-md-10 col-md-offset-1 form-horizontal">
+			<div class="row">
+			<div class="col-md-2"><h6><i class="fa fa-user"></i> {{user.userName}}</h6></div>
+			<div class="col-md-2"><h6><i class="fa fa-calendar-o"></i> {{ blogEntry.dateOfWriting | date:'shortDate'}}</h6></div>
+			</div>
+			<div class="row">
+			<div class="col-md-12"><div class="form-control auto_height"><span class="word_break">{{blogEntry.blogDescription}}</span></div></div>
+			</div>
+			</div>
+			</div>
+			</div>
+			<div ng-if="viewPreview">
+			<div class="row">
+			<div class="col-md-10 col-md-offset-1 form-horizontal">
+			<div class="row">
+			<div class="col-md-2"><h6><i class="fa fa-user"></i> {{user.userName}}</h6></div>
+			<div class="col-md-2"><h6><i class="fa fa-calendar-o"></i> {{ currentDate | date:'shortDate'}}</h6></div>
+			</div>
+			<div class="row">
+			<div class="col-md-12"><div class="form-control auto_height"><span class="word_break">{{reviewBlogPost}}</span></div></div>
+			</div>
+			</div>
+			</div>
+			<hr/>
+			</div>
+			<!-- Conversation On File -->
+			<div class="row" collapse="isCollapsed">
+			<div class="col-md-12 col-md-offset-1 form-horizontal">
+			<div class="row">
+			<div class="col-md-10">
+			<h4 class=""><i class="fa fa-bars"></i>&nbsp;Record Conversation</h4>
+			</div>
+			</div>
+			<div class="row">
+			<div class="col-md-10">
+			<textarea class="form-control" cols="55" rows="2" ng-model="reviewBlogPost"></textarea>
+			</div>
+			</div>
+			<div class="row">
+			<p></p>
+			<div class="col-md-7">
+			<button type="button"
+			class="btn btn-warning" ng-click="onSubmit(true)">
+			Submit
+			</button>
+			<button type="button"
+			class="btn btn-danger" ng-click="viewPreview = !viewPreview; onPreview(viewPreview)">
+			{{previewCaption}}
+			</button>
+			</div>
+			</div>
+			<p></p>
+			</div>
+			</div>
+			</div>
 			</div>
 			<div ng-if="data.length === 0"><a class="textOrangeSmall">{{ 'TXT_NO_DATA_FOUND' | translate }}</a></div>
 			</div></td>
@@ -231,8 +290,82 @@
 			</tbody>
 			</table>
 			</div>
+			<hr/>
+			<!-- Preview Post On Review -->
+			<div ng-controller="blogReviewCommentController" ng-init="init(false)">
+			<div ng-repeat="blogEntry in data" >
+			<div class="row">
+			<div class="col-md-10 col-md-offset-1 form-horizontal">
+			<div class="row">
+			<div class="col-md-2"><h6><i class="fa fa-user"></i> {{user.userName}}</h6></div>
+			<div class="col-md-2"><h6><i class="fa fa-calendar-o"></i> {{ blogEntry.dateOfWriting | date:'shortDate'}}</h6></div>
+			</div>
+			<div class="row">
+			<div class="col-md-12"><div class="form-control auto_height"><span class="word_break">{{blogEntry.blogDescription}}</span></div></div>
+			</div>
+			</div>
+			</div>
+			</div>
+			<div ng-if="viewPreview">
+			<div class="row">
+			<div class="col-md-10 col-md-offset-1 form-horizontal">
+			<div class="row">
+			<div class="col-md-2"><h6><i class="fa fa-user"></i>{{user.userName}}</h6></div>
+			<div class="col-md-2"><h6><i class="fa fa-calendar-o"></i>{{ currentDate | date:'shortDate'}}</h6></div>
+			</div>
+			<div class="row">
+			<div class="col-md-12"><div class="form-control auto_height"><span class="word_break">{{reviewBlogPost}}</span></div></div>
+			</div>
+			</div>
+			</div>
+			<hr/>
+			</div>
+			<!-- Post On Review -->
+			<div class="row">
+			<div class="col-md-12 col-md-offset-1 form-horizontal">
+			<div class="row">
+			<div class="col-md-10">
+			<h4 class=""><i class="fa fa-bars"></i>&nbsp;Post a Comment on Review</h4>
+			</div>
+			</div>
+			<div class="row">
+			<div class="col-md-10">
+			<textarea class="form-control" cols="75" rows="3" ng-model="reviewBlogPost"></textarea>
+			</div>
+			</div>
+			<div class="row">
+			<p></p>
+			<div class="col-md-7">
+			<button type="button"
+			class="btn btn-warning" ng-click="onSubmit(false)">
+			Submit
+			</button>
+			<button type="button"
+			class="btn btn-danger" ng-click="viewPreview = !viewPreview; onPreview(viewPreview)">
+			{{previewCaption}}
+			</button>
+			</div>
+			</div>
+			<p></p>
+			</div>
+			</div>
+			</div>
 		</script>
-		<div class="col-sm-3"><div class="row"><div class="title_bar"></div></div><div class="row" ng-controller="showReviewCommentController"><div class="col-md-12" ng-repeat="comment in data"><blockquote>{{comment.reviewComment}}<footer>{{comment.commentType}} {{comment.errorType}} <cite>@Line : {{comment.lineNumber}}</cite></footer></blockquote></div></div></div>
+		<div class="col-sm-3">
+			<div class="row">
+				<div class="title_bar"></div>
+			</div>
+			<div class="row" ng-controller="showReviewCommentController">
+				<div class="col-md-12" ng-repeat="comment in data">
+					<blockquote>
+						{{comment.reviewComment}}
+						<footer>
+							{{comment.commentType}} {{comment.errorType}} <cite>Line : {{comment.lineNumber}}</cite>
+						</footer>
+					</blockquote>
+				</div>
+			</div>
+		</div>
 		<div class="col-md-7" data-ng-init="init()" ui-view="success">
 			<div class="title_bar">
 				<div class="oneRowsDivLeft">

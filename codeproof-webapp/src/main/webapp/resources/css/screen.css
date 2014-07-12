@@ -366,7 +366,7 @@ input[class=long_type] {
 	height: 38px;
 }
 
-input[class=search] {
+input[class="search"] {
 	/* margin-bottom: 8px; */
 	font-family: Calibri;
 	font-size: medium;
@@ -380,7 +380,7 @@ input[class=search] {
 	background-position: right;
 }
 
-input[type=button][class=login] {
+input[type="button"][class="login"] {
 	/* border: 1px solid #E8E8E8; */
 	border: 0px;
 	color: black;
@@ -413,7 +413,7 @@ input[type=button][class=login] {
 		endColorstr='#fefefe', GradientType=0); /* IE6-9 */
 }
 
-input[type=button][class=signup] {
+input[type="button"][class="signup"] {
 	border: 0px;
 	color: white;
 	height: 35px;
@@ -438,7 +438,7 @@ input[type=button][class=signup] {
 		endColorstr='#000000', GradientType=0); /* IE6-9 */
 }
 
-input[type=button][class=button_type] {
+input[type="button"][class="button_type"] {
 	border: 0px;
 	color: white;
 	height: 35px;
@@ -464,7 +464,7 @@ input[type=button][class=button_type] {
 		endColorstr='#000000', GradientType=0); /* IE6-9 */
 }
 
-input[type=submit][class=button_type] {
+input[type="submit"][class="button_type"] {
 	border: 0px;
 	color: white;
 	height: 35px;
@@ -491,7 +491,7 @@ input[type=submit][class=button_type] {
 }
 
 
-input[type=button][class=button_type_medium] {
+input[type="button"][class="button_type_medium"] {
 	border: 0px;
 	color: white;
 	height: 25px;
@@ -519,7 +519,7 @@ input[type=button][class=button_type_medium] {
 }
 
 
-input[type=submit][class=button_type_medium] {
+input[type="submit"][class="button_type_medium"] {
 	border: 0px;
 	color: white;
 	height: 25px;
@@ -761,7 +761,7 @@ tfoot>tr>td {
 	padding-bottom: 2px;
 }
 
-.btn {
+.btn_small_bootstrap {
 	display: inline-block;
 	margin-bottom: 0;
 	font-weight: 400;
@@ -868,4 +868,12 @@ img[class=spinner] {
 	margin-right: auto;
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+
+.auto_height {
+	height: auto;
+}
+
+.word_break {
+	word-wrap: break-word;
 }

@@ -28,9 +28,9 @@ var LoaderController = function($scope) {
 
 }
 
-var TableController = function($scope, ServiceLocater, UserService) {
-	$scope.user = (UserService.getUser() === 'undefined' || UserService
-			.getUser() === undefined) ? 'rajiv' : UserService.getUser();
+var TableController = function($scope, ServiceLocater, AppContext) {
+	$scope.user = (AppContext.getUser() === 'undefined' || AppContext
+			.getUser() === undefined) ? 'rajiv' : AppContext.getUser();
 
 	var sortColumn;
 	
@@ -62,8 +62,8 @@ var TableController = function($scope, ServiceLocater, UserService) {
 	$scope.changeSorting = sort.changeSorting;
 };
 
-var ReviewTableController = function($scope, ServiceLocater, UserService) {
-	TableController.call(this, $scope, ServiceLocater, UserService);
+var ReviewTableController = function($scope, ServiceLocater, AppContext) {
+	TableController.call(this, $scope, ServiceLocater, AppContext);
 	$scope.reviewStatus = [ {
 		"id" : "-1",
 		"name" : "All"
@@ -156,7 +156,7 @@ var AddReviewCommentController = function($scope, $modalInstance, $modal, $rootS
 	};
 }
 
-var FileContentController = function($scope, $modal, $rootScope, UserService, FileService) {
+var FileContentController = function($scope, $modal, $rootScope, AppContext, FileService) {
 	
 	$scope.isCollapsed = true;
 	$scope.showLoader = true;
@@ -166,9 +166,9 @@ var FileContentController = function($scope, $modal, $rootScope, UserService, Fi
 			var spinner = new Spinner();
 			$scope.data = spinner.getSpinner();
 			
-			$scope.user = (UserService.getUser() === 'undefined' || UserService
+			$scope.user = (AppContext.getUser() === 'undefined' || AppContext
 					.getUser() === undefined) ? 'rajiv'
-					: UserService.getUser().userName;
+					: AppContext.getUser().userName;
 			$scope.reviewcode = reviewCode;
 			$scope.name = name;
 
@@ -231,15 +231,83 @@ var ShowReviewCommentController = function($scope, ReviewCommentService) {
 	
 };
 
+var BlogReviewCommentController = function($scope, $modal, ServiceLocater) {
+	
+	var appContext = ServiceLocater.locate('AppContext');
+	
+	$scope.reviewBlogPost;
+	
+	$scope.previewCaption = 'Preview';
+	$scope.currentDate = new Date();
+	
+	$scope.user = (appContext.getUser() === undefined) ? {'userName' : 'Rajiv'} : appContext.getUser();
+	$scope.selectedReview = appContext.getSelectedReview();
+	
+	$scope.data = [];
+	
+	$scope.onPreview = function(viewPreviewState) {
+		((viewPreviewState) ? $scope.previewCaption = 'Back' : $scope.previewCaption = 'Preview');
+	}
+	
+	$scope.init = function(isCommentOnFile) {
+		var blogEntryService = ServiceLocater.locate('BlogEntryService');
+		if(isCommentOnFile === true) {
+			blogEntryService.getBlogsByReviewCodeAndFileName({reviewcodeid : 
+				$scope.selectedReview[0].reviewCode, filename : $scope.selectedReview[0].files[0].name}).
+				$promise.then(function(data){
+				$scope.data = data;
+			}).catch(function(e){
+				var message = new MesageModal($modal,'TT_ERROR','', 'MSG_ERROR_REVIEW_COMMENTS');
+				message.open();
+				console.log("Exception ... : " + e)
+			});
+		}else {
+			console.log($scope.selectedReview);
+			blogEntryService.getBlogsByReviewCode({reivewcodeid : 
+				$scope.selectedReview[0].reviewCode}).
+				$promise.then(function(data){
+				$scope.data = data;
+			}).catch(function(e){
+				var message = new MesageModal($modal,'TT_ERROR','', 'MSG_ERROR_REVIEW_COMMENTS');
+				message.open();
+				console.log("Exception ... : " + e)
+			});
+		}
+	}
+	
+	$scope.onSubmit = function(isCommentOnFile) {
+		var blogEntryService = ServiceLocater.locate('BlogEntryService');
+		var reviewCode = $scope.selectedReview.reviewCode;
+		var data = {userName: $scope.user.userName, reviewCodeId : this.reviewCode,
+			blogDescription : $scope.reviewBlogPost, dateOfWriting : $scope.currentDate};
+			
+			if(isCommentOnFile) {
+				data.fileName = $scope.selectedReview[0].files[0].name;
+			}
+			
+			blogEntryService.save(data).$promise.then(function(data){
+				console.log(data);
+				if(data) {
+					$scope.init(isCommentOnFile);
+				}
+			}).	catch(function(e){
+				var message = new MesageModal($modal,'TT_ERROR','', 'MSG_ERROR_REVIEW_COMMENTS');
+				message.open();
+				console.log("Exception ... : " + e)
+			});
+	}
+	
+}
+
 controllerService.registerController("welcomeController", function($scope,
-		$state, UserService) {
+		$state, AppContext) {
 
 });
 
 controllerService.registerController("fileController", function($scope, $state, $modal, 
-		UserService, FileFactory, FileService) {
+		AppContext) {
 
-	$scope.files = FileFactory.getFiles();
+	$scope.selectedReview = AppContext.getSelectedReview();
 
 	var sort = new SortUtil('fileName');
 	$scope.sort = sort.sort;
@@ -250,18 +318,18 @@ controllerService.registerController("fileController", function($scope, $state, 
 });
 
 controllerService.registerController("loginController", function($scope,
-		$state, UserService, LoginService) {
+		$state, AppContext, LoginService) {
 
 	$scope.user = {
 		userName : '',
 		password : ''
 	};
 
-	$scope.UserService = UserService;
+	$scope.AppContext = AppContext;
 
 	$scope.validate = function() {
 		LoginService.validate($scope.user).$promise.then(function(data) {
-			$scope.UserService.addUser(data);
+			$scope.AppContext.addUser(data);
 			$state.transitionTo('success');
 		});
 	};
@@ -276,10 +344,10 @@ controllerService.registerController("loginController", function($scope,
 });
 
 controllerService.registerController("successController", function($scope,
-		$modal, $log, $rootScope, $state, UserService, FileFactory,
+		$modal, $log, $rootScope, $state, AppContext, FileFactory,
 		DashboardService) {
-	$scope.user = (UserService.getUser() === 'undefined' || UserService
-			.getUser() === undefined) ? 'rajiv' : UserService.getUser();
+	$scope.user = (AppContext.getUser() === 'undefined' || AppContext
+			.getUser() === undefined) ? 'rajiv' : AppContext.getUser();
 
 	$scope.reviews = "";
 
@@ -296,6 +364,7 @@ controllerService.registerController("successController", function($scope,
 			username : $scope.user,
 			reviewcode : $scope.reviewCode
 		}).$promise.then(function(data) {
+			AppContext.setSelectedReview(data);
 			FileFactory.setFiles(data);
 			$state.transitionTo('success.files');
 		});
@@ -338,18 +407,18 @@ controllerService.registerController("loaderController", LoaderController);
 controllerService.registerController("addReviewCommentController", AddReviewCommentController);
 controllerService.registerController("fileContentController", FileContentController);
 controllerService.registerController("showReviewCommentController", ShowReviewCommentController);
-
+controllerService.registerController("blogReviewCommentController", BlogReviewCommentController);
 
 controllerService.registerController("reviewTableController",
 		ReviewTableController);
 
 controllerService.registerController("dashboardController", function($scope,
-		UserService) {
-	$scope.user = UserService.getUser();
+		AppContext) {
+	$scope.user = AppContext.getUser();
 
 });
 
 controllerService.registerController("adminController", function($scope,
-		UserService) {
-	$scope.user = UserService.getUser();
+		AppContext) {
+	$scope.user = AppContext.getUser();
 });

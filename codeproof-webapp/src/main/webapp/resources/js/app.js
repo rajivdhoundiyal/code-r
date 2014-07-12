@@ -15,6 +15,28 @@ app.service('UserService', function() {
 	};
 });
 
+app.service('AppContext', function() {
+
+	var user = '';
+	var selectedReview = '';
+
+	this.addUser = function(user) {
+		this.user = user;
+	};
+
+	this.getUser = function() {
+		return this.user;
+	};
+	
+	this.setSelectedReview = function(selectedReview) {
+		this.selectedReview = selectedReview;
+	};
+
+	this.getSelectedReview = function() {
+		return this.selectedReview;
+	};
+});
+
 app.service('ServiceLocater', function($injector) {
 
 	var service = '';

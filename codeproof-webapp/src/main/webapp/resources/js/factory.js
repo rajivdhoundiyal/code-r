@@ -99,3 +99,41 @@ restUrlFactory.registerService('ReviewCommentService', "comment/:id", {
 		isArray : true
 	}
 });
+
+restUrlFactory.registerService('BlogEntryService', "blog/:id", {
+	id : '@id'
+}, {
+	saveBlog : {
+		method : 'POST'
+	},
+	getBlog : {
+		method : 'GET'
+	},
+	updateBlog : {
+		method : 'PUT',
+		params : {
+			id : '@id'
+		}
+	},
+	deleteBlog : {
+		method : 'DELETE',
+		params : {
+			id : '@id'
+		}
+	},
+	getBlogsByReviewCodeAndFileName : {
+		method : 'GET',
+		url : 'blog/file/:reivewcodeid',
+		reviewcodeid : '@reivewcodeid',
+		params : {
+			filename : '@filename'
+		},
+		isArray : true
+	},
+	getBlogsByReviewCode : {
+		method : 'GET',
+		url : 'blog/review/:reivewcodeid',
+		reivewcodeid : '@reivewcodeid',
+		isArray : true
+	}
+});
