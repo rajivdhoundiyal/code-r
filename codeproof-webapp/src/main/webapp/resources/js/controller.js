@@ -344,7 +344,7 @@ controllerService.registerController("loginController", function($scope,
 });
 
 controllerService.registerController("successController", function($scope,
-		$modal, $log, $rootScope, $state, AppContext, FileFactory,
+		$modal, $log, $rootScope, $state, AppContext,
 		DashboardService) {
 	$scope.user = (AppContext.getUser() === 'undefined' || AppContext
 			.getUser() === undefined) ? 'rajiv' : AppContext.getUser();
@@ -365,10 +365,14 @@ controllerService.registerController("successController", function($scope,
 			reviewcode : $scope.reviewCode
 		}).$promise.then(function(data) {
 			AppContext.setSelectedReview(data);
-			FileFactory.setFiles(data);
-			$state.transitionTo('success.files');
+			AppContext.setFiles(data);
+			//$state.transitionTo('success.files');
 		});
 	};
+	
+	$scope.navigateTo = function(view) {
+		$state.transitionTo(view);
+	}
 
 });
 

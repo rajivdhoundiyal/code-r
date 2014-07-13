@@ -1,0 +1,41 @@
+<div class="row" ng-contoller="successController">
+	<div class="col-sm-6">
+		<div class="icon">
+			<a href="#" title="{{'TT_HOME' | translate}}"
+			ng-bind="'TT_HOME' | translate" class="h5 text-danger"> <!-- img
+			src="static/resources/gfx/home-32.png" class="icon32" / --> </a>
+		</div>
+		<div class="icon">
+			<a href="" title="{{'TT_SETTING' | translate}}" ui-sref=".settings"
+			class="h5 seperator text-danger" ng-bind="'TT_SETTING' | translate"> <!-- img
+			src="static/resources/gfx/settings-2-32.png" class="icon32" /--> </a>
+		</div>
+		<div class="icon">
+			<a href="#" title="{{'TT_CONFIGURATION' | translate}}"
+			class="h5 seperator text-danger"
+			ng-bind="'TT_CONFIGURATION' | translate"> <!-- img
+			src="static/resources/gfx/settings-3-32.png" class="icon32" /--> </a>
+		</div>
+		<div class="icon">
+			<a href="#" title="{{'TT_ANALYSIS' | translate}}"
+			class="h5 seperator text-danger"
+			ng-bind="'TT_ANALYSIS' | translate"> <!-- img
+			src="static/resources/gfx/pie-32.png" class="icon32" / --> </a>
+		</div>
+		<div class="icon">
+			<a href="#" title="{{'TT_REPORT' | translate}}"
+			class="h5 seperator text-danger" ng-bind="'TT_REPORT' | translate"> <!-- img
+			src="static/resources/gfx/text-file-4-32.png" class="icon32" / --> </a>
+		</div>
+	</div>
+	<div class="col-sm-5 col-sm-offset-1">
+		<small class="">{{ 'TXT_WELCOME' | translate }}
+			{{user.userName}}!!!</small>
+		<input type="text" name="search" class="search"
+		title="{{'TT_SEARCH' | translate}}"
+		placeholder="{{ 'PH_SEARCH' | translate }}" ng-click="logout()" />
+		<a class="search" value="Log Out" placeholder="Log Out"
+		ng-click="logout()">Log Out<!-- img src="static/resources/gfx/logout-32.png"
+		class="icon32" title="{{'TT_LOGOUT' | translate}}" class="icon"--></a>
+	</div>
+</div>
